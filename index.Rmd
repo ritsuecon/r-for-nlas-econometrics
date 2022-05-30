@@ -16,9 +16,9 @@ description: ""
 
 [有斐閣のウェブサポートページ](http://www.yuhikaku.co.jp/books/detail/9784641053854)では，実証例の再現や実証の練習問題に必要なデータセットが公開されています．データセットはそこからダウンロードしてください．また，有斐閣のウェブサポートページでは，**Stata**と**EViews**のサンプルコードも用意されています．それらのソフトウェアが得意な人は，そちらも参照してみるとよいでしょう．
 
-この本のソースコードはGitHubレポジトリ（<https://github.com/ritsu1997/r-for-nlas-econometrics>）で管理しています．
+この本のソースコードは[GitHubレポジトリ](https://github.com/ritsu1997/r-for-nlas-econometrics)で管理しています．
 気軽にプルリクして，ぜひ改善に協力してください．
-気になる点があれば，気軽に[イシュー]((https://github.com/ritsu1997/r-for-nlas-econometrics/issues)を立ててください．
+気になる点があれば，気軽に[イシュー](https://github.com/ritsu1997/r-for-nlas-econometrics/issues)を立ててください．
 
 # おことわり {#caution .unnumbered}
 
@@ -36,7 +36,7 @@ knitr::include_graphics("myphoto.jpg")
 
 早稲田大学政治経済学部の「応用計量経済学ー経済学における因果推論ー」という科目のTAをすることになり，その指定教科書の一つが『計量経済学』だったので，せっかくだからと思って，滞っていた作業を再開しました[^index-2]．8章と9章を追加しました．説明をもう少し丁寧にしていきたいと思います．マクロ編は気が向いたら追加します．
 
-[^index-2]: ちなみに今の所属は早稲田大学大学院経済学研究科です．
+[^index-2]: ちなみに今の所属は早稲田大学大学院経済学研究科です．個人のウェブサイト：[www.ritsukitagawa.com](www.ritsukitagawa.com)．
 
 質問があればTwitterのメンションかDMで聞いてください．わかる範囲＆時間が許す範囲で答えます．
 
