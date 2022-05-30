@@ -1,0 +1,15 @@
+f_rw: 識字率
+f_prot: 新教徒率
+kmwittenberg: 距離
+f_young: 子供率
+f_jew: ユダヤ率
+f_fem: 女性率
+f_ortsgeb: 出身者率
+f_pruss: 普人率
+hhsize: 平均家計人数
+lnpop: 対数人口
+gpop: 人口成長率
+f_blind: 視覚障害率
+f_deaf: 聴覚障害率
+f_dumb: 知的・精神障害率
+f_miss: 欠落率

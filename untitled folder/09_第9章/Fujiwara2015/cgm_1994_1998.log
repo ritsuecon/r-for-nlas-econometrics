@@ -1,0 +1,44 @@
+--------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\y-okayama\Documents\01_二部\01_書籍\16_計量経済学NLAS\_ウ
+> ェブサポートページ\09_第9章\Fujiwara2015\cgm_1994_1998.log
+  log type:  text
+ opened on:  26 Jul 2019, 11:06:31
+
+. qui reg d.inst98e reg* delec* if year==1998 
+
+.  predict z, resid
+(27 missing values generated)
+
+. foreach var in `list' {
+  2.  local y `var'
+  3. qui reg d.`y' reg* delec* if year==1998 
+  4.  predict y_`var', resid
+  5. reg y_`var' z if year==1998, cl(uf)
+  6. cgmwildboot y_`var' z if year==1998, cl(uf) bootcluster(uf) seed(1000) reps
+> (1000)
+  7. }
+(27 missing values generated)
+
+Linear regression                               Number of obs     =         27
+                                                F(1, 26)          =       7.40
+                                                Prob > F          =     0.0115
+                                                R-squared         =     0.3464
+                                                Root MSE          =     .03126
+
+                                    (Std. Err. adjusted for 27 clusters in uf)
+------------------------------------------------------------------------------
+             |               Robust
+ y_util_rate |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           z |   .0924739   .0339945     2.72   0.011     .0225972    .1623506
+       _cons |  -4.86e-10   .0060155    -0.00   1.000    -.0123651    .0123651
+------------------------------------------------------------------------------
+command cgmwildboot is unrecognized
+r(199);
+
+end of do-file
+
+r(199);
+
+. exit, clear

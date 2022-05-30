@@ -1,0 +1,304 @@
+# 第8章 制限従属変数モデル {-#restricted}
+
+## 実証例 8.1 （ロジットとプロビット） {-}
+
+### データの読み込み・加工 {-}
+
+pp.347-348．まず，データを加工します．
+
+```{r}
+piaac_original <- read.csv("piaac.csv") # データの読み込み
+
+piaac <- subset(piaac_original, gender == "Female") # 女性だけにサンプルを制限します．
+piaac$emp <- 1 * (piaac$lfs == "Employed") 
+```
+
+### 線形確率モデル {-}
+
+ベースラインとなる線形確率モデルです．これは今までと同じです．
+
+```{r collapse=T}
+ols <- estimatr::lm_robust(emp ~ educ + age + couple + child, 
+                           data = piaac,
+                           se_type = "stata")
+summary(ols)
+```
+
+ちなみに，予測確率を確認すると，1を超える者が1名います．0を下回る者はいないようです．
+
+```{r collapse=T}
+sum(ols$fitted.values > 1)
+
+sum(ols$fitted.values < 0)
+```
+
+### プロビット・モデル {-}
+
+プロビット・モデルやロジット・モデルの推定には，`glm()`という関数を使います．基本的な操作は，`lm()`と同じです．
+
+```{r collapse=T}
+probit <- glm(emp ~ educ + age + couple + child, 
+                  family = binomial(link = "probit"), 
+                  data = piaac)
+summary(probit)
+```
+
+平均限界効果を推定するためには，**margins**というパッケージの`margins()`という関数が便利です．
+
+```{r collapse=T}
+probit_ame <- margins::margins(probit)
+
+summary(probit_ame)
+```
+
+### ロジット・モデル {-}
+
+教科書が第1刷である場合，表8-1のロジット・モデルの係数の推定値の標準誤差に誤植がありますから，注意してください．
+
+```{r collapse = T}
+logit <- glm(emp ~ educ + age + couple + child, 
+                  family = binomial(link = "logit"), 
+                  data = piaac)
+
+summary(logit)
+```
+
+```{r collapse=T}
+logit_ame <- margins::margins(logit)
+
+summary(logit_ame)
+```
+
+
+## 実証例 8.2 （順序付きプロビット） {-}
+
+
+### データの読み込み・加工 {-}
+
+pp.356-357．まず，データを加工します．
+
+```{r}
+piaac_original <- read.csv("piaac.csv") # データの読み込み
+
+piaac<- subset(piaac_original, gender == "Male") # 女性だけにサンプルを制限します．
+piaac$js <- factor(piaac$js, levels = c("Extremely dissatisfied",
+                                             "Dissatisfied", 
+                                             "Neither satisfied nor dissatisfied",
+                                             "Satisfied",
+                                             "Extremely satisfied"))
+```
+
+
+### 順序付きプロビット・モデル {-}
+
+順序付きプロビット・モデルの推定は，**oglmx**というパッケージの`oprobit.reg()`という関数が便利です．基本的な使い方は，`lm()`関数と同じです．
+
+```{r collapse=T}
+library(oglmx)
+
+result <- oprobit.reg(as.integer(js) ~ educ + age + couple + child, data = piaac)
+
+summary(result)
+```
+
+平均限界効果は同じく**oglmx**の`margins.oglmx()`という関数を用います．
+
+```{r collapse=T}
+margins.oglmx(result)
+```
+
+## 実証例 8.3 （多項ロジット） {-}
+
+pp.365-366．まず，データを加工します．
+
+### データの読み込み・加工 {-}
+
+```{r}
+piaac_original <- read.csv("piaac.csv")
+
+piaac_female <- subset(piaac_original, gender == "Female")
+piaac <- mlogit::mlogit.data(piaac_female, choice = "empstat_edt", shape = "wide") 
+```
+
+### 多項ロジット・モデル {-}
+
+多項ロジット・モデルの推定には，**mlogit**パッケージの`mlogit()`という関数が便利です．
+
+```{r message=FALSE, warning=FALSE, collasep=T}
+library(mlogit)
+result <- mlogit(empstat_edt ~ 1 | educ + age + couple + child, 
+                 reflevel = "3", 
+                 data = piaac)
+
+summary(result)
+```
+
+平均限界効果の計算にこれといった便利な方法が見つかりませんでした．仕方がないので，自分で計算します^[このスレッドを参考にしました．[How to get average marginal effects (AMEs) with standard errors of a multinomial logit model?](https://stackoverflow.com/questions/54079553/how-to-get-average-marginal-effects-ames-with-standard-errors-of-a-multinomial)]．
+
+```{r collapse=T, eval = F}
+model_result <- result
+mydata <- piaac
+
+coef_names_length <- length(names(model_result$model))
+coef_names_drop <- coef_names_length - 2
+coef_names <- names(model_result$model)[c(-1, -coef_names_drop:-coef_names_length)]
+  
+marginal_effects <- sapply(coef_names, 
+                           function(x) stats::effects(result, covariate = x, data = mydata), 
+                           simplify = FALSE) 
+ame <- t(sapply(marginal_effects, colMeans))
+  
+ame
+#                    1             2            3
+# educ    0.0363882484 -0.0166267152 -0.019761533
+# age     0.0009412598  0.0008230052 -0.001764265
+# couple -0.1268631878 -0.0356907738  0.162553962
+# child   0.0089617065  0.0105587969 -0.019520503
+
+ame[, c(2, 3, 1)] # 見づらいので並び替え
+
+#                    1             2            3
+# educ    0.0363882484 -0.0166267152 -0.019761533
+# age     0.0009412598  0.0008230052 -0.001764265
+# couple -0.1268631878 -0.0356907738  0.162553962
+# child   0.0089617065  0.0105587969 -0.019520503
+```
+
+標準誤差は次の通り計算してみましょう．
+
+```{r collapse = T, eval = F}
+ame_fun <- function(betas) {
+  tmp <- model_result
+  tmp$coefficients <- betas
+  me_mnl <- sapply(coef_names, function(x)
+    effects(tmp, covariate = x, data = mydata), simplify = FALSE)
+  c(sapply(me_mnl, colMeans))
+}
+
+grad <- numDeriv::jacobian(ame_fun, model_result$coef)
+ame_se <- matrix(sqrt(diag(grad %*% vcov(model_result) %*% t(grad))), 
+                 nrow = length(coef_names), 
+                 byrow = TRUE)
+
+ame_se
+
+#             [,1]        [,2]        [,3]
+# [1,] 0.005909444 0.005503409 0.005762793
+# [2,] 0.001113900 0.001049001 0.001086593
+# [3,] 0.037055885 0.029879947 0.033409403
+# [4,] 0.013378596 0.010627150 0.011153053
+
+ame_se[, c(2, 3, 1)]
+
+#             [,1]        [,2]        [,3]
+# [1,] 0.005503409 0.005762793 0.005909444
+# [2,] 0.001049001 0.001086593 0.001113900
+# [3,] 0.029879947 0.033409403 0.037055885
+# [4,] 0.010627150 0.011153053 0.013378596
+```
+
+$Z$値は次の通りです．
+
+```{r eval = F}
+z <- ame[, c(2, 3, 1)] / ame_se[, c(2, 3, 1)]
+z
+
+#                 1          2         3
+# educ    6.6119466 -2.8851837 -3.344060
+# age     0.8972914  0.7574184 -1.583862
+# couple -4.2457635 -1.0682853  4.386725
+# child   0.8432841  0.9467181 -1.459085
+```
+
+$p$値は次の通りです．
+
+```{r eval = F}
+p <- 2 * (1 - pnorm(abs(z)))
+p
+
+#                   1           2            3
+# educ   3.792988e-11 0.003911853 8.256197e-04
+# age    3.695634e-01 0.448799257 1.132251e-01
+# couple 2.178504e-05 0.285391843 1.150704e-05
+# child  3.990696e-01 0.343782459 1.445418e-01
+```
+
+## 実証例8.4 （トービット） {-}
+
+pp.371-372.
+
+### データの読み込み・加工 {-}
+
+```{r}
+piaac_original <- read.csv("piaac.csv")
+
+piaac <- subset(piaac_original, gender == "Female")
+```
+
+### OLS {-}
+
+```{r collapse=T}
+ols <- lm(hours ~ educ + age + couple + child, data = piaac)
+summary(ols)
+```
+
+### トービット・モデル {-}
+
+トービット・モデルの推定には，**censReg**というパッケージの`censReg()`関数が便利です．
+
+```{r collapse=T}
+library(censReg)
+tobit <- censReg(hours ~ educ + age + couple + child, data = piaac)
+
+summary(tobit)
+```
+
+
+## 実証例8.5 （ヘキット） {-}
+
+pp.386-388.
+
+### データの読み込み・加工 {-}
+
+```{r}
+piaac_original <- read.csv("piaac.csv")
+
+piaac <- subset(piaac_original, gender == "Female")
+piaac$lwage <-  log(piaac$wage)
+piaac$exp <- piaac$age - piaac$educ - 6
+piaac$expsq <- (piaac$exp) ^ 2
+piaac$selected <- 1 * (!is.na(piaac$lwage))
+```
+
+### OLS {-}
+
+```{r collapse = T}
+ols <- lm(lwage ~ educ + exp + expsq, data = piaac)
+
+summary(ols)
+```
+
+### ヘキット・モデル {-}
+
+ヘキット・モデルの推定は，**sampleSelection**というパッケージの`heckit()`関数が便利です．
+
+```{r collapse = T}
+library(sampleSelection)
+
+twostep <- heckit(selected ~ educ + exp + expsq + couple + child, 
+                  lwage ~ educ + exp + expsq, 
+                  data = piaac, 
+                  method = "2step")
+
+summary(twostep)
+```
+
+
+```{r collapse = T}
+mle <- heckit(selected ~ educ + exp + expsq + couple + child, 
+                  lwage ~ educ + exp + expsq, 
+                  data = piaac, 
+                  method = "ml")
+
+summary(mle)
+```

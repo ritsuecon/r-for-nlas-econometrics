@@ -1,0 +1,60 @@
+# 第2章 データの整理と確率変数の基礎 {-#ch2}
+
+## 練習問題 2-1 {-}
+
+標本平均，不偏分散，中央値はそれぞれ，`mean()`，`var()`，`median()`関数で求められます．
+
+```{r collapse=T}
+mydata <- read.csv("02_practice_01.csv", header = F)
+
+mean(mydata$V1) # 標本平均
+var(mydata$V1) # 不偏分散
+median(mydata$V1) # 中央値
+```
+
+最頻値を求めるビルトイン関数はRにはありません．例えば次のように関数を定義することで最頻値を求められます^[https://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode を参考にしました．]．
+
+```{r collapse=T}
+Mode <- function(x) {
+  ux <- unique(x)
+  tab <- tabulate(match(x, ux))
+  ux[tab == max(tab)]
+}
+
+Mode(mydata$V1) # 最頻値
+```
+
+## 練習問題 2-3 {-}
+
+散布図を書くには`plot()`関数を用います．
+
+```{r}
+mydata2 <- read.csv("02_practice_03.csv", header = F)
+
+plot(mydata2$V1, mydata2$V2)
+```
+
+共分散は`var()`関数に2つの変数を引数に指定することで求められます．相関係数は`cor()`関数を用いて求められます．
+
+```{r collapse=T}
+var(mydata2$V1, mydata2$V2) # 共分散
+cor(mydata2$V1, mydata2$V2) # 相関係数
+```
+
+## 補足 {-}
+
+標準偏差は`sd()`関数で求められます．
+
+```{r collapse=T}
+sd(mydata$V1)
+```
+
+**ggplot2**パッケージを用いれば，もう少しだけ見てくれが良い感じの散布図が簡単に描けます．
+
+```{r collapse=T}
+library(ggplot2)
+
+ggplot(mydata2, aes(x = V1, y = V2)) +
+  geom_point()
+```
+

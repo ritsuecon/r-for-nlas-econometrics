@@ -1,0 +1,108 @@
+# 第6章 パネルデータ分析 {-#panel}
+
+データを読み込み，必要な加工をします．
+
+```{r}
+mydata <- read.csv("yamaguchi.csv")
+
+mydata2 <- subset(mydata, year > 1995 & hh.type == "all")
+```
+
+
+## 実証例 6.1 （固定効果推定）{-}
+
+(pp.220-221)．
+
+パネルデータ分析も**estimatr**パッケージの`lm_robust()`関数で次のように行えます．
+
+```{r collapse=T}
+library(estimatr)
+
+model1 <- lm_robust(emp.rate ~ cap.rate,
+                      data = mydata2,
+                      clusters = pref,
+                      fixed_effects = ~ pref,
+                      se_type = "stata")
+model1$coefficients
+model1$std.error
+```
+
+
+## 実証例 6.2 （標準誤差）{-}
+
+(p.231)
+
+```{r collapse=T}
+library(estimatr)
+
+model1 <- lm_robust(emp.rate ~ cap.rate,
+                      data = mydata2,
+                      clusters = pref,
+                      fixed_effects = ~ pref,
+                      se_type = "stata")
+
+summary(model1)
+```
+
+## 実証例 6.3 （プールされたOLS）{-}
+
+(pp.231-232)
+
+```{r collapse=T}
+library(estimatr)
+
+model2 <- lm_robust(emp.rate ~ cap.rate,
+                      data = mydata2,
+                      clusters = pref,
+                      se_type = "stata")
+summary(model2)
+```
+
+## 実証例 6.4 （時間効果）{-}
+
+(p.236)
+
+```{r collapse=T}
+library(estimatr)
+
+model3 <- lm_robust(emp.rate ~ cap.rate, 
+                    data = mydata2,
+                    fixed_effects = ~ factor(year),
+                    clusters = pref, 
+                    se_type = "stata")
+
+summary(model3)
+```
+
+## 実証例 6.5 （都道府県効果と年効果）{-}
+
+(pp.239-240)
+
+```{r collapse=T}
+library(estimatr)
+
+model4 <- lm_robust(emp.rate ~ cap.rate, 
+                    data = mydata2, 
+                    fixed_effects = ~ pref + factor(year),
+                    clusters = pref, 
+                    se_type = "stata")
+
+summary(model4)
+```
+
+## 実証例 6.6 （個別トレンドと年効果）{-}
+
+(p.241)
+
+```{r collapse=T}
+library(estimatr)
+
+model5 <- lm_robust(emp.rate ~ cap.rate + pref + pref:year + factor(year),
+                    data = mydata2,
+                    clusters = pref,
+                    se_type = "stata")
+
+summary(model5)
+```
+
+

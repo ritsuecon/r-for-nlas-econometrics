@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第2章 データの整理と確率変数の基礎 | 西山 他『計量経済学』のためのR</title>
+  <meta name="description" content="第2章 データの整理と確率変数の基礎 | 西山 他『計量経済学』のためのR" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第2章 データの整理と確率変数の基礎 | 西山 他『計量経済学』のためのR" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第2章 データの整理と確率変数の基礎 | 西山 他『計量経済学』のためのR" />
+  
+  
+  
+
+<meta name="author" content="北川梨津" />
+
+
+<meta name="date" content="2020-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="caution.html"/>
+<link rel="next" href="ch3.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">西山 他『計量経済学』のためのR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a></li>
+<li class="chapter" data-level="" data-path="caution.html"><a href="caution.html"><i class="fa fa-check"></i>おことわり</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i>第2章 データの整理と確率変数の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-1"><i class="fa fa-check"></i>練習問題 2-1</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-3"><i class="fa fa-check"></i>練習問題 2-3</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#補足"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i>第3章 統計理論の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#練習問題-3-2"><i class="fa fa-check"></i>練習問題 3-2</a></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#補足-1"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i>第4章 線形単回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#実証例-4.1-線形単回帰"><i class="fa fa-check"></i>実証例 4.1 （線形単回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#練習問題-4-2"><i class="fa fa-check"></i>練習問題 4-2</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#補足-2"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i>第5章 線形重回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.1-線形重回帰"><i class="fa fa-check"></i>実証例 5.1 （線形重回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.2-fwl定理１"><i class="fa fa-check"></i>実証例 5.2 （FWL定理１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.3-fwl定理２"><i class="fa fa-check"></i>実証例 5.3 （FWL定理２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.4-標準誤差"><i class="fa fa-check"></i>実証例 5.4 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.5-多項式モデル"><i class="fa fa-check"></i>実証例 5.5 （多項式モデル）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.6-交差項１"><i class="fa fa-check"></i>実証例 5.6 （交差項１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.7-交差項２"><i class="fa fa-check"></i>実証例 5.7 （交差項２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.8-結合仮説"><i class="fa fa-check"></i>実証例 5.8 （結合仮説）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i>第6章 パネルデータ分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.1-固定効果推定"><i class="fa fa-check"></i>実証例 6.1 （固定効果推定）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.2-標準誤差"><i class="fa fa-check"></i>実証例 6.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.3-プールされたols"><i class="fa fa-check"></i>実証例 6.3 （プールされたOLS）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.4-時間効果"><i class="fa fa-check"></i>実証例 6.4 （時間効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.5-都道府県効果と年効果"><i class="fa fa-check"></i>実証例 6.5 （都道府県効果と年効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.6-個別トレンドと年効果"><i class="fa fa-check"></i>実証例 6.6 （個別トレンドと年効果）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html"><i class="fa fa-check"></i>第7章 操作変数法</a>
+<ul>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.1-単回帰"><i class="fa fa-check"></i>実証例 7.1 （単回帰）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.2-標準誤差"><i class="fa fa-check"></i>実証例 7.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.3-2sls推定"><i class="fa fa-check"></i>実証例 7.3 （2SLS推定）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.4-操作変数の強さ"><i class="fa fa-check"></i>実証例 7.4 （操作変数の強さ）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.5-外生性の検定"><i class="fa fa-check"></i>実証例 7.5 （外生性の検定）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html"><i class="fa fa-check"></i>第8章 制限従属変数モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.1-ロジットとプロビット"><i class="fa fa-check"></i>実証例 8.1 （ロジットとプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#線形確率モデル"><i class="fa fa-check"></i>線形確率モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#プロビットモデル"><i class="fa fa-check"></i>プロビット・モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ロジットモデル"><i class="fa fa-check"></i>ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.2-順序付きプロビット"><i class="fa fa-check"></i>実証例 8.2 （順序付きプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-1"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#順序付きプロビットモデル"><i class="fa fa-check"></i>順序付きプロビット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.3-多項ロジット"><i class="fa fa-check"></i>実証例 8.3 （多項ロジット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-2"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#多項ロジットモデル"><i class="fa fa-check"></i>多項ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.4-トービット"><i class="fa fa-check"></i>実証例8.4 （トービット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-3"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#トービットモデル"><i class="fa fa-check"></i>トービット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.5-ヘキット"><i class="fa fa-check"></i>実証例8.5 （ヘキット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-4"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols-1"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ヘキットモデル"><i class="fa fa-check"></i>ヘキット・モデル</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html"><i class="fa fa-check"></i>第9章 政策評価モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html#図-9-5"><i class="fa fa-check"></i>図 9-5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">西山 他『計量経済学』のためのR</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch2" class="section level1 unnumbered hasAnchor">
+<h1>第2章 データの整理と確率変数の基礎<a href="ch2.html#ch2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="練習問題-2-1" class="section level2 unnumbered hasAnchor">
+<h2>練習問題 2-1<a href="ch2.html#練習問題-2-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>標本平均，不偏分散，中央値はそれぞれ，<code>mean()</code>，<code>var()</code>，<code>median()</code>関数で求められます．</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ch2.html#cb1-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;02_practice_01.csv&quot;</span>, <span class="at">header =</span> F)</span>
+<span id="cb1-2"><a href="ch2.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="ch2.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(mydata<span class="sc">$</span>V1) <span class="co"># 標本平均</span></span>
+<span id="cb1-4"><a href="ch2.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 10</span></span>
+<span id="cb1-5"><a href="ch2.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(mydata<span class="sc">$</span>V1) <span class="co"># 不偏分散</span></span>
+<span id="cb1-6"><a href="ch2.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 18.10526</span></span>
+<span id="cb1-7"><a href="ch2.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(mydata<span class="sc">$</span>V1) <span class="co"># 中央値</span></span>
+<span id="cb1-8"><a href="ch2.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 10</span></span></code></pre></div>
+<p>最頻値を求めるビルトイン関数はRにはありません．例えば次のように関数を定義することで最頻値を求められます<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>．</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ch2.html#cb2-1" aria-hidden="true" tabindex="-1"></a>Mode <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb2-2"><a href="ch2.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  ux <span class="ot">&lt;-</span> <span class="fu">unique</span>(x)</span>
+<span id="cb2-3"><a href="ch2.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">tabulate</span>(<span class="fu">match</span>(x, ux))</span>
+<span id="cb2-4"><a href="ch2.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  ux[tab <span class="sc">==</span> <span class="fu">max</span>(tab)]</span>
+<span id="cb2-5"><a href="ch2.html#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="ch2.html#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="ch2.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Mode</span>(mydata<span class="sc">$</span>V1) <span class="co"># 最頻値</span></span>
+<span id="cb2-8"><a href="ch2.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 10</span></span></code></pre></div>
+</div>
+<div id="練習問題-2-3" class="section level2 unnumbered hasAnchor">
+<h2>練習問題 2-3<a href="ch2.html#練習問題-2-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>散布図を書くには<code>plot()</code>関数を用います．</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ch2.html#cb3-1" aria-hidden="true" tabindex="-1"></a>mydata2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;02_practice_03.csv&quot;</span>, <span class="at">header =</span> F)</span>
+<span id="cb3-2"><a href="ch2.html#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="ch2.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mydata2<span class="sc">$</span>V1, mydata2<span class="sc">$</span>V2)</span></code></pre></div>
+<p><img src="rfornishiyamaetal_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>共分散は<code>var()</code>関数に2つの変数を引数に指定することで求められます．相関係数は<code>cor()</code>関数を用いて求められます．</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="ch2.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(mydata2<span class="sc">$</span>V1, mydata2<span class="sc">$</span>V2) <span class="co"># 共分散</span></span>
+<span id="cb4-2"><a href="ch2.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 2.111111</span></span>
+<span id="cb4-3"><a href="ch2.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mydata2<span class="sc">$</span>V1, mydata2<span class="sc">$</span>V2) <span class="co"># 相関係数</span></span>
+<span id="cb4-4"><a href="ch2.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.7680295</span></span></code></pre></div>
+</div>
+<div id="補足" class="section level2 unnumbered hasAnchor">
+<h2>補足<a href="ch2.html#補足" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>標準偏差は<code>sd()</code>関数で求められます．</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="ch2.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(mydata<span class="sc">$</span>V1)</span>
+<span id="cb5-2"><a href="ch2.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 4.255028</span></span></code></pre></div>
+<p><strong>ggplot2</strong>パッケージを用いれば，もう少しだけ見てくれが良い感じの散布図が簡単に描けます．</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="ch2.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="ch2.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="ch2.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mydata2, <span class="fu">aes</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="ch2.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="rfornishiyamaetal_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p><a href="https://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode" class="uri">https://stackoverflow.com/questions/2547402/is-there-a-built-in-function-for-finding-the-mode</a> を参考にしました．<a href="ch2.html#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="caution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

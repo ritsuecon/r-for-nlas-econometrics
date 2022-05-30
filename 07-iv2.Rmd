@@ -1,0 +1,149 @@
+# 第7章 操作変数法 {-#iv}
+
+```{r message=FALSE, warning=FALSE, collapse=T}
+mydata <- read.csv("ipehd_qje2009_master.csv")
+```
+
+## 実証例 7.1 （単回帰）{-}
+
+(p.275)
+
+操作変数法による推定を行うためには**estimatr**パッケージの`iv_robust()`関数が便利です．`iv_robust(y1 ~ y2 + x | x + z, data)`のようにして使います．ただし，`y1`，`y2`は内生変数で，`x`は外生変数，`z`は操作変数を表しています．`|`の右側に，操作変数だけでなく外生変数も含めることに注意してください．
+
+```{r collapse=T}
+library(estimatr)
+
+ols1 <- lm_robust(f_rw ~ f_prot, data = mydata, se_type = "stata") # OLS
+ols1
+
+iv1 <- iv_robust(f_rw ~ f_prot | kmwittenberg, data = mydata, se_type = "stata") # IV
+iv1
+```
+
+## 実証例 7.2 （標準誤差）{-}
+
+(p.280)
+
+```{r collapse=T}
+library(estimatr)
+
+iv1 <- iv_robust(f_rw ~ f_prot | kmwittenberg, data = mydata, se_type = "stata") # IV
+
+summary(iv1)
+```
+
+## 実証例 7.3 （2SLS推定）{-}
+
+(pp.295-296)
+
+```{r collapse=T}
+library(estimatr)
+
+iv2 <- iv_robust(f_rw ~  f_prot + f_young + f_jew + f_fem +
+                   f_ortsgeb + f_pruss + hhsize + lnpop +
+                   gpop + f_blind + f_deaf + f_dumb + f_miss | 
+                   
+                   kmwittenberg +
+                   f_young + f_jew + f_fem + f_ortsgeb + 
+                   f_pruss + hhsize + lnpop + gpop +
+                   f_blind + f_deaf + f_dumb + f_miss, 
+                 data = mydata, se_type = "stata") 
+
+summary(iv2)
+```
+
+```{r collapse=T}
+iv3 <- iv_robust(f_rw ~  f_prot + f_young + f_jew + f_fem +
+                   f_ortsgeb + f_pruss + hhsize + lnpop +
+                   gpop + f_blind + f_deaf + f_dumb + f_miss | 
+                   
+                   kmwittenberg + kmwittenberg:lnpop + kmwittenberg:gpop +
+                   f_young + f_jew + f_fem + f_ortsgeb + 
+                   f_pruss + hhsize + lnpop + gpop +
+                   f_blind + f_deaf + f_dumb + f_miss, 
+                 data = mydata, se_type = "stata") 
+
+summary(iv3)
+```
+
+## 実証例 7.4 （操作変数の強さ）{-}
+
+(pp.298-299)
+
+```{r collapse=T}
+library(estimatr)
+
+fs <- lm_robust(f_prot ~ kmwittenberg + f_young + f_jew + f_fem +
+           f_ortsgeb + f_pruss + hhsize + lnpop + gpop + 
+           f_blind + f_deaf + f_dumb + f_miss, 
+         data = mydata, se_type = "stata") # first-stage
+
+
+beta1_hat <- round(fs$coefficients[2], 3)
+se <- round(fs$std.error[2], 3)
+t_value <- beta1_hat / se
+f_value <- t_value ^ 2
+
+f_value
+```
+
+```{r collapse=T}
+fs2 <- lm(f_prot ~ kmwittenberg + (kmwittenberg : lnpop) + (kmwittenberg : gpop) + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss, data = mydata) # first-stage with the interaction
+```
+
+```{r collapse=T}
+library(car)
+
+linearHypothesis(fs2, c("kmwittenberg = 0", "kmwittenberg:lnpop = 0", "kmwittenberg:gpop = 0"), white.adjust = "hc1")
+```
+
+## 実証例 7.5 （外生性の検定）{-}
+
+(pp.302-303)
+
+```{r collapse=T}
+library(estimatr)
+library(car)
+
+iv4 <- iv_robust(f_rw ~ f_prot + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss | kmwittenberg + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss, data = mydata)
+
+mydata$uhat1 <- mydata$f_rw - iv4$fitted.values
+
+res_reg1 <- lm_robust(uhat1 ~ kmwittenberg + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss, data = mydata, se_type = "classical")
+summary(res_reg1)
+```
+
+```{r}
+
+iv5 <- iv_robust(f_rw ~ f_prot + f_young + f_jew + f_fem + 
+                   f_ortsgeb + f_pruss + hhsize + lnpop + 
+                   gpop + f_blind + f_deaf + f_dumb + f_miss |
+                 
+                   kmwittenberg +  (kmwittenberg : lnpop) + (kmwittenberg : gpop) + 
+                   f_young + f_jew + f_fem + f_ortsgeb +
+                   f_pruss + hhsize + lnpop + gpop + 
+                   f_blind + f_deaf + f_dumb + f_miss, 
+                 data = mydata)
+
+mydata$uhat2 <- mydata$f_rw - iv5$fitted.values
+
+res_reg2 <- lm_robust(uhat2 ~ kmwittenberg + (kmwittenberg : lnpop) + (kmwittenberg : gpop) + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss, data = mydata, se_type = "classical")
+summary(res_reg2)
+               
+```
+
+```{r}
+linearHypothesis(res_reg2, c("kmwittenberg", "kmwittenberg:lnpop = 0", "kmwittenberg:gpop = 0"))
+```
+
+<!--
+
+```{r}
+linearHypothesis(res_reg2, c("kmwittenberg", "kmwittenberg:lnpop = 0", "kmwittenberg:gpop = 0"), vcov. = vcov(res_reg2, ))
+```
+
+```{r}
+summary(lh_robust(uhat2 ~ kmwittenberg + (kmwittenberg * lnpop) + (kmwittenberg * gpop) + f_young + f_jew + f_fem + f_ortsgeb + f_pruss + hhsize + lnpop + gpop + f_blind + f_deaf + f_dumb + f_miss, data = mydata, linear_hypothesis = c("kmwittenberg", "kmwittenberg:lnpop = 0", "kmwittenberg:gpop = 0"), se_type =  "stata")$lh)
+```
+
+-->

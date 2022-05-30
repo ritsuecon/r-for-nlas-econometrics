@@ -1,0 +1,12 @@
+"pref": prefecture
+"year": year
+"emp.rate": maternal employment rate
+"cap.rate": capacity/child-population
+"age": mothers' average age
+"age.hus": fathers' average age
+"emp.rate.hus": paternal employment rate
+"urate": local unemployment rate
+"nuc.rate": fraction of nuclear households
+"numhh": number of households
+"hh.type": type of household ("all" = all types, "nuc" = nuclear, "3ge" = 3-generation)
+

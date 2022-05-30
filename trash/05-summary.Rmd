@@ -1,0 +1,200 @@
+# 第5章 線形重回帰モデルの推定と検定 {-#ch5}
+
+はじめに，不足している変数をつくります．
+
+```{r collapse=T}
+mydata <- read.csv("youdou.csv")
+
+mydata$lny80 <- log(mydata$y80)
+mydata$lny99 <- log(mydata$y99)
+mydata$lny90 <- log(mydata$y90)
+mydata$growthrate8099 <- (mydata$lny99-mydata$lny80) / 19
+mydata$growthrate8090 <- (mydata$lny90-mydata$lny80) / 10
+
+mydata$growthrate8099 <-  mydata$growthrate8099 * 100
+```
+
+## 実証例 5.1 {-}
+
+```{r collapse=T}
+model1 <- lm(growthrate8099 ~ trust80 + education80 + lny80, data = mydata)
+
+model1
+
+model2 <- lm(growthrate8099 ~ norm80 + education80 + lny80, data = mydata)
+
+model2
+```
+
+## 実証例 5.2 {-}
+
+```{r collapse=T}
+model1
+
+reg1 <- lm(trust80 ~ education80 + lny80, data = mydata)
+reg1 # 回帰
+res1 <- reg1$residuals # 残差
+
+reg2 <- lm(growthrate8099 ~ education80 + lny80, data = mydata)
+reg2
+res2 <- reg2$residuals
+
+model3 <- lm(res2 ~ 0 + res1) # 定数項を0として推定
+model3
+```
+
+## 実証例 5.3 {-}
+
+```{r collapse=T}
+reg1 <- lm(trust80 ~ education80 + lny80, data = mydata)
+reg1 # 回帰
+res1 <- reg1$residuals # 残差
+
+model4 <- lm(mydata$growthrate8099 ~ 0 + res1) # 定数項を0として推定
+model4
+```
+
+## 実証例 5.4 {-}
+
+```{r collapse=T}
+library(AER)
+
+model1 <- lm(growthrate8099 ~ trust80 + education80 + lny80, data = mydata)
+
+vcov1 <- vcovHC(model1, type = "HC1")
+result1 <- coeftest(model1, vcov. = vcov)
+result1
+
+model2 <- lm(growthrate8099 ~ norm80 + education80 + lny80, data = mydata)
+
+vcov2 <- vcovHC(model2, type = "HC1")
+result2 <- coeftest(model2, vcov. = vcov2)
+result2
+```
+
+## 実証例 5.5 {-}
+
+2乗項は，`mydata$y80sq <- mydata$y80sq^2`などとして新しい変数として定義して回帰式に含めるか，または，`lm()`関数の中の回帰式に`I(y80^2)`として含めることで，その係数を推定するように指示することができます．
+
+```{r collapse=T}
+library(AER)
+
+model5 <- lm(growthrate8099 ~ y80 + I(y80^2), data = mydata) # 2乗項
+
+vcov5 <- vcovHC(model5, type = "HC1")
+result5 <- coeftest(model5, vcov. = vcov5)
+result5
+```
+
+## 実証例 5.6 {-}
+
+交差項は`D * lny80`または`D : lny80`として`lm()`関数の回帰式に含めることで，その係数を推定するように指示できます．
+
+```{r collapse=T}
+mydata$D <- 1 * (mydata$did > 0.4)
+
+model6 <- lm(growthrate8099 ~ D + lny80 + D * lny80, data = mydata)
+model6
+
+lm(growthrate8099 ~ lny80, data = subset(mydata, D == 0)) # 標本を分けて推定
+lm(growthrate8099 ~ lny80, data = subset(mydata, D == 1)) # 標本を分けて推定
+```
+
+## 実証例 5.7 {-}
+
+```{r collapse=T}
+mydata$D1 <- mydata$D
+mydata$D2 <- 1 * (mydata$lny80 > 1.4)
+
+model7 <- lm(growthrate8099 ~ D1 + D2 + D1 * D2, data = mydata)
+model7
+```
+
+## 実証例 5.8 {-}
+
+```{r collapse=T}
+model5 <- lm(growthrate8099 ~ y80 + I(y80^2), data = mydata)
+model5_r <- lm(growthrate8099 ~ 1, data = mydata)
+
+waldtest(model5, model5_r, vcov = vcovHC(model5, type = "HC1")) # F統計量
+```
+
+## 実証例 5.9 {-}
+
+省略．
+
+## 練習問題 5-14 {-}
+
+表 5-6を参照してください．
+
+## 練習問題 5-15 {-}
+
+省略．
+
+## 表 5-1 {-}
+
+```{r collapse=T}
+mydata00 <- subset(mydata, D1 == 0 & D2 == 0)
+mydata01 <- subset(mydata, D1 == 0 & D2 == 1)
+mydata10 <- subset(mydata, D1 == 1 & D2 == 0)
+mydata11 <- subset(mydata, D1 == 1 & D2 == 1)
+
+mean(mydata00$growthrate8099)
+mean(mydata01$growthrate8099)
+mean(mydata10$growthrate8099)
+mean(mydata11$growthrate8099)
+```
+
+## 表 5-5 {-}
+
+```{r message=FALSE, warning=FALSE}
+library(stargazer)
+
+stargazer(mydata[, c("growthrate8099", "trust80", "norm80", "education80", "lny80")], type = "text", omit.summary.stat = c("p25", "p75"))
+```
+
+## 表 5-6 {-}
+
+```{r message=FALSE, warning=FALSE}
+library(stargazer)
+
+m0 <- lm(growthrate8099 ~ 1, data = mydata)
+m00 <- lm(growthrate8099 ~ lny80 + education80, data = mydata)
+m1 <- lm(growthrate8099 ~ trust80, data = mydata)
+m2 <- lm(growthrate8099 ~ norm80, data = mydata)
+m3 <- lm(growthrate8099 ~ trust80 + norm80, data = mydata)
+m4 <- lm(growthrate8099 ~ trust80 + lny80 + education80, data = mydata)
+m5 <- lm(growthrate8099 ~ norm80 + lny80 + education80, data = mydata)
+m6 <- lm(growthrate8099 ~ trust80 + norm80 + lny80 + education80, data = mydata)
+
+se1 <- coeftest(m1, vcov. = vcovHC(m1, type = "HC1"))[, "Std. Error"]
+se2 <- coeftest(m2, vcov. = vcovHC(m2, type = "HC1"))[, "Std. Error"]
+se3 <- coeftest(m3, vcov. = vcovHC(m3, type = "HC1"))[, "Std. Error"]
+se4 <- coeftest(m4, vcov. = vcovHC(m4, type = "HC1"))[, "Std. Error"]
+se5 <- coeftest(m5, vcov. = vcovHC(m5, type = "HC1"))[, "Std. Error"]
+se6 <- coeftest(m6, vcov. = vcovHC(m6, type = "HC1"))[, "Std. Error"]
+
+F1 <- round(waldtest(m3, m0, vcov = vcovHC(m3, "HC1"))$F[2], 3)
+F2 <- round(waldtest(m6, m00, vcov = vcovHC(m6, "HC1"))$F[2], 3)
+
+stargazer(m1, m2, m3, m4, m5, m6, type = "text",
+          se = list(se1, se2, se3, se4, se5, se6),
+          add.lines = list(c("F-statistic", "", "", F1, "", "", F2)),
+          omit.stat = c("Rsq", "F", "ser"))
+```
+
+## 補足 {-}
+
+`{estimatr}`パッケージを用いれば，もう少し簡単に不均一分散に頑健な標準誤差を求めることができます．例えば，実証例 5.8の場合は次の通りです．F統計量も正しく求められています．
+
+```{r collapse=T}
+library(estimatr)
+
+model5_by_estimatr <- lm_robust(growthrate8099 ~ y80 + I(y80^2), data = mydata, se_type = "HC1")
+summary(model5_by_estimatr)
+
+model5 <- lm(growthrate8099 ~ y80 + I(y80^2), data = mydata)
+model5_r <- lm(growthrate8099 ~ 1, data = mydata)
+waldtest(model5, model5_r, vcov = vcovHC(model5, type = "HC1")) # 比較
+```
+

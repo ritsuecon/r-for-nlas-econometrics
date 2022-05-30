@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第8章 制限従属変数モデル | 西山 他『計量経済学』のためのR</title>
+  <meta name="description" content="第8章 制限従属変数モデル | 西山 他『計量経済学』のためのR" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第8章 制限従属変数モデル | 西山 他『計量経済学』のためのR" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第8章 制限従属変数モデル | 西山 他『計量経済学』のためのR" />
+  
+  
+  
+
+<meta name="author" content="北川梨津" />
+
+
+<meta name="date" content="2020-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="iv.html"/>
+<link rel="next" href="ci.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">西山 他『計量経済学』のためのR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a></li>
+<li class="chapter" data-level="" data-path="caution.html"><a href="caution.html"><i class="fa fa-check"></i>おことわり</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i>第2章 データの整理と確率変数の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-1"><i class="fa fa-check"></i>練習問題 2-1</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-3"><i class="fa fa-check"></i>練習問題 2-3</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#補足"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i>第3章 統計理論の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#練習問題-3-2"><i class="fa fa-check"></i>練習問題 3-2</a></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#補足-1"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i>第4章 線形単回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#実証例-4.1-線形単回帰"><i class="fa fa-check"></i>実証例 4.1 （線形単回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#練習問題-4-2"><i class="fa fa-check"></i>練習問題 4-2</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#補足-2"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i>第5章 線形重回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.1-線形重回帰"><i class="fa fa-check"></i>実証例 5.1 （線形重回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.2-fwl定理１"><i class="fa fa-check"></i>実証例 5.2 （FWL定理１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.3-fwl定理２"><i class="fa fa-check"></i>実証例 5.3 （FWL定理２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.4-標準誤差"><i class="fa fa-check"></i>実証例 5.4 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.5-多項式モデル"><i class="fa fa-check"></i>実証例 5.5 （多項式モデル）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.6-交差項１"><i class="fa fa-check"></i>実証例 5.6 （交差項１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.7-交差項２"><i class="fa fa-check"></i>実証例 5.7 （交差項２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.8-結合仮説"><i class="fa fa-check"></i>実証例 5.8 （結合仮説）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i>第6章 パネルデータ分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.1-固定効果推定"><i class="fa fa-check"></i>実証例 6.1 （固定効果推定）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.2-標準誤差"><i class="fa fa-check"></i>実証例 6.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.3-プールされたols"><i class="fa fa-check"></i>実証例 6.3 （プールされたOLS）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.4-時間効果"><i class="fa fa-check"></i>実証例 6.4 （時間効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.5-都道府県効果と年効果"><i class="fa fa-check"></i>実証例 6.5 （都道府県効果と年効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.6-個別トレンドと年効果"><i class="fa fa-check"></i>実証例 6.6 （個別トレンドと年効果）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html"><i class="fa fa-check"></i>第7章 操作変数法</a>
+<ul>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.1-単回帰"><i class="fa fa-check"></i>実証例 7.1 （単回帰）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.2-標準誤差"><i class="fa fa-check"></i>実証例 7.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.3-2sls推定"><i class="fa fa-check"></i>実証例 7.3 （2SLS推定）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.4-操作変数の強さ"><i class="fa fa-check"></i>実証例 7.4 （操作変数の強さ）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.5-外生性の検定"><i class="fa fa-check"></i>実証例 7.5 （外生性の検定）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html"><i class="fa fa-check"></i>第8章 制限従属変数モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.1-ロジットとプロビット"><i class="fa fa-check"></i>実証例 8.1 （ロジットとプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#線形確率モデル"><i class="fa fa-check"></i>線形確率モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#プロビットモデル"><i class="fa fa-check"></i>プロビット・モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ロジットモデル"><i class="fa fa-check"></i>ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.2-順序付きプロビット"><i class="fa fa-check"></i>実証例 8.2 （順序付きプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-1"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#順序付きプロビットモデル"><i class="fa fa-check"></i>順序付きプロビット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.3-多項ロジット"><i class="fa fa-check"></i>実証例 8.3 （多項ロジット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-2"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#多項ロジットモデル"><i class="fa fa-check"></i>多項ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.4-トービット"><i class="fa fa-check"></i>実証例8.4 （トービット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-3"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#トービットモデル"><i class="fa fa-check"></i>トービット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.5-ヘキット"><i class="fa fa-check"></i>実証例8.5 （ヘキット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-4"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols-1"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ヘキットモデル"><i class="fa fa-check"></i>ヘキット・モデル</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html"><i class="fa fa-check"></i>第9章 政策評価モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html#図-9-5"><i class="fa fa-check"></i>図 9-5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">西山 他『計量経済学』のためのR</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="restricted" class="section level1 unnumbered hasAnchor">
+<h1>第8章 制限従属変数モデル<a href="restricted.html#restricted" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="実証例-8.1-ロジットとプロビット" class="section level2 unnumbered hasAnchor">
+<h2>実証例 8.1 （ロジットとプロビット）<a href="restricted.html#実証例-8.1-ロジットとプロビット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="データの読み込み加工" class="section level3 unnumbered hasAnchor">
+<h3>データの読み込み・加工<a href="restricted.html#データの読み込み加工" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>pp.347-348．まず，データを加工します．</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="restricted.html#cb45-1" aria-hidden="true" tabindex="-1"></a>piaac_original <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;piaac.csv&quot;</span>) <span class="co"># データの読み込み</span></span>
+<span id="cb45-2"><a href="restricted.html#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="restricted.html#cb45-3" aria-hidden="true" tabindex="-1"></a>piaac <span class="ot">&lt;-</span> <span class="fu">subset</span>(piaac_original, gender <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>) <span class="co"># 女性だけにサンプルを制限します．</span></span>
+<span id="cb45-4"><a href="restricted.html#cb45-4" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>emp <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> (piaac<span class="sc">$</span>lfs <span class="sc">==</span> <span class="st">&quot;Employed&quot;</span>) </span></code></pre></div>
+</div>
+<div id="線形確率モデル" class="section level3 unnumbered hasAnchor">
+<h3>線形確率モデル<a href="restricted.html#線形確率モデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>ベースラインとなる線形確率モデルです．これは今までと同じです．</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="restricted.html#cb46-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> estimatr<span class="sc">::</span><span class="fu">lm_robust</span>(emp <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb46-2"><a href="restricted.html#cb46-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">data =</span> piaac,</span>
+<span id="cb46-3"><a href="restricted.html#cb46-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb46-4"><a href="restricted.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols)</span>
+<span id="cb46-5"><a href="restricted.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb46-6"><a href="restricted.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb46-7"><a href="restricted.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="do">## estimatr::lm_robust(formula = emp ~ educ + age + couple + child, </span></span>
+<span id="cb46-8"><a href="restricted.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="do">##     data = piaac, se_type = &quot;stata&quot;)</span></span>
+<span id="cb46-9"><a href="restricted.html#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb46-10"><a href="restricted.html#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  HC1 </span></span>
+<span id="cb46-11"><a href="restricted.html#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb46-12"><a href="restricted.html#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb46-13"><a href="restricted.html#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="do">##              Estimate Std. Error t value  Pr(&gt;|t|)   CI Lower CI Upper   DF</span></span>
+<span id="cb46-14"><a href="restricted.html#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)  0.375932   0.105430   3.566 0.0003727  0.1691497  0.58271 1742</span></span>
+<span id="cb46-15"><a href="restricted.html#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.019482   0.005882   3.312 0.0009448  0.0079454  0.03102 1742</span></span>
+<span id="cb46-16"><a href="restricted.html#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="do">## age          0.002013   0.001166   1.726 0.0845504 -0.0002746  0.00430 1742</span></span>
+<span id="cb46-17"><a href="restricted.html#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -0.117846   0.031481  -3.743 0.0001874 -0.1795902 -0.05610 1742</span></span>
+<span id="cb46-18"><a href="restricted.html#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.013723   0.012861   1.067 0.2860951 -0.0115009  0.03895 1742</span></span>
+<span id="cb46-19"><a href="restricted.html#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb46-20"><a href="restricted.html#cb46-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.0137 ,    Adjusted R-squared:  0.01144 </span></span>
+<span id="cb46-21"><a href="restricted.html#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic: 6.665 on 4 and 1742 DF,  p-value: 2.541e-05</span></span></code></pre></div>
+<p>ちなみに，予測確率を確認すると，1を超える者が1名います．0を下回る者はいないようです．</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="restricted.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(ols<span class="sc">$</span>fitted.values <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb47-2"><a href="restricted.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1</span></span>
+<span id="cb47-3"><a href="restricted.html#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="restricted.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(ols<span class="sc">$</span>fitted.values <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb47-5"><a href="restricted.html#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0</span></span></code></pre></div>
+</div>
+<div id="プロビットモデル" class="section level3 unnumbered hasAnchor">
+<h3>プロビット・モデル<a href="restricted.html#プロビットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>プロビット・モデルやロジット・モデルの推定には，<code>glm()</code>という関数を使います．基本的な操作は，<code>lm()</code>と同じです．</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="restricted.html#cb48-1" aria-hidden="true" tabindex="-1"></a>probit <span class="ot">&lt;-</span> <span class="fu">glm</span>(emp <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb48-2"><a href="restricted.html#cb48-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;probit&quot;</span>), </span>
+<span id="cb48-3"><a href="restricted.html#cb48-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> piaac)</span>
+<span id="cb48-4"><a href="restricted.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probit)</span>
+<span id="cb48-5"><a href="restricted.html#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-6"><a href="restricted.html#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb48-7"><a href="restricted.html#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="do">## glm(formula = emp ~ educ + age + couple + child, family = binomial(link = &quot;probit&quot;), </span></span>
+<span id="cb48-8"><a href="restricted.html#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="do">##     data = piaac)</span></span>
+<span id="cb48-9"><a href="restricted.html#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-10"><a href="restricted.html#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Deviance Residuals: </span></span>
+<span id="cb48-11"><a href="restricted.html#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="do">##     Min       1Q   Median       3Q      Max  </span></span>
+<span id="cb48-12"><a href="restricted.html#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="do">## -1.9149  -1.3774   0.8631   0.9542   1.2290  </span></span>
+<span id="cb48-13"><a href="restricted.html#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-14"><a href="restricted.html#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb48-15"><a href="restricted.html#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="do">##              Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
+<span id="cb48-16"><a href="restricted.html#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) -0.344270   0.288020  -1.195 0.231970    </span></span>
+<span id="cb48-17"><a href="restricted.html#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.053671   0.016076   3.339 0.000842 ***</span></span>
+<span id="cb48-18"><a href="restricted.html#cb48-18" aria-hidden="true" tabindex="-1"></a><span class="do">## age          0.005297   0.002997   1.767 0.077161 .  </span></span>
+<span id="cb48-19"><a href="restricted.html#cb48-19" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -0.339106   0.097026  -3.495 0.000474 ***</span></span>
+<span id="cb48-20"><a href="restricted.html#cb48-20" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.039649   0.033777   1.174 0.240461    </span></span>
+<span id="cb48-21"><a href="restricted.html#cb48-21" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb48-22"><a href="restricted.html#cb48-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb48-23"><a href="restricted.html#cb48-23" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-24"><a href="restricted.html#cb48-24" aria-hidden="true" tabindex="-1"></a><span class="do">## (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span id="cb48-25"><a href="restricted.html#cb48-25" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-26"><a href="restricted.html#cb48-26" aria-hidden="true" tabindex="-1"></a><span class="do">##     Null deviance: 2264.1  on 1746  degrees of freedom</span></span>
+<span id="cb48-27"><a href="restricted.html#cb48-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual deviance: 2239.5  on 1742  degrees of freedom</span></span>
+<span id="cb48-28"><a href="restricted.html#cb48-28" aria-hidden="true" tabindex="-1"></a><span class="do">##   (958 observations deleted due to missingness)</span></span>
+<span id="cb48-29"><a href="restricted.html#cb48-29" aria-hidden="true" tabindex="-1"></a><span class="do">## AIC: 2249.5</span></span>
+<span id="cb48-30"><a href="restricted.html#cb48-30" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb48-31"><a href="restricted.html#cb48-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
+<p>平均限界効果を推定するためには，<strong>margins</strong>というパッケージの<code>margins()</code>という関数が便利です．</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="restricted.html#cb49-1" aria-hidden="true" tabindex="-1"></a>probit_ame <span class="ot">&lt;-</span> margins<span class="sc">::</span><span class="fu">margins</span>(probit)</span>
+<span id="cb49-2"><a href="restricted.html#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="restricted.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probit_ame)</span>
+<span id="cb49-4"><a href="restricted.html#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  factor     AME     SE       z      p   lower   upper</span></span>
+<span id="cb49-5"><a href="restricted.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="do">##     age  0.0019 0.0011  1.7721 0.0764 -0.0002  0.0041</span></span>
+<span id="cb49-6"><a href="restricted.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   child  0.0145 0.0124  1.1751 0.2400 -0.0097  0.0388</span></span>
+<span id="cb49-7"><a href="restricted.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  couple -0.1243 0.0352 -3.5298 0.0004 -0.1933 -0.0553</span></span>
+<span id="cb49-8"><a href="restricted.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    educ  0.0197 0.0058  3.3702 0.0008  0.0082  0.0311</span></span></code></pre></div>
+</div>
+<div id="ロジットモデル" class="section level3 unnumbered hasAnchor">
+<h3>ロジット・モデル<a href="restricted.html#ロジットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>教科書が第1刷である場合，表8-1のロジット・モデルの係数の推定値の標準誤差に誤植がありますから，注意してください．</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="restricted.html#cb50-1" aria-hidden="true" tabindex="-1"></a>logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(emp <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb50-2"><a href="restricted.html#cb50-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), </span>
+<span id="cb50-3"><a href="restricted.html#cb50-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> piaac)</span>
+<span id="cb50-4"><a href="restricted.html#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="restricted.html#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit)</span>
+<span id="cb50-6"><a href="restricted.html#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-7"><a href="restricted.html#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb50-8"><a href="restricted.html#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="do">## glm(formula = emp ~ educ + age + couple + child, family = binomial(link = &quot;logit&quot;), </span></span>
+<span id="cb50-9"><a href="restricted.html#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="do">##     data = piaac)</span></span>
+<span id="cb50-10"><a href="restricted.html#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-11"><a href="restricted.html#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Deviance Residuals: </span></span>
+<span id="cb50-12"><a href="restricted.html#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="do">##     Min       1Q   Median       3Q      Max  </span></span>
+<span id="cb50-13"><a href="restricted.html#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="do">## -1.9583  -1.3755   0.8639   0.9534   1.2324  </span></span>
+<span id="cb50-14"><a href="restricted.html#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-15"><a href="restricted.html#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb50-16"><a href="restricted.html#cb50-16" aria-hidden="true" tabindex="-1"></a><span class="do">##              Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
+<span id="cb50-17"><a href="restricted.html#cb50-17" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) -0.578109   0.471171  -1.227 0.219837    </span></span>
+<span id="cb50-18"><a href="restricted.html#cb50-18" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.086867   0.026266   3.307 0.000942 ***</span></span>
+<span id="cb50-19"><a href="restricted.html#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="do">## age          0.008822   0.004886   1.806 0.070975 .  </span></span>
+<span id="cb50-20"><a href="restricted.html#cb50-20" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -0.558740   0.163200  -3.424 0.000618 ***</span></span>
+<span id="cb50-21"><a href="restricted.html#cb50-21" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.071606   0.057635   1.242 0.214084    </span></span>
+<span id="cb50-22"><a href="restricted.html#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb50-23"><a href="restricted.html#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb50-24"><a href="restricted.html#cb50-24" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-25"><a href="restricted.html#cb50-25" aria-hidden="true" tabindex="-1"></a><span class="do">## (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span id="cb50-26"><a href="restricted.html#cb50-26" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-27"><a href="restricted.html#cb50-27" aria-hidden="true" tabindex="-1"></a><span class="do">##     Null deviance: 2264.1  on 1746  degrees of freedom</span></span>
+<span id="cb50-28"><a href="restricted.html#cb50-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual deviance: 2239.4  on 1742  degrees of freedom</span></span>
+<span id="cb50-29"><a href="restricted.html#cb50-29" aria-hidden="true" tabindex="-1"></a><span class="do">##   (958 observations deleted due to missingness)</span></span>
+<span id="cb50-30"><a href="restricted.html#cb50-30" aria-hidden="true" tabindex="-1"></a><span class="do">## AIC: 2249.4</span></span>
+<span id="cb50-31"><a href="restricted.html#cb50-31" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb50-32"><a href="restricted.html#cb50-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="restricted.html#cb51-1" aria-hidden="true" tabindex="-1"></a>logit_ame <span class="ot">&lt;-</span> margins<span class="sc">::</span><span class="fu">margins</span>(logit)</span>
+<span id="cb51-2"><a href="restricted.html#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="restricted.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_ame)</span>
+<span id="cb51-4"><a href="restricted.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  factor     AME     SE       z      p   lower   upper</span></span>
+<span id="cb51-5"><a href="restricted.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="do">##     age  0.0020 0.0011  1.8118 0.0700 -0.0002  0.0041</span></span>
+<span id="cb51-6"><a href="restricted.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   child  0.0161 0.0129  1.2442 0.2134 -0.0093  0.0414</span></span>
+<span id="cb51-7"><a href="restricted.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  couple -0.1255 0.0362 -3.4630 0.0005 -0.1965 -0.0545</span></span>
+<span id="cb51-8"><a href="restricted.html#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    educ  0.0195 0.0058  3.3453 0.0008  0.0081  0.0309</span></span></code></pre></div>
+</div>
+</div>
+<div id="実証例-8.2-順序付きプロビット" class="section level2 unnumbered hasAnchor">
+<h2>実証例 8.2 （順序付きプロビット）<a href="restricted.html#実証例-8.2-順序付きプロビット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="データの読み込み加工-1" class="section level3 unnumbered hasAnchor">
+<h3>データの読み込み・加工<a href="restricted.html#データの読み込み加工-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>pp.356-357．まず，データを加工します．</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="restricted.html#cb52-1" aria-hidden="true" tabindex="-1"></a>piaac_original <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;piaac.csv&quot;</span>) <span class="co"># データの読み込み</span></span>
+<span id="cb52-2"><a href="restricted.html#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="restricted.html#cb52-3" aria-hidden="true" tabindex="-1"></a>piaac<span class="ot">&lt;-</span> <span class="fu">subset</span>(piaac_original, gender <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>) <span class="co"># 女性だけにサンプルを制限します．</span></span>
+<span id="cb52-4"><a href="restricted.html#cb52-4" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>js <span class="ot">&lt;-</span> <span class="fu">factor</span>(piaac<span class="sc">$</span>js, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Extremely dissatisfied&quot;</span>,</span>
+<span id="cb52-5"><a href="restricted.html#cb52-5" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">&quot;Dissatisfied&quot;</span>, </span>
+<span id="cb52-6"><a href="restricted.html#cb52-6" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">&quot;Neither satisfied nor dissatisfied&quot;</span>,</span>
+<span id="cb52-7"><a href="restricted.html#cb52-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">&quot;Satisfied&quot;</span>,</span>
+<span id="cb52-8"><a href="restricted.html#cb52-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">&quot;Extremely satisfied&quot;</span>))</span></code></pre></div>
+</div>
+<div id="順序付きプロビットモデル" class="section level3 unnumbered hasAnchor">
+<h3>順序付きプロビット・モデル<a href="restricted.html#順序付きプロビットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>順序付きプロビット・モデルの推定は，<strong>oglmx</strong>というパッケージの<code>oprobit.reg()</code>という関数が便利です．基本的な使い方は，<code>lm()</code>関数と同じです．</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="restricted.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(oglmx)</span>
+<span id="cb53-2"><a href="restricted.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: maxLik</span></span>
+<span id="cb53-3"><a href="restricted.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: miscTools</span></span>
+<span id="cb53-4"><a href="restricted.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb53-5"><a href="restricted.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Please cite the &#39;maxLik&#39; package as:</span></span>
+<span id="cb53-6"><a href="restricted.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.</span></span>
+<span id="cb53-7"><a href="restricted.html#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb53-8"><a href="restricted.html#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="do">## If you have questions, suggestions, or comments regarding the &#39;maxLik&#39; package, please use a forum or &#39;tracker&#39; at maxLik&#39;s R-Forge site:</span></span>
+<span id="cb53-9"><a href="restricted.html#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="do">## https://r-forge.r-project.org/projects/maxlik/</span></span>
+<span id="cb53-10"><a href="restricted.html#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="restricted.html#cb53-11" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">oprobit.reg</span>(<span class="fu">as.integer</span>(js) <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, <span class="at">data =</span> piaac)</span>
+<span id="cb53-12"><a href="restricted.html#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="restricted.html#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result)</span>
+<span id="cb53-14"><a href="restricted.html#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Ordered Probit Regression </span></span>
+<span id="cb53-15"><a href="restricted.html#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Log-Likelihood: -1436.441 </span></span>
+<span id="cb53-16"><a href="restricted.html#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="do">## No. Iterations: 5 </span></span>
+<span id="cb53-17"><a href="restricted.html#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="do">## McFadden&#39;s R2: 0.003613072 </span></span>
+<span id="cb53-18"><a href="restricted.html#cb53-18" aria-hidden="true" tabindex="-1"></a><span class="do">## AIC: 2888.883 </span></span>
+<span id="cb53-19"><a href="restricted.html#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="do">##          Estimate Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb53-20"><a href="restricted.html#cb53-20" aria-hidden="true" tabindex="-1"></a><span class="do">## educ    0.0305033  0.0120428  2.5329  0.01131 *</span></span>
+<span id="cb53-21"><a href="restricted.html#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="do">## age     0.0068156  0.0030683  2.2213  0.02633 *</span></span>
+<span id="cb53-22"><a href="restricted.html#cb53-22" aria-hidden="true" tabindex="-1"></a><span class="do">## couple -0.0841328  0.1514264 -0.5556  0.57848  </span></span>
+<span id="cb53-23"><a href="restricted.html#cb53-23" aria-hidden="true" tabindex="-1"></a><span class="do">## child  -0.0110474  0.0403781 -0.2736  0.78439  </span></span>
+<span id="cb53-24"><a href="restricted.html#cb53-24" aria-hidden="true" tabindex="-1"></a><span class="do">## ----- Threshold Parameters -----</span></span>
+<span id="cb53-25"><a href="restricted.html#cb53-25" aria-hidden="true" tabindex="-1"></a><span class="do">##                  Estimate Std. error t value  Pr(&gt;|t|)    </span></span>
+<span id="cb53-26"><a href="restricted.html#cb53-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Threshold (1-&gt;2) -1.77151    0.29171 -6.0728 1.257e-09 ***</span></span>
+<span id="cb53-27"><a href="restricted.html#cb53-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Threshold (2-&gt;3) -0.63336    0.27364 -2.3146   0.02064 *  </span></span>
+<span id="cb53-28"><a href="restricted.html#cb53-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Threshold (3-&gt;4)  0.41447    0.27343  1.5158   0.12957    </span></span>
+<span id="cb53-29"><a href="restricted.html#cb53-29" aria-hidden="true" tabindex="-1"></a><span class="do">## Threshold (4-&gt;5)  2.02784    0.27761  7.3047 2.778e-13 ***</span></span>
+<span id="cb53-30"><a href="restricted.html#cb53-30" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb53-31"><a href="restricted.html#cb53-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span></code></pre></div>
+<p>平均限界効果は同じく<strong>oglmx</strong>の<code>margins.oglmx()</code>という関数を用います．</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="restricted.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">margins.oglmx</span>(result)</span>
+<span id="cb54-2"><a href="restricted.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal Effects on Pr(Outcome==1)</span></span>
+<span id="cb54-3"><a href="restricted.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="do">##          Marg. Eff  Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb54-4"><a href="restricted.html#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="do">## couple  1.6584e-03  2.7523e-03  0.6026  0.54679  </span></span>
+<span id="cb54-5"><a href="restricted.html#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="do">## educ   -6.5916e-04  3.1473e-04 -2.0943  0.03623 *</span></span>
+<span id="cb54-6"><a href="restricted.html#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="do">## age    -1.4728e-04  7.6962e-05 -1.9137  0.05566 .</span></span>
+<span id="cb54-7"><a href="restricted.html#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="do">## child   2.3873e-04  8.7451e-04  0.2730  0.78486  </span></span>
+<span id="cb54-8"><a href="restricted.html#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------ </span></span>
+<span id="cb54-9"><a href="restricted.html#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal Effects on Pr(Outcome==2)</span></span>
+<span id="cb54-10"><a href="restricted.html#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="do">##          Marg. Eff  Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb54-11"><a href="restricted.html#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="do">## couple  0.01248158  0.02148408  0.5810  0.56126  </span></span>
+<span id="cb54-12"><a href="restricted.html#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="do">## educ   -0.00472759  0.00188871 -2.5031  0.01231 *</span></span>
+<span id="cb54-13"><a href="restricted.html#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="do">## age    -0.00105633  0.00048038 -2.1989  0.02788 *</span></span>
+<span id="cb54-14"><a href="restricted.html#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="do">## child   0.00171220  0.00625940  0.2735  0.78444  </span></span>
+<span id="cb54-15"><a href="restricted.html#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------ </span></span>
+<span id="cb54-16"><a href="restricted.html#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal Effects on Pr(Outcome==3)</span></span>
+<span id="cb54-17"><a href="restricted.html#cb54-17" aria-hidden="true" tabindex="-1"></a><span class="do">##          Marg. Eff  Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb54-18"><a href="restricted.html#cb54-18" aria-hidden="true" tabindex="-1"></a><span class="do">## couple  0.01823813  0.03347800  0.5448  0.58591  </span></span>
+<span id="cb54-19"><a href="restricted.html#cb54-19" aria-hidden="true" tabindex="-1"></a><span class="do">## educ   -0.00646781  0.00258424 -2.5028  0.01232 *</span></span>
+<span id="cb54-20"><a href="restricted.html#cb54-20" aria-hidden="true" tabindex="-1"></a><span class="do">## age    -0.00144516  0.00065647 -2.2014  0.02771 *</span></span>
+<span id="cb54-21"><a href="restricted.html#cb54-21" aria-hidden="true" tabindex="-1"></a><span class="do">## child   0.00234246  0.00856280  0.2736  0.78442  </span></span>
+<span id="cb54-22"><a href="restricted.html#cb54-22" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------ </span></span>
+<span id="cb54-23"><a href="restricted.html#cb54-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal Effects on Pr(Outcome==4)</span></span>
+<span id="cb54-24"><a href="restricted.html#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="do">##          Marg. Eff  Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb54-25"><a href="restricted.html#cb54-25" aria-hidden="true" tabindex="-1"></a><span class="do">## couple -0.01881137  0.03198370 -0.5882  0.55643  </span></span>
+<span id="cb54-26"><a href="restricted.html#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="do">## educ    0.00718784  0.00287254  2.5023  0.01234 *</span></span>
+<span id="cb54-27"><a href="restricted.html#cb54-27" aria-hidden="true" tabindex="-1"></a><span class="do">## age     0.00160604  0.00072992  2.2003  0.02779 *</span></span>
+<span id="cb54-28"><a href="restricted.html#cb54-28" aria-hidden="true" tabindex="-1"></a><span class="do">## child  -0.00260323  0.00951600 -0.2736  0.78442  </span></span>
+<span id="cb54-29"><a href="restricted.html#cb54-29" aria-hidden="true" tabindex="-1"></a><span class="do">## ------------------------------------ </span></span>
+<span id="cb54-30"><a href="restricted.html#cb54-30" aria-hidden="true" tabindex="-1"></a><span class="do">## Marginal Effects on Pr(Outcome==5)</span></span>
+<span id="cb54-31"><a href="restricted.html#cb54-31" aria-hidden="true" tabindex="-1"></a><span class="do">##          Marg. Eff  Std. error t value Pr(&gt;|t|)  </span></span>
+<span id="cb54-32"><a href="restricted.html#cb54-32" aria-hidden="true" tabindex="-1"></a><span class="do">## couple -0.01356679  0.02569570 -0.5280  0.59751  </span></span>
+<span id="cb54-33"><a href="restricted.html#cb54-33" aria-hidden="true" tabindex="-1"></a><span class="do">## educ    0.00466671  0.00186074  2.5080  0.01214 *</span></span>
+<span id="cb54-34"><a href="restricted.html#cb54-34" aria-hidden="true" tabindex="-1"></a><span class="do">## age     0.00104272  0.00047297  2.2046  0.02748 *</span></span>
+<span id="cb54-35"><a href="restricted.html#cb54-35" aria-hidden="true" tabindex="-1"></a><span class="do">## child  -0.00169015  0.00617836 -0.2736  0.78442  </span></span>
+<span id="cb54-36"><a href="restricted.html#cb54-36" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb54-37"><a href="restricted.html#cb54-37" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span></code></pre></div>
+</div>
+</div>
+<div id="実証例-8.3-多項ロジット" class="section level2 unnumbered hasAnchor">
+<h2>実証例 8.3 （多項ロジット）<a href="restricted.html#実証例-8.3-多項ロジット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>pp.365-366．まず，データを加工します．</p>
+<div id="データの読み込み加工-2" class="section level3 unnumbered hasAnchor">
+<h3>データの読み込み・加工<a href="restricted.html#データの読み込み加工-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="restricted.html#cb55-1" aria-hidden="true" tabindex="-1"></a>piaac_original <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;piaac.csv&quot;</span>)</span>
+<span id="cb55-2"><a href="restricted.html#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="restricted.html#cb55-3" aria-hidden="true" tabindex="-1"></a>piaac_female <span class="ot">&lt;-</span> <span class="fu">subset</span>(piaac_original, gender <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>)</span>
+<span id="cb55-4"><a href="restricted.html#cb55-4" aria-hidden="true" tabindex="-1"></a>piaac <span class="ot">&lt;-</span> mlogit<span class="sc">::</span><span class="fu">mlogit.data</span>(piaac_female, <span class="at">choice =</span> <span class="st">&quot;empstat_edt&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;wide&quot;</span>) </span></code></pre></div>
+</div>
+<div id="多項ロジットモデル" class="section level3 unnumbered hasAnchor">
+<h3>多項ロジット・モデル<a href="restricted.html#多項ロジットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>多項ロジット・モデルの推定には，<strong>mlogit</strong>パッケージの<code>mlogit()</code>という関数が便利です．</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="restricted.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlogit)</span>
+<span id="cb56-2"><a href="restricted.html#cb56-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">mlogit</span>(empstat_edt <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb56-3"><a href="restricted.html#cb56-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">reflevel =</span> <span class="st">&quot;3&quot;</span>, </span>
+<span id="cb56-4"><a href="restricted.html#cb56-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> piaac)</span>
+<span id="cb56-5"><a href="restricted.html#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="restricted.html#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## mlogit(formula = empstat_edt ~ 1 | educ + age + couple + child, 
+##     data = piaac, reflevel = &quot;3&quot;, method = &quot;nr&quot;)
+## 
+## Frequencies of alternatives:choice
+##       3       1       2 
+## 0.38065 0.28506 0.33429 
+## 
+## nr method
+## 4 iterations, 0h:0m:0s 
+## g&#39;(-H)^-1g = 0.000468 
+## successive function values within tolerance limits 
+## 
+## Coefficients :
+##                 Estimate Std. Error z-value  Pr(&gt;|z|)    
+## (Intercept):1 -2.4891812  0.5739814 -4.3367 1.446e-05 ***
+## (Intercept):2 -0.2080416  0.5289990 -0.3933  0.694117    
+## educ:1         0.1856352  0.0321446  5.7750 7.695e-09 ***
+## educ:2         0.0032559  0.0296902  0.1097  0.912677    
+## age:1          0.0081549  0.0059179  1.3780  0.168200    
+## age:2          0.0071771  0.0054852  1.3085  0.190718    
+## couple:1      -0.8978057  0.1857095 -4.8345 1.335e-06 ***
+## couple:2      -0.5414821  0.1830675 -2.9578  0.003098 ** 
+## child:1        0.0849287  0.0666004  1.2752  0.202239    
+## child:2        0.0837459  0.0626562  1.3366  0.181355    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Log-Likelihood: -1874
+## McFadden R^2:  0.017435 
+## Likelihood ratio test : chisq = 66.504 (p.value = 2.4316e-11)</code></pre>
+<p>平均限界効果の計算にこれといった便利な方法が見つかりませんでした．仕方がないので，自分で計算します<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>．</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="restricted.html#cb58-1" aria-hidden="true" tabindex="-1"></a>model_result <span class="ot">&lt;-</span> result</span>
+<span id="cb58-2"><a href="restricted.html#cb58-2" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> piaac</span>
+<span id="cb58-3"><a href="restricted.html#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="restricted.html#cb58-4" aria-hidden="true" tabindex="-1"></a>coef_names_length <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">names</span>(model_result<span class="sc">$</span>model))</span>
+<span id="cb58-5"><a href="restricted.html#cb58-5" aria-hidden="true" tabindex="-1"></a>coef_names_drop <span class="ot">&lt;-</span> coef_names_length <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb58-6"><a href="restricted.html#cb58-6" aria-hidden="true" tabindex="-1"></a>coef_names <span class="ot">&lt;-</span> <span class="fu">names</span>(model_result<span class="sc">$</span>model)[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span>coef_names_drop<span class="sc">:-</span>coef_names_length)]</span>
+<span id="cb58-7"><a href="restricted.html#cb58-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb58-8"><a href="restricted.html#cb58-8" aria-hidden="true" tabindex="-1"></a>marginal_effects <span class="ot">&lt;-</span> <span class="fu">sapply</span>(coef_names, </span>
+<span id="cb58-9"><a href="restricted.html#cb58-9" aria-hidden="true" tabindex="-1"></a>                           <span class="cf">function</span>(x) stats<span class="sc">::</span><span class="fu">effects</span>(result, <span class="at">covariate =</span> x, <span class="at">data =</span> mydata), </span>
+<span id="cb58-10"><a href="restricted.html#cb58-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">simplify =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb58-11"><a href="restricted.html#cb58-11" aria-hidden="true" tabindex="-1"></a>ame <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(marginal_effects, colMeans))</span>
+<span id="cb58-12"><a href="restricted.html#cb58-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb58-13"><a href="restricted.html#cb58-13" aria-hidden="true" tabindex="-1"></a>ame</span>
+<span id="cb58-14"><a href="restricted.html#cb58-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1             2            3</span></span>
+<span id="cb58-15"><a href="restricted.html#cb58-15" aria-hidden="true" tabindex="-1"></a><span class="co"># educ    0.0363882484 -0.0166267152 -0.019761533</span></span>
+<span id="cb58-16"><a href="restricted.html#cb58-16" aria-hidden="true" tabindex="-1"></a><span class="co"># age     0.0009412598  0.0008230052 -0.001764265</span></span>
+<span id="cb58-17"><a href="restricted.html#cb58-17" aria-hidden="true" tabindex="-1"></a><span class="co"># couple -0.1268631878 -0.0356907738  0.162553962</span></span>
+<span id="cb58-18"><a href="restricted.html#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="co"># child   0.0089617065  0.0105587969 -0.019520503</span></span>
+<span id="cb58-19"><a href="restricted.html#cb58-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-20"><a href="restricted.html#cb58-20" aria-hidden="true" tabindex="-1"></a>ame[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)] <span class="co"># 見づらいので並び替え</span></span>
+<span id="cb58-21"><a href="restricted.html#cb58-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-22"><a href="restricted.html#cb58-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1             2            3</span></span>
+<span id="cb58-23"><a href="restricted.html#cb58-23" aria-hidden="true" tabindex="-1"></a><span class="co"># educ    0.0363882484 -0.0166267152 -0.019761533</span></span>
+<span id="cb58-24"><a href="restricted.html#cb58-24" aria-hidden="true" tabindex="-1"></a><span class="co"># age     0.0009412598  0.0008230052 -0.001764265</span></span>
+<span id="cb58-25"><a href="restricted.html#cb58-25" aria-hidden="true" tabindex="-1"></a><span class="co"># couple -0.1268631878 -0.0356907738  0.162553962</span></span>
+<span id="cb58-26"><a href="restricted.html#cb58-26" aria-hidden="true" tabindex="-1"></a><span class="co"># child   0.0089617065  0.0105587969 -0.019520503</span></span></code></pre></div>
+<p>標準誤差は次の通り計算してみましょう．</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="restricted.html#cb59-1" aria-hidden="true" tabindex="-1"></a>ame_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(betas) {</span>
+<span id="cb59-2"><a href="restricted.html#cb59-2" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> model_result</span>
+<span id="cb59-3"><a href="restricted.html#cb59-3" aria-hidden="true" tabindex="-1"></a>  tmp<span class="sc">$</span>coefficients <span class="ot">&lt;-</span> betas</span>
+<span id="cb59-4"><a href="restricted.html#cb59-4" aria-hidden="true" tabindex="-1"></a>  me_mnl <span class="ot">&lt;-</span> <span class="fu">sapply</span>(coef_names, <span class="cf">function</span>(x)</span>
+<span id="cb59-5"><a href="restricted.html#cb59-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">effects</span>(tmp, <span class="at">covariate =</span> x, <span class="at">data =</span> mydata), <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb59-6"><a href="restricted.html#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">sapply</span>(me_mnl, colMeans))</span>
+<span id="cb59-7"><a href="restricted.html#cb59-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb59-8"><a href="restricted.html#cb59-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-9"><a href="restricted.html#cb59-9" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> numDeriv<span class="sc">::</span><span class="fu">jacobian</span>(ame_fun, model_result<span class="sc">$</span>coef)</span>
+<span id="cb59-10"><a href="restricted.html#cb59-10" aria-hidden="true" tabindex="-1"></a>ame_se <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(grad <span class="sc">%*%</span> <span class="fu">vcov</span>(model_result) <span class="sc">%*%</span> <span class="fu">t</span>(grad))), </span>
+<span id="cb59-11"><a href="restricted.html#cb59-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nrow =</span> <span class="fu">length</span>(coef_names), </span>
+<span id="cb59-12"><a href="restricted.html#cb59-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-13"><a href="restricted.html#cb59-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-14"><a href="restricted.html#cb59-14" aria-hidden="true" tabindex="-1"></a>ame_se</span>
+<span id="cb59-15"><a href="restricted.html#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="restricted.html#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co">#             [,1]        [,2]        [,3]</span></span>
+<span id="cb59-17"><a href="restricted.html#cb59-17" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] 0.005909444 0.005503409 0.005762793</span></span>
+<span id="cb59-18"><a href="restricted.html#cb59-18" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] 0.001113900 0.001049001 0.001086593</span></span>
+<span id="cb59-19"><a href="restricted.html#cb59-19" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] 0.037055885 0.029879947 0.033409403</span></span>
+<span id="cb59-20"><a href="restricted.html#cb59-20" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] 0.013378596 0.010627150 0.011153053</span></span>
+<span id="cb59-21"><a href="restricted.html#cb59-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-22"><a href="restricted.html#cb59-22" aria-hidden="true" tabindex="-1"></a>ame_se[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)]</span>
+<span id="cb59-23"><a href="restricted.html#cb59-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-24"><a href="restricted.html#cb59-24" aria-hidden="true" tabindex="-1"></a><span class="co">#             [,1]        [,2]        [,3]</span></span>
+<span id="cb59-25"><a href="restricted.html#cb59-25" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] 0.005503409 0.005762793 0.005909444</span></span>
+<span id="cb59-26"><a href="restricted.html#cb59-26" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] 0.001049001 0.001086593 0.001113900</span></span>
+<span id="cb59-27"><a href="restricted.html#cb59-27" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] 0.029879947 0.033409403 0.037055885</span></span>
+<span id="cb59-28"><a href="restricted.html#cb59-28" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] 0.010627150 0.011153053 0.013378596</span></span></code></pre></div>
+<p><span class="math inline">\(Z\)</span>値は次の通りです．</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="restricted.html#cb60-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> ame[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)] <span class="sc">/</span> ame_se[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>)]</span>
+<span id="cb60-2"><a href="restricted.html#cb60-2" aria-hidden="true" tabindex="-1"></a>z</span>
+<span id="cb60-3"><a href="restricted.html#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="restricted.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1          2         3</span></span>
+<span id="cb60-5"><a href="restricted.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="co"># educ    6.6119466 -2.8851837 -3.344060</span></span>
+<span id="cb60-6"><a href="restricted.html#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co"># age     0.8972914  0.7574184 -1.583862</span></span>
+<span id="cb60-7"><a href="restricted.html#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co"># couple -4.2457635 -1.0682853  4.386725</span></span>
+<span id="cb60-8"><a href="restricted.html#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="co"># child   0.8432841  0.9467181 -1.459085</span></span></code></pre></div>
+<p><span class="math inline">\(p\)</span>値は次の通りです．</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="restricted.html#cb61-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span>
+<span id="cb61-2"><a href="restricted.html#cb61-2" aria-hidden="true" tabindex="-1"></a>p</span>
+<span id="cb61-3"><a href="restricted.html#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="restricted.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                   1           2            3</span></span>
+<span id="cb61-5"><a href="restricted.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co"># educ   3.792988e-11 0.003911853 8.256197e-04</span></span>
+<span id="cb61-6"><a href="restricted.html#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="co"># age    3.695634e-01 0.448799257 1.132251e-01</span></span>
+<span id="cb61-7"><a href="restricted.html#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="co"># couple 2.178504e-05 0.285391843 1.150704e-05</span></span>
+<span id="cb61-8"><a href="restricted.html#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="co"># child  3.990696e-01 0.343782459 1.445418e-01</span></span></code></pre></div>
+</div>
+</div>
+<div id="実証例8.4-トービット" class="section level2 unnumbered hasAnchor">
+<h2>実証例8.4 （トービット）<a href="restricted.html#実証例8.4-トービット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>pp.371-372.</p>
+<div id="データの読み込み加工-3" class="section level3 unnumbered hasAnchor">
+<h3>データの読み込み・加工<a href="restricted.html#データの読み込み加工-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="restricted.html#cb62-1" aria-hidden="true" tabindex="-1"></a>piaac_original <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;piaac.csv&quot;</span>)</span>
+<span id="cb62-2"><a href="restricted.html#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="restricted.html#cb62-3" aria-hidden="true" tabindex="-1"></a>piaac <span class="ot">&lt;-</span> <span class="fu">subset</span>(piaac_original, gender <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>)</span></code></pre></div>
+</div>
+<div id="ols" class="section level3 unnumbered hasAnchor">
+<h3>OLS<a href="restricted.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="restricted.html#cb63-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(hours <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, <span class="at">data =</span> piaac)</span>
+<span id="cb63-2"><a href="restricted.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols)</span>
+<span id="cb63-3"><a href="restricted.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb63-4"><a href="restricted.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb63-5"><a href="restricted.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="do">## lm(formula = hours ~ educ + age + couple + child, data = piaac)</span></span>
+<span id="cb63-6"><a href="restricted.html#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb63-7"><a href="restricted.html#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Residuals:</span></span>
+<span id="cb63-8"><a href="restricted.html#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    Min     1Q Median     3Q    Max </span></span>
+<span id="cb63-9"><a href="restricted.html#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="do">## -30.49 -19.06   0.03  16.49  80.83 </span></span>
+<span id="cb63-10"><a href="restricted.html#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb63-11"><a href="restricted.html#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb63-12"><a href="restricted.html#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="do">##             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb63-13"><a href="restricted.html#cb63-13" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) 11.98657    4.15323   2.886 0.003949 ** </span></span>
+<span id="cb63-14"><a href="restricted.html#cb63-14" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.85299    0.23203   3.676 0.000244 ***</span></span>
+<span id="cb63-15"><a href="restricted.html#cb63-15" aria-hidden="true" tabindex="-1"></a><span class="do">## age          0.04638    0.04340   1.068 0.285450    </span></span>
+<span id="cb63-16"><a href="restricted.html#cb63-16" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -6.80806    1.34330  -5.068 4.45e-07 ***</span></span>
+<span id="cb63-17"><a href="restricted.html#cb63-17" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.67291    0.44251   1.521 0.128525    </span></span>
+<span id="cb63-18"><a href="restricted.html#cb63-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb63-19"><a href="restricted.html#cb63-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb63-20"><a href="restricted.html#cb63-20" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb63-21"><a href="restricted.html#cb63-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual standard error: 18.63 on 1731 degrees of freedom</span></span>
+<span id="cb63-22"><a href="restricted.html#cb63-22" aria-hidden="true" tabindex="-1"></a><span class="do">##   (969 observations deleted due to missingness)</span></span>
+<span id="cb63-23"><a href="restricted.html#cb63-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.0216, Adjusted R-squared:  0.01934 </span></span>
+<span id="cb63-24"><a href="restricted.html#cb63-24" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic: 9.553 on 4 and 1731 DF,  p-value: 1.222e-07</span></span></code></pre></div>
+</div>
+<div id="トービットモデル" class="section level3 unnumbered hasAnchor">
+<h3>トービット・モデル<a href="restricted.html#トービットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>トービット・モデルの推定には，<strong>censReg</strong>というパッケージの<code>censReg()</code>関数が便利です．</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="restricted.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(censReg)</span>
+<span id="cb64-2"><a href="restricted.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-3"><a href="restricted.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Please cite the &#39;censReg&#39; package as:</span></span>
+<span id="cb64-4"><a href="restricted.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Henningsen, Arne (2017). censReg: Censored Regression (Tobit) Models. R package version 0.5. http://CRAN.R-Project.org/package=censReg.</span></span>
+<span id="cb64-5"><a href="restricted.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-6"><a href="restricted.html#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="do">## If you have questions, suggestions, or comments regarding the &#39;censReg&#39; package, please use a forum or &#39;tracker&#39; at the R-Forge site of the &#39;sampleSelection&#39; project:</span></span>
+<span id="cb64-7"><a href="restricted.html#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="do">## https://r-forge.r-project.org/projects/sampleselection/</span></span>
+<span id="cb64-8"><a href="restricted.html#cb64-8" aria-hidden="true" tabindex="-1"></a>tobit <span class="ot">&lt;-</span> <span class="fu">censReg</span>(hours <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> couple <span class="sc">+</span> child, <span class="at">data =</span> piaac)</span>
+<span id="cb64-9"><a href="restricted.html#cb64-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-10"><a href="restricted.html#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tobit)</span>
+<span id="cb64-11"><a href="restricted.html#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-12"><a href="restricted.html#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb64-13"><a href="restricted.html#cb64-13" aria-hidden="true" tabindex="-1"></a><span class="do">## censReg(formula = hours ~ educ + age + couple + child, data = piaac)</span></span>
+<span id="cb64-14"><a href="restricted.html#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-15"><a href="restricted.html#cb64-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Observations:</span></span>
+<span id="cb64-16"><a href="restricted.html#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="do">##          Total  Left-censored     Uncensored Right-censored </span></span>
+<span id="cb64-17"><a href="restricted.html#cb64-17" aria-hidden="true" tabindex="-1"></a><span class="do">##           1736            608           1128              0 </span></span>
+<span id="cb64-18"><a href="restricted.html#cb64-18" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-19"><a href="restricted.html#cb64-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb64-20"><a href="restricted.html#cb64-20" aria-hidden="true" tabindex="-1"></a><span class="do">##             Estimate Std. error t value  Pr(&gt; t)    </span></span>
+<span id="cb64-21"><a href="restricted.html#cb64-21" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) -0.26880    6.31684  -0.043 0.966058    </span></span>
+<span id="cb64-22"><a href="restricted.html#cb64-22" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         1.29136    0.35170   3.672 0.000241 ***</span></span>
+<span id="cb64-23"><a href="restricted.html#cb64-23" aria-hidden="true" tabindex="-1"></a><span class="do">## age          0.09362    0.06668   1.404 0.160319    </span></span>
+<span id="cb64-24"><a href="restricted.html#cb64-24" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -9.43196    1.99461  -4.729 2.26e-06 ***</span></span>
+<span id="cb64-25"><a href="restricted.html#cb64-25" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.99635    0.66882   1.490 0.136301    </span></span>
+<span id="cb64-26"><a href="restricted.html#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="do">## logSigma     3.28764    0.02316 141.963  &lt; 2e-16 ***</span></span>
+<span id="cb64-27"><a href="restricted.html#cb64-27" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb64-28"><a href="restricted.html#cb64-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb64-29"><a href="restricted.html#cb64-29" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb64-30"><a href="restricted.html#cb64-30" aria-hidden="true" tabindex="-1"></a><span class="do">## Newton-Raphson maximisation, 9 iterations</span></span>
+<span id="cb64-31"><a href="restricted.html#cb64-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Return code 1: gradient close to zero (gradtol)</span></span>
+<span id="cb64-32"><a href="restricted.html#cb64-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Log-likelihood: -5856.426 on 6 Df</span></span></code></pre></div>
+</div>
+</div>
+<div id="実証例8.5-ヘキット" class="section level2 unnumbered hasAnchor">
+<h2>実証例8.5 （ヘキット）<a href="restricted.html#実証例8.5-ヘキット" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>pp.386-388.</p>
+<div id="データの読み込み加工-4" class="section level3 unnumbered hasAnchor">
+<h3>データの読み込み・加工<a href="restricted.html#データの読み込み加工-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="restricted.html#cb65-1" aria-hidden="true" tabindex="-1"></a>piaac_original <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;piaac.csv&quot;</span>)</span>
+<span id="cb65-2"><a href="restricted.html#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="restricted.html#cb65-3" aria-hidden="true" tabindex="-1"></a>piaac <span class="ot">&lt;-</span> <span class="fu">subset</span>(piaac_original, gender <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>)</span>
+<span id="cb65-4"><a href="restricted.html#cb65-4" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>lwage <span class="ot">&lt;-</span>  <span class="fu">log</span>(piaac<span class="sc">$</span>wage)</span>
+<span id="cb65-5"><a href="restricted.html#cb65-5" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>exp <span class="ot">&lt;-</span> piaac<span class="sc">$</span>age <span class="sc">-</span> piaac<span class="sc">$</span>educ <span class="sc">-</span> <span class="dv">6</span></span>
+<span id="cb65-6"><a href="restricted.html#cb65-6" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>expsq <span class="ot">&lt;-</span> (piaac<span class="sc">$</span>exp) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb65-7"><a href="restricted.html#cb65-7" aria-hidden="true" tabindex="-1"></a>piaac<span class="sc">$</span>selected <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> (<span class="sc">!</span><span class="fu">is.na</span>(piaac<span class="sc">$</span>lwage))</span></code></pre></div>
+</div>
+<div id="ols-1" class="section level3 unnumbered hasAnchor">
+<h3>OLS<a href="restricted.html#ols-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="restricted.html#cb66-1" aria-hidden="true" tabindex="-1"></a>ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(lwage <span class="sc">~</span> educ <span class="sc">+</span> exp <span class="sc">+</span> expsq, <span class="at">data =</span> piaac)</span>
+<span id="cb66-2"><a href="restricted.html#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="restricted.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols)</span>
+<span id="cb66-4"><a href="restricted.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-5"><a href="restricted.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb66-6"><a href="restricted.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="do">## lm(formula = lwage ~ educ + exp + expsq, data = piaac)</span></span>
+<span id="cb66-7"><a href="restricted.html#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-8"><a href="restricted.html#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Residuals:</span></span>
+<span id="cb66-9"><a href="restricted.html#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="do">##     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb66-10"><a href="restricted.html#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="do">## -9.9565 -0.2838 -0.0544  0.2516  5.5254 </span></span>
+<span id="cb66-11"><a href="restricted.html#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-12"><a href="restricted.html#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb66-13"><a href="restricted.html#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb66-14"><a href="restricted.html#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)  5.8946054  0.1279650  46.064  &lt; 2e-16 ***</span></span>
+<span id="cb66-15"><a href="restricted.html#cb66-15" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.0767333  0.0089127   8.609  &lt; 2e-16 ***</span></span>
+<span id="cb66-16"><a href="restricted.html#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="do">## exp          0.0124602  0.0047378   2.630  0.00862 ** </span></span>
+<span id="cb66-17"><a href="restricted.html#cb66-17" aria-hidden="true" tabindex="-1"></a><span class="do">## expsq       -0.0002220  0.0001013  -2.191  0.02862 *  </span></span>
+<span id="cb66-18"><a href="restricted.html#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb66-19"><a href="restricted.html#cb66-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb66-20"><a href="restricted.html#cb66-20" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-21"><a href="restricted.html#cb66-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Residual standard error: 0.663 on 1583 degrees of freedom</span></span>
+<span id="cb66-22"><a href="restricted.html#cb66-22" aria-hidden="true" tabindex="-1"></a><span class="do">##   (1118 observations deleted due to missingness)</span></span>
+<span id="cb66-23"><a href="restricted.html#cb66-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.05641,    Adjusted R-squared:  0.05463 </span></span>
+<span id="cb66-24"><a href="restricted.html#cb66-24" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic: 31.55 on 3 and 1583 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+</div>
+<div id="ヘキットモデル" class="section level3 unnumbered hasAnchor">
+<h3>ヘキット・モデル<a href="restricted.html#ヘキットモデル" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>ヘキット・モデルの推定は，<strong>sampleSelection</strong>というパッケージの<code>heckit()</code>関数が便利です．</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="restricted.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sampleSelection)</span>
+<span id="cb67-2"><a href="restricted.html#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="restricted.html#cb67-3" aria-hidden="true" tabindex="-1"></a>twostep <span class="ot">&lt;-</span> <span class="fu">heckit</span>(selected <span class="sc">~</span> educ <span class="sc">+</span> exp <span class="sc">+</span> expsq <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb67-4"><a href="restricted.html#cb67-4" aria-hidden="true" tabindex="-1"></a>                  lwage <span class="sc">~</span> educ <span class="sc">+</span> exp <span class="sc">+</span> expsq, </span>
+<span id="cb67-5"><a href="restricted.html#cb67-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> piaac, </span>
+<span id="cb67-6"><a href="restricted.html#cb67-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;2step&quot;</span>)</span>
+<span id="cb67-7"><a href="restricted.html#cb67-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-8"><a href="restricted.html#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twostep)</span>
+<span id="cb67-9"><a href="restricted.html#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------</span></span>
+<span id="cb67-10"><a href="restricted.html#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Tobit 2 model (sample selection model)</span></span>
+<span id="cb67-11"><a href="restricted.html#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2-step Heckman / heckit estimation</span></span>
+<span id="cb67-12"><a href="restricted.html#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1747 observations (763 censored and 984 observed)</span></span>
+<span id="cb67-13"><a href="restricted.html#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 13 free parameters (df = 1735)</span></span>
+<span id="cb67-14"><a href="restricted.html#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Probit selection equation:</span></span>
+<span id="cb67-15"><a href="restricted.html#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb67-16"><a href="restricted.html#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) -1.1734568  0.2987755  -3.928 8.92e-05 ***</span></span>
+<span id="cb67-17"><a href="restricted.html#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.0032513  0.0171564   0.190   0.8497    </span></span>
+<span id="cb67-18"><a href="restricted.html#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="do">## exp          0.1332373  0.0144499   9.221  &lt; 2e-16 ***</span></span>
+<span id="cb67-19"><a href="restricted.html#cb67-19" aria-hidden="true" tabindex="-1"></a><span class="do">## expsq       -0.0023922  0.0002509  -9.533  &lt; 2e-16 ***</span></span>
+<span id="cb67-20"><a href="restricted.html#cb67-20" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -0.2876216  0.0938053  -3.066   0.0022 ** </span></span>
+<span id="cb67-21"><a href="restricted.html#cb67-21" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.0013419  0.0309743   0.043   0.9654    </span></span>
+<span id="cb67-22"><a href="restricted.html#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Outcome equation:</span></span>
+<span id="cb67-23"><a href="restricted.html#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb67-24"><a href="restricted.html#cb67-24" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)  5.7862247  0.6725489   8.603  &lt; 2e-16 ***</span></span>
+<span id="cb67-25"><a href="restricted.html#cb67-25" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.0861687  0.0131580   6.549 7.62e-11 ***</span></span>
+<span id="cb67-26"><a href="restricted.html#cb67-26" aria-hidden="true" tabindex="-1"></a><span class="do">## exp          0.0091285  0.0339531   0.269    0.788    </span></span>
+<span id="cb67-27"><a href="restricted.html#cb67-27" aria-hidden="true" tabindex="-1"></a><span class="do">## expsq       -0.0001668  0.0006090  -0.274    0.784    </span></span>
+<span id="cb67-28"><a href="restricted.html#cb67-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-Squared:0.0526,   Adjusted R-Squared:0.0488</span></span>
+<span id="cb67-29"><a href="restricted.html#cb67-29" aria-hidden="true" tabindex="-1"></a><span class="do">##    Error terms:</span></span>
+<span id="cb67-30"><a href="restricted.html#cb67-30" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)</span></span>
+<span id="cb67-31"><a href="restricted.html#cb67-31" aria-hidden="true" tabindex="-1"></a><span class="do">## invMillsRatio  0.02771    0.38986   0.071    0.943</span></span>
+<span id="cb67-32"><a href="restricted.html#cb67-32" aria-hidden="true" tabindex="-1"></a><span class="do">## sigma          0.71505         NA      NA       NA</span></span>
+<span id="cb67-33"><a href="restricted.html#cb67-33" aria-hidden="true" tabindex="-1"></a><span class="do">## rho            0.03875         NA      NA       NA</span></span>
+<span id="cb67-34"><a href="restricted.html#cb67-34" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="restricted.html#cb68-1" aria-hidden="true" tabindex="-1"></a>mle <span class="ot">&lt;-</span> <span class="fu">heckit</span>(selected <span class="sc">~</span> educ <span class="sc">+</span> exp <span class="sc">+</span> expsq <span class="sc">+</span> couple <span class="sc">+</span> child, </span>
+<span id="cb68-2"><a href="restricted.html#cb68-2" aria-hidden="true" tabindex="-1"></a>                  lwage <span class="sc">~</span> educ <span class="sc">+</span> exp <span class="sc">+</span> expsq, </span>
+<span id="cb68-3"><a href="restricted.html#cb68-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> piaac, </span>
+<span id="cb68-4"><a href="restricted.html#cb68-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;ml&quot;</span>)</span>
+<span id="cb68-5"><a href="restricted.html#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="restricted.html#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mle)</span>
+<span id="cb68-7"><a href="restricted.html#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------</span></span>
+<span id="cb68-8"><a href="restricted.html#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Tobit 2 model (sample selection model)</span></span>
+<span id="cb68-9"><a href="restricted.html#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Maximum Likelihood estimation</span></span>
+<span id="cb68-10"><a href="restricted.html#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Newton-Raphson maximisation, 3 iterations</span></span>
+<span id="cb68-11"><a href="restricted.html#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Return code 8: successive function values within relative tolerance limit (reltol)</span></span>
+<span id="cb68-12"><a href="restricted.html#cb68-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Log-Likelihood: -2207.948 </span></span>
+<span id="cb68-13"><a href="restricted.html#cb68-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 1747 observations (763 censored and 984 observed)</span></span>
+<span id="cb68-14"><a href="restricted.html#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 12 free parameters (df = 1735)</span></span>
+<span id="cb68-15"><a href="restricted.html#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Probit selection equation:</span></span>
+<span id="cb68-16"><a href="restricted.html#cb68-16" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb68-17"><a href="restricted.html#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept) -1.1749600  0.2991461  -3.928 8.91e-05 ***</span></span>
+<span id="cb68-18"><a href="restricted.html#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.0033490  0.0171841   0.195  0.84550    </span></span>
+<span id="cb68-19"><a href="restricted.html#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="do">## exp          0.1331523  0.0144494   9.215  &lt; 2e-16 ***</span></span>
+<span id="cb68-20"><a href="restricted.html#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="do">## expsq       -0.0023909  0.0002509  -9.528  &lt; 2e-16 ***</span></span>
+<span id="cb68-21"><a href="restricted.html#cb68-21" aria-hidden="true" tabindex="-1"></a><span class="do">## couple      -0.2882325  0.0937756  -3.074  0.00215 ** </span></span>
+<span id="cb68-22"><a href="restricted.html#cb68-22" aria-hidden="true" tabindex="-1"></a><span class="do">## child        0.0022663  0.0312037   0.073  0.94211    </span></span>
+<span id="cb68-23"><a href="restricted.html#cb68-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Outcome equation:</span></span>
+<span id="cb68-24"><a href="restricted.html#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="do">##               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb68-25"><a href="restricted.html#cb68-25" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)  5.7679381  0.3473704  16.605  &lt; 2e-16 ***</span></span>
+<span id="cb68-26"><a href="restricted.html#cb68-26" aria-hidden="true" tabindex="-1"></a><span class="do">## educ         0.0861431  0.0131388   6.556 7.25e-11 ***</span></span>
+<span id="cb68-27"><a href="restricted.html#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="do">## exp          0.0100524  0.0175793   0.572    0.568    </span></span>
+<span id="cb68-28"><a href="restricted.html#cb68-28" aria-hidden="true" tabindex="-1"></a><span class="do">## expsq       -0.0001834  0.0003119  -0.588    0.557    </span></span>
+<span id="cb68-29"><a href="restricted.html#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="do">##    Error terms:</span></span>
+<span id="cb68-30"><a href="restricted.html#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="do">##       Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb68-31"><a href="restricted.html#cb68-31" aria-hidden="true" tabindex="-1"></a><span class="do">## sigma  0.71536    0.01689  42.342   &lt;2e-16 ***</span></span>
+<span id="cb68-32"><a href="restricted.html#cb68-32" aria-hidden="true" tabindex="-1"></a><span class="do">## rho    0.05457    0.22029   0.248    0.804    </span></span>
+<span id="cb68-33"><a href="restricted.html#cb68-33" aria-hidden="true" tabindex="-1"></a><span class="do">## ---</span></span>
+<span id="cb68-34"><a href="restricted.html#cb68-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb68-35"><a href="restricted.html#cb68-35" aria-hidden="true" tabindex="-1"></a><span class="do">## --------------------------------------------</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>このスレッドを参考にしました．<a href="https://stackoverflow.com/questions/54079553/how-to-get-average-marginal-effects-ames-with-standard-errors-of-a-multinomial">How to get average marginal effects (AMEs) with standard errors of a multinomial logit model?</a><a href="restricted.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="iv.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ci.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

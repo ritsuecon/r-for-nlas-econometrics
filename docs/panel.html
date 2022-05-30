@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第6章 パネルデータ分析 | 西山 他『計量経済学』のためのR</title>
+  <meta name="description" content="第6章 パネルデータ分析 | 西山 他『計量経済学』のためのR" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第6章 パネルデータ分析 | 西山 他『計量経済学』のためのR" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第6章 パネルデータ分析 | 西山 他『計量経済学』のためのR" />
+  
+  
+  
+
+<meta name="author" content="北川梨津" />
+
+
+<meta name="date" content="2020-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch5.html"/>
+<link rel="next" href="iv.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">西山 他『計量経済学』のためのR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a></li>
+<li class="chapter" data-level="" data-path="caution.html"><a href="caution.html"><i class="fa fa-check"></i>おことわり</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i>第2章 データの整理と確率変数の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-1"><i class="fa fa-check"></i>練習問題 2-1</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-3"><i class="fa fa-check"></i>練習問題 2-3</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#補足"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i>第3章 統計理論の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#練習問題-3-2"><i class="fa fa-check"></i>練習問題 3-2</a></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#補足-1"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i>第4章 線形単回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#実証例-4.1-線形単回帰"><i class="fa fa-check"></i>実証例 4.1 （線形単回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#練習問題-4-2"><i class="fa fa-check"></i>練習問題 4-2</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#補足-2"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i>第5章 線形重回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.1-線形重回帰"><i class="fa fa-check"></i>実証例 5.1 （線形重回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.2-fwl定理１"><i class="fa fa-check"></i>実証例 5.2 （FWL定理１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.3-fwl定理２"><i class="fa fa-check"></i>実証例 5.3 （FWL定理２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.4-標準誤差"><i class="fa fa-check"></i>実証例 5.4 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.5-多項式モデル"><i class="fa fa-check"></i>実証例 5.5 （多項式モデル）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.6-交差項１"><i class="fa fa-check"></i>実証例 5.6 （交差項１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.7-交差項２"><i class="fa fa-check"></i>実証例 5.7 （交差項２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.8-結合仮説"><i class="fa fa-check"></i>実証例 5.8 （結合仮説）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i>第6章 パネルデータ分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.1-固定効果推定"><i class="fa fa-check"></i>実証例 6.1 （固定効果推定）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.2-標準誤差"><i class="fa fa-check"></i>実証例 6.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.3-プールされたols"><i class="fa fa-check"></i>実証例 6.3 （プールされたOLS）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.4-時間効果"><i class="fa fa-check"></i>実証例 6.4 （時間効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.5-都道府県効果と年効果"><i class="fa fa-check"></i>実証例 6.5 （都道府県効果と年効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.6-個別トレンドと年効果"><i class="fa fa-check"></i>実証例 6.6 （個別トレンドと年効果）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html"><i class="fa fa-check"></i>第7章 操作変数法</a>
+<ul>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.1-単回帰"><i class="fa fa-check"></i>実証例 7.1 （単回帰）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.2-標準誤差"><i class="fa fa-check"></i>実証例 7.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.3-2sls推定"><i class="fa fa-check"></i>実証例 7.3 （2SLS推定）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.4-操作変数の強さ"><i class="fa fa-check"></i>実証例 7.4 （操作変数の強さ）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.5-外生性の検定"><i class="fa fa-check"></i>実証例 7.5 （外生性の検定）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html"><i class="fa fa-check"></i>第8章 制限従属変数モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.1-ロジットとプロビット"><i class="fa fa-check"></i>実証例 8.1 （ロジットとプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#線形確率モデル"><i class="fa fa-check"></i>線形確率モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#プロビットモデル"><i class="fa fa-check"></i>プロビット・モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ロジットモデル"><i class="fa fa-check"></i>ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.2-順序付きプロビット"><i class="fa fa-check"></i>実証例 8.2 （順序付きプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-1"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#順序付きプロビットモデル"><i class="fa fa-check"></i>順序付きプロビット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.3-多項ロジット"><i class="fa fa-check"></i>実証例 8.3 （多項ロジット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-2"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#多項ロジットモデル"><i class="fa fa-check"></i>多項ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.4-トービット"><i class="fa fa-check"></i>実証例8.4 （トービット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-3"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#トービットモデル"><i class="fa fa-check"></i>トービット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.5-ヘキット"><i class="fa fa-check"></i>実証例8.5 （ヘキット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-4"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols-1"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ヘキットモデル"><i class="fa fa-check"></i>ヘキット・モデル</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html"><i class="fa fa-check"></i>第9章 政策評価モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html#図-9-5"><i class="fa fa-check"></i>図 9-5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">西山 他『計量経済学』のためのR</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="panel" class="section level1 unnumbered hasAnchor">
+<h1>第6章 パネルデータ分析<a href="panel.html#panel" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>データを読み込み，必要な加工をします．</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="panel.html#cb25-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;yamaguchi.csv&quot;</span>)</span>
+<span id="cb25-2"><a href="panel.html#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="panel.html#cb25-3" aria-hidden="true" tabindex="-1"></a>mydata2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(mydata, year <span class="sc">&gt;</span> <span class="dv">1995</span> <span class="sc">&amp;</span> hh.type <span class="sc">==</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div id="実証例-6.1-固定効果推定" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.1 （固定効果推定）<a href="panel.html#実証例-6.1-固定効果推定" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(pp.220-221)．</p>
+<p>パネルデータ分析も<strong>estimatr</strong>パッケージの<code>lm_robust()</code>関数で次のように行えます．</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="panel.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb26-2"><a href="panel.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="panel.html#cb26-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate,</span>
+<span id="cb26-4"><a href="panel.html#cb26-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> mydata2,</span>
+<span id="cb26-5"><a href="panel.html#cb26-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">clusters =</span> pref,</span>
+<span id="cb26-6"><a href="panel.html#cb26-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span> pref,</span>
+<span id="cb26-7"><a href="panel.html#cb26-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb26-8"><a href="panel.html#cb26-8" aria-hidden="true" tabindex="-1"></a>model1<span class="sc">$</span>coefficients</span>
+<span id="cb26-9"><a href="panel.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  cap.rate </span></span>
+<span id="cb26-10"><a href="panel.html#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.8051027</span></span>
+<span id="cb26-11"><a href="panel.html#cb26-11" aria-hidden="true" tabindex="-1"></a>model1<span class="sc">$</span>std.error</span>
+<span id="cb26-12"><a href="panel.html#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  cap.rate </span></span>
+<span id="cb26-13"><a href="panel.html#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.0553063</span></span></code></pre></div>
+</div>
+<div id="実証例-6.2-標準誤差" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.2 （標準誤差）<a href="panel.html#実証例-6.2-標準誤差" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(p.231)</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="panel.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb27-2"><a href="panel.html#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="panel.html#cb27-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate,</span>
+<span id="cb27-4"><a href="panel.html#cb27-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> mydata2,</span>
+<span id="cb27-5"><a href="panel.html#cb27-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">clusters =</span> pref,</span>
+<span id="cb27-6"><a href="panel.html#cb27-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fixed_effects =</span> <span class="sc">~</span> pref,</span>
+<span id="cb27-7"><a href="panel.html#cb27-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb27-8"><a href="panel.html#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="panel.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb27-10"><a href="panel.html#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb27-11"><a href="panel.html#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb27-12"><a href="panel.html#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="do">## lm_robust(formula = emp.rate ~ cap.rate, data = mydata2, clusters = pref, </span></span>
+<span id="cb27-13"><a href="panel.html#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="do">##     fixed_effects = ~pref, se_type = &quot;stata&quot;)</span></span>
+<span id="cb27-14"><a href="panel.html#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb27-15"><a href="panel.html#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  stata </span></span>
+<span id="cb27-16"><a href="panel.html#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb27-17"><a href="panel.html#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb27-18"><a href="panel.html#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="do">##          Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
+<span id="cb27-19"><a href="panel.html#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate   0.8051    0.05531   14.56 7.736e-19   0.6938   0.9164 46</span></span>
+<span id="cb27-20"><a href="panel.html#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb27-21"><a href="panel.html#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.9836 ,    Adjusted R-squared:  0.9754</span></span>
+<span id="cb27-22"><a href="panel.html#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared (proj. model):  0.859 ,   Adjusted R-squared (proj. model):  0.7878 </span></span>
+<span id="cb27-23"><a href="panel.html#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic (proj. model): 211.9 on 1 and 46 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
+</div>
+<div id="実証例-6.3-プールされたols" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.3 （プールされたOLS）<a href="panel.html#実証例-6.3-プールされたols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(pp.231-232)</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="panel.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb28-2"><a href="panel.html#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="panel.html#cb28-3" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate,</span>
+<span id="cb28-4"><a href="panel.html#cb28-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> mydata2,</span>
+<span id="cb28-5"><a href="panel.html#cb28-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">clusters =</span> pref,</span>
+<span id="cb28-6"><a href="panel.html#cb28-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb28-7"><a href="panel.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb28-8"><a href="panel.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb28-9"><a href="panel.html#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb28-10"><a href="panel.html#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="do">## lm_robust(formula = emp.rate ~ cap.rate, data = mydata2, clusters = pref, </span></span>
+<span id="cb28-11"><a href="panel.html#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="do">##     se_type = &quot;stata&quot;)</span></span>
+<span id="cb28-12"><a href="panel.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb28-13"><a href="panel.html#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  stata </span></span>
+<span id="cb28-14"><a href="panel.html#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb28-15"><a href="panel.html#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb28-16"><a href="panel.html#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="do">##             Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
+<span id="cb28-17"><a href="panel.html#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)   0.2081    0.02820   7.381 2.451e-09   0.1514   0.2649 46</span></span>
+<span id="cb28-18"><a href="panel.html#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate      0.6155    0.06743   9.128 6.823e-12   0.4798   0.7512 46</span></span>
+<span id="cb28-19"><a href="panel.html#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb28-20"><a href="panel.html#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.5336 ,    Adjusted R-squared:  0.5302 </span></span>
+<span id="cb28-21"><a href="panel.html#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic: 83.32 on 1 and 46 DF,  p-value: 6.823e-12</span></span></code></pre></div>
+</div>
+<div id="実証例-6.4-時間効果" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.4 （時間効果）<a href="panel.html#実証例-6.4-時間効果" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(p.236)</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="panel.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb29-2"><a href="panel.html#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="panel.html#cb29-3" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate, </span>
+<span id="cb29-4"><a href="panel.html#cb29-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> mydata2,</span>
+<span id="cb29-5"><a href="panel.html#cb29-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fixed_effects =</span> <span class="sc">~</span> <span class="fu">factor</span>(year),</span>
+<span id="cb29-6"><a href="panel.html#cb29-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">clusters =</span> pref, </span>
+<span id="cb29-7"><a href="panel.html#cb29-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb29-8"><a href="panel.html#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="panel.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span>
+<span id="cb29-10"><a href="panel.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb29-11"><a href="panel.html#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb29-12"><a href="panel.html#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="do">## lm_robust(formula = emp.rate ~ cap.rate, data = mydata2, clusters = pref, </span></span>
+<span id="cb29-13"><a href="panel.html#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="do">##     fixed_effects = ~factor(year), se_type = &quot;stata&quot;)</span></span>
+<span id="cb29-14"><a href="panel.html#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb29-15"><a href="panel.html#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  stata </span></span>
+<span id="cb29-16"><a href="panel.html#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb29-17"><a href="panel.html#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb29-18"><a href="panel.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="do">##          Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
+<span id="cb29-19"><a href="panel.html#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate   0.5848    0.07302    8.01 2.864e-10   0.4378   0.7318 46</span></span>
+<span id="cb29-20"><a href="panel.html#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb29-21"><a href="panel.html#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.5461 ,    Adjusted R-squared:  0.5361</span></span>
+<span id="cb29-22"><a href="panel.html#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared (proj. model):  0.4897 ,  Adjusted R-squared (proj. model):  0.4785 </span></span>
+<span id="cb29-23"><a href="panel.html#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic (proj. model): 64.15 on 1 and 46 DF,  p-value: 2.864e-10</span></span></code></pre></div>
+</div>
+<div id="実証例-6.5-都道府県効果と年効果" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.5 （都道府県効果と年効果）<a href="panel.html#実証例-6.5-都道府県効果と年効果" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(pp.239-240)</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="panel.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb30-2"><a href="panel.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="panel.html#cb30-3" aria-hidden="true" tabindex="-1"></a>model4 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate, </span>
+<span id="cb30-4"><a href="panel.html#cb30-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> mydata2, </span>
+<span id="cb30-5"><a href="panel.html#cb30-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fixed_effects =</span> <span class="sc">~</span> pref <span class="sc">+</span> <span class="fu">factor</span>(year),</span>
+<span id="cb30-6"><a href="panel.html#cb30-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">clusters =</span> pref, </span>
+<span id="cb30-7"><a href="panel.html#cb30-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb30-8"><a href="panel.html#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="panel.html#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model4)</span>
+<span id="cb30-10"><a href="panel.html#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb30-11"><a href="panel.html#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb30-12"><a href="panel.html#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="do">## lm_robust(formula = emp.rate ~ cap.rate, data = mydata2, clusters = pref, </span></span>
+<span id="cb30-13"><a href="panel.html#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="do">##     fixed_effects = ~pref + factor(year), se_type = &quot;stata&quot;)</span></span>
+<span id="cb30-14"><a href="panel.html#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb30-15"><a href="panel.html#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  stata </span></span>
+<span id="cb30-16"><a href="panel.html#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb30-17"><a href="panel.html#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients:</span></span>
+<span id="cb30-18"><a href="panel.html#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="do">##          Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF</span></span>
+<span id="cb30-19"><a href="panel.html#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate  0.09032    0.07357   1.228   0.2258 -0.05776   0.2384 46</span></span>
+<span id="cb30-20"><a href="panel.html#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb30-21"><a href="panel.html#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.9946 ,    Adjusted R-squared:  0.9917</span></span>
+<span id="cb30-22"><a href="panel.html#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared (proj. model):  0.02776 , Adjusted R-squared (proj. model):  -0.4958 </span></span>
+<span id="cb30-23"><a href="panel.html#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic (proj. model): 1.507 on 1 and 46 DF,  p-value: 0.2258</span></span></code></pre></div>
+</div>
+<div id="実証例-6.6-個別トレンドと年効果" class="section level2 unnumbered hasAnchor">
+<h2>実証例 6.6 （個別トレンドと年効果）<a href="panel.html#実証例-6.6-個別トレンドと年効果" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>(p.241)</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="panel.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb31-2"><a href="panel.html#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="panel.html#cb31-3" aria-hidden="true" tabindex="-1"></a>model5 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(emp.rate <span class="sc">~</span> cap.rate <span class="sc">+</span> pref <span class="sc">+</span> pref<span class="sc">:</span>year <span class="sc">+</span> <span class="fu">factor</span>(year),</span>
+<span id="cb31-4"><a href="panel.html#cb31-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> mydata2,</span>
+<span id="cb31-5"><a href="panel.html#cb31-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">clusters =</span> pref,</span>
+<span id="cb31-6"><a href="panel.html#cb31-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span>
+<span id="cb31-7"><a href="panel.html#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="panel.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model5)</span>
+<span id="cb31-9"><a href="panel.html#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 coefficient  not defined because the design matrix is rank deficient</span></span>
+<span id="cb31-10"><a href="panel.html#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb31-11"><a href="panel.html#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb31-12"><a href="panel.html#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="do">## lm_robust(formula = emp.rate ~ cap.rate + pref + pref:year + </span></span>
+<span id="cb31-13"><a href="panel.html#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="do">##     factor(year), data = mydata2, clusters = pref, se_type = &quot;stata&quot;)</span></span>
+<span id="cb31-14"><a href="panel.html#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb31-15"><a href="panel.html#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Standard error type:  stata </span></span>
+<span id="cb31-16"><a href="panel.html#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb31-17"><a href="panel.html#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Coefficients: (1 not defined because the design matrix is rank deficient)</span></span>
+<span id="cb31-18"><a href="panel.html#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="do">##                     Estimate Std. Error   t value  Pr(&gt;|t|)   CI Lower</span></span>
+<span id="cb31-19"><a href="panel.html#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)               NA         NA        NA        NA         NA</span></span>
+<span id="cb31-20"><a href="panel.html#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate           9.153e-02  1.712e-01   0.53463 5.955e-01 -2.531e-01</span></span>
+<span id="cb31-21"><a href="panel.html#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="do">## pref京都府        -2.872e+00  2.980e-01  -9.63677 1.303e-12 -3.472e+00</span></span>
+<span id="cb31-22"><a href="panel.html#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="do">## pref佐賀県         2.218e+00  1.039e+00   2.13478 3.814e-02  1.266e-01</span></span>
+<span id="cb31-23"><a href="panel.html#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="do">## pref兵庫県        -1.674e+00  3.097e-01  -5.40610 2.224e-06 -2.297e+00</span></span>
+<span id="cb31-24"><a href="panel.html#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="do">## pref北海道        -2.027e+00  3.720e-01  -5.44973 1.917e-06 -2.776e+00</span></span>
+<span id="cb31-25"><a href="panel.html#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="do">## pref千葉県         1.009e+00  8.236e-01   1.22458 2.270e-01 -6.492e-01</span></span>
+<span id="cb31-26"><a href="panel.html#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="do">## pref和歌山県      -2.425e+00  1.996e+00  -1.21507 2.305e-01 -6.443e+00</span></span>
+<span id="cb31-27"><a href="panel.html#cb31-27" aria-hidden="true" tabindex="-1"></a><span class="do">## pref埼玉県        -3.205e+00  2.345e-01 -13.66684 8.268e-18 -3.677e+00</span></span>
+<span id="cb31-28"><a href="panel.html#cb31-28" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大分県         5.074e-03  1.070e-01   0.04740 9.624e-01 -2.104e-01</span></span>
+<span id="cb31-29"><a href="panel.html#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大阪府        -3.545e+00  5.792e-01  -6.12045 1.910e-07 -4.710e+00</span></span>
+<span id="cb31-30"><a href="panel.html#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="do">## pref奈良県        -2.726e+00  2.286e-01 -11.92401 1.133e-15 -3.186e+00</span></span>
+<span id="cb31-31"><a href="panel.html#cb31-31" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮城県         6.645e+00  2.957e-01  22.47057 1.926e-26  6.050e+00</span></span>
+<span id="cb31-32"><a href="panel.html#cb31-32" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮崎県         8.787e-01  7.168e-02  12.25954 4.265e-16  7.344e-01</span></span>
+<span id="cb31-33"><a href="panel.html#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="do">## pref富山県         6.196e-01  2.014e+00   0.30765 7.597e-01 -3.434e+00</span></span>
+<span id="cb31-34"><a href="panel.html#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山口県         1.556e+00  2.694e-01   5.77686 6.247e-07  1.014e+00</span></span>
+<span id="cb31-35"><a href="panel.html#cb31-35" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山形県         1.262e+01  1.221e+00  10.34106 1.386e-13  1.017e+01</span></span>
+<span id="cb31-36"><a href="panel.html#cb31-36" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山梨県         1.025e+00  2.030e+00   0.50479 6.161e-01 -3.062e+00</span></span>
+<span id="cb31-37"><a href="panel.html#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岐阜県         1.822e+00  5.201e-01   3.50354 1.034e-03  7.752e-01</span></span>
+<span id="cb31-38"><a href="panel.html#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岡山県         1.027e+00  7.911e-01   1.29863 2.005e-01 -5.651e-01</span></span>
+<span id="cb31-39"><a href="panel.html#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岩手県         3.841e+00  2.154e+00   1.78307 8.117e-02 -4.950e-01</span></span>
+<span id="cb31-40"><a href="panel.html#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="do">## pref島根県        -2.456e+00  3.854e+00  -0.63729 5.271e-01 -1.021e+01</span></span>
+<span id="cb31-41"><a href="panel.html#cb31-41" aria-hidden="true" tabindex="-1"></a><span class="do">## pref広島県         1.248e+00  3.023e-01   4.12963 1.515e-04  6.398e-01</span></span>
+<span id="cb31-42"><a href="panel.html#cb31-42" aria-hidden="true" tabindex="-1"></a><span class="do">## pref徳島県         1.758e+00  5.669e-01   3.10055 3.294e-03  6.165e-01</span></span>
+<span id="cb31-43"><a href="panel.html#cb31-43" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛媛県        -4.405e-01  7.973e-01  -0.55244 5.833e-01 -2.045e+00</span></span>
+<span id="cb31-44"><a href="panel.html#cb31-44" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛知県         3.278e-01  7.286e-01   0.44993 6.549e-01 -1.139e+00</span></span>
+<span id="cb31-45"><a href="panel.html#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="do">## pref新潟県         3.478e+00  1.424e+00   2.44232 1.849e-02  6.115e-01</span></span>
+<span id="cb31-46"><a href="panel.html#cb31-46" aria-hidden="true" tabindex="-1"></a><span class="do">## pref東京都         7.338e-01  1.592e+00   0.46102 6.470e-01 -2.470e+00</span></span>
+<span id="cb31-47"><a href="panel.html#cb31-47" aria-hidden="true" tabindex="-1"></a><span class="do">## pref栃木県         3.625e+00  8.809e-02  41.15468 6.113e-38  3.448e+00</span></span>
+<span id="cb31-48"><a href="panel.html#cb31-48" aria-hidden="true" tabindex="-1"></a><span class="do">## pref沖縄県         4.900e-01  6.461e-01   0.75843 4.521e-01 -8.104e-01</span></span>
+<span id="cb31-49"><a href="panel.html#cb31-49" aria-hidden="true" tabindex="-1"></a><span class="do">## pref滋賀県         1.900e+00  2.319e-01   8.19405 1.533e-10  1.434e+00</span></span>
+<span id="cb31-50"><a href="panel.html#cb31-50" aria-hidden="true" tabindex="-1"></a><span class="do">## pref熊本県         3.927e+00  2.068e-01  18.98763 2.125e-23  3.511e+00</span></span>
+<span id="cb31-51"><a href="panel.html#cb31-51" aria-hidden="true" tabindex="-1"></a><span class="do">## pref石川県         3.910e-01  1.235e+00   0.31674 7.529e-01 -2.094e+00</span></span>
+<span id="cb31-52"><a href="panel.html#cb31-52" aria-hidden="true" tabindex="-1"></a><span class="do">## pref神奈川県      -6.634e-01  1.871e-01  -3.54668 9.101e-04 -1.040e+00</span></span>
+<span id="cb31-53"><a href="panel.html#cb31-53" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福井県         3.535e+00  1.824e+00   1.93829 5.874e-02 -1.361e-01</span></span>
+<span id="cb31-54"><a href="panel.html#cb31-54" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福岡県         1.498e+00  6.315e-01   2.37182 2.194e-02  2.266e-01</span></span>
+<span id="cb31-55"><a href="panel.html#cb31-55" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福島県         1.117e+01  5.085e-01  21.97247 4.955e-26  1.015e+01</span></span>
+<span id="cb31-56"><a href="panel.html#cb31-56" aria-hidden="true" tabindex="-1"></a><span class="do">## pref秋田県         1.732e+00  2.861e+00   0.60556 5.478e-01 -4.026e+00</span></span>
+<span id="cb31-57"><a href="panel.html#cb31-57" aria-hidden="true" tabindex="-1"></a><span class="do">## pref群馬県        -4.778e+00  1.219e+00  -3.92071 2.918e-04 -7.231e+00</span></span>
+<span id="cb31-58"><a href="panel.html#cb31-58" aria-hidden="true" tabindex="-1"></a><span class="do">## pref茨城県         1.526e+00  6.399e-01   2.38507 2.125e-02  2.382e-01</span></span>
+<span id="cb31-59"><a href="panel.html#cb31-59" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長崎県        -6.210e-01  1.310e+00  -0.47409 6.377e-01 -3.258e+00</span></span>
+<span id="cb31-60"><a href="panel.html#cb31-60" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長野県         2.193e+00  1.029e+00   2.13188 3.839e-02  1.224e-01</span></span>
+<span id="cb31-61"><a href="panel.html#cb31-61" aria-hidden="true" tabindex="-1"></a><span class="do">## pref青森県        -1.479e+00  2.071e+00  -0.71414 4.788e-01 -5.647e+00</span></span>
+<span id="cb31-62"><a href="panel.html#cb31-62" aria-hidden="true" tabindex="-1"></a><span class="do">## pref静岡県         1.469e+00  4.231e-01   3.47143 1.137e-03  6.172e-01</span></span>
+<span id="cb31-63"><a href="panel.html#cb31-63" aria-hidden="true" tabindex="-1"></a><span class="do">## pref香川県        -2.332e-01  1.591e-01  -1.46527 1.497e-01 -5.535e-01</span></span>
+<span id="cb31-64"><a href="panel.html#cb31-64" aria-hidden="true" tabindex="-1"></a><span class="do">## pref高知県         7.651e+00  3.197e-01  23.92762 1.338e-27  7.007e+00</span></span>
+<span id="cb31-65"><a href="panel.html#cb31-65" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鳥取県         1.845e+00  6.879e-01   2.68281 1.011e-02  4.608e-01</span></span>
+<span id="cb31-66"><a href="panel.html#cb31-66" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鹿児島県      -1.878e+00  3.171e-01  -5.92202 3.790e-07 -2.516e+00</span></span>
+<span id="cb31-67"><a href="panel.html#cb31-67" aria-hidden="true" tabindex="-1"></a><span class="do">## factor(year)2005   3.621e-02  5.450e-03   6.64355 3.126e-08  2.524e-02</span></span>
+<span id="cb31-68"><a href="panel.html#cb31-68" aria-hidden="true" tabindex="-1"></a><span class="do">## factor(year)2010   7.468e-02  1.193e-02   6.26138 1.173e-07  5.067e-02</span></span>
+<span id="cb31-69"><a href="panel.html#cb31-69" aria-hidden="true" tabindex="-1"></a><span class="do">## pref三重県:year    1.645e-04  3.027e-05   5.43399 2.023e-06  1.036e-04</span></span>
+<span id="cb31-70"><a href="panel.html#cb31-70" aria-hidden="true" tabindex="-1"></a><span class="do">## pref京都府:year    1.580e-03  1.206e-04  13.09579 3.974e-17  1.337e-03</span></span>
+<span id="cb31-71"><a href="panel.html#cb31-71" aria-hidden="true" tabindex="-1"></a><span class="do">## pref佐賀県:year   -8.904e-04  5.485e-04  -1.62323 1.114e-01 -1.995e-03</span></span>
+<span id="cb31-72"><a href="panel.html#cb31-72" aria-hidden="true" tabindex="-1"></a><span class="do">## pref兵庫県:year    9.560e-04  1.363e-04   7.01556 8.636e-09  6.817e-04</span></span>
+<span id="cb31-73"><a href="panel.html#cb31-73" aria-hidden="true" tabindex="-1"></a><span class="do">## pref北海道:year    1.147e-03  1.678e-04   6.83144 1.632e-08  8.088e-04</span></span>
+<span id="cb31-74"><a href="panel.html#cb31-74" aria-hidden="true" tabindex="-1"></a><span class="do">## pref千葉県:year   -3.812e-04  3.952e-04  -0.96474 3.397e-01 -1.177e-03</span></span>
+<span id="cb31-75"><a href="panel.html#cb31-75" aria-hidden="true" tabindex="-1"></a><span class="do">## pref和歌山県:year  1.346e-03  1.031e-03   1.30553 1.982e-01 -7.293e-04</span></span>
+<span id="cb31-76"><a href="panel.html#cb31-76" aria-hidden="true" tabindex="-1"></a><span class="do">## pref埼玉県:year    1.723e-03  1.040e-04  16.57567 5.033e-21  1.514e-03</span></span>
+<span id="cb31-77"><a href="panel.html#cb31-77" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大分県:year    1.766e-04  2.903e-05   6.08266 2.177e-07  1.181e-04</span></span>
+<span id="cb31-78"><a href="panel.html#cb31-78" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大阪府:year    1.880e-03  3.081e-04   6.10389 2.023e-07  1.260e-03</span></span>
+<span id="cb31-79"><a href="panel.html#cb31-79" aria-hidden="true" tabindex="-1"></a><span class="do">## pref奈良県:year    1.470e-03  1.376e-04  10.68435 4.755e-14  1.193e-03</span></span>
+<span id="cb31-80"><a href="panel.html#cb31-80" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮城県:year   -3.143e-03  1.619e-04 -19.40706 8.677e-24 -3.469e-03</span></span>
+<span id="cb31-81"><a href="panel.html#cb31-81" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮崎県:year   -2.219e-04  6.967e-05  -3.18427 2.604e-03 -3.621e-04</span></span>
+<span id="cb31-82"><a href="panel.html#cb31-82" aria-hidden="true" tabindex="-1"></a><span class="do">## pref富山県:year   -7.061e-05  1.047e-03  -0.06745 9.465e-01 -2.178e-03</span></span>
+<span id="cb31-83"><a href="panel.html#cb31-83" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山口県:year   -6.136e-04  1.079e-04  -5.68869 8.458e-07 -8.307e-04</span></span>
+<span id="cb31-84"><a href="panel.html#cb31-84" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山形県:year   -6.021e-03  6.334e-04  -9.50535 1.992e-12 -7.296e-03</span></span>
+<span id="cb31-85"><a href="panel.html#cb31-85" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山梨県:year   -3.364e-04  1.048e-03  -0.32100 7.497e-01 -2.446e-03</span></span>
+<span id="cb31-86"><a href="panel.html#cb31-86" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岐阜県:year   -7.488e-04  2.898e-04  -2.58330 1.303e-02 -1.332e-03</span></span>
+<span id="cb31-87"><a href="panel.html#cb31-87" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岡山県:year   -3.387e-04  4.218e-04  -0.80301 4.261e-01 -1.188e-03</span></span>
+<span id="cb31-88"><a href="panel.html#cb31-88" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岩手県:year   -1.691e-03  1.102e-03  -1.53400 1.319e-01 -3.909e-03</span></span>
+<span id="cb31-89"><a href="panel.html#cb31-89" aria-hidden="true" tabindex="-1"></a><span class="do">## pref島根県:year    1.476e-03  1.961e-03   0.75263 4.555e-01 -2.471e-03</span></span>
+<span id="cb31-90"><a href="panel.html#cb31-90" aria-hidden="true" tabindex="-1"></a><span class="do">## pref広島県:year   -4.638e-04  1.783e-04  -2.60123 1.245e-02 -8.227e-04</span></span>
+<span id="cb31-91"><a href="panel.html#cb31-91" aria-hidden="true" tabindex="-1"></a><span class="do">## pref徳島県:year   -6.795e-04  3.147e-04  -2.15953 3.606e-02 -1.313e-03</span></span>
+<span id="cb31-92"><a href="panel.html#cb31-92" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛媛県:year    3.762e-04  3.701e-04   1.01644 3.147e-01 -3.688e-04</span></span>
+<span id="cb31-93"><a href="panel.html#cb31-93" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛知県:year   -2.572e-05  3.374e-04  -0.07623 9.396e-01 -7.049e-04</span></span>
+<span id="cb31-94"><a href="panel.html#cb31-94" aria-hidden="true" tabindex="-1"></a><span class="do">## pref新潟県:year   -1.503e-03  7.503e-04  -2.00368 5.101e-02 -3.013e-03</span></span>
+<span id="cb31-95"><a href="panel.html#cb31-95" aria-hidden="true" tabindex="-1"></a><span class="do">## pref東京都:year   -2.339e-04  7.729e-04  -0.30257 7.636e-01 -1.790e-03</span></span>
+<span id="cb31-96"><a href="panel.html#cb31-96" aria-hidden="true" tabindex="-1"></a><span class="do">## pref栃木県:year   -1.633e-03  6.269e-05 -26.04540 3.518e-29 -1.759e-03</span></span>
+<span id="cb31-97"><a href="panel.html#cb31-97" aria-hidden="true" tabindex="-1"></a><span class="do">## pref沖縄県:year   -4.421e-05  3.427e-04  -0.12902 8.979e-01 -7.340e-04</span></span>
+<span id="cb31-98"><a href="panel.html#cb31-98" aria-hidden="true" tabindex="-1"></a><span class="do">## pref滋賀県:year   -7.992e-04  9.387e-05  -8.51357 5.234e-11 -9.881e-04</span></span>
+<span id="cb31-99"><a href="panel.html#cb31-99" aria-hidden="true" tabindex="-1"></a><span class="do">## pref熊本県:year   -1.746e-03  6.820e-05 -25.60405 7.347e-29 -1.884e-03</span></span>
+<span id="cb31-100"><a href="panel.html#cb31-100" aria-hidden="true" tabindex="-1"></a><span class="do">## pref石川県:year    3.479e-05  6.636e-04   0.05243 9.584e-01 -1.301e-03</span></span>
+<span id="cb31-101"><a href="panel.html#cb31-101" aria-hidden="true" tabindex="-1"></a><span class="do">## pref神奈川県:year  4.400e-04  8.176e-05   5.38140 2.420e-06  2.754e-04</span></span>
+<span id="cb31-102"><a href="panel.html#cb31-102" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福井県:year   -1.520e-03  9.530e-04  -1.59461 1.176e-01 -3.438e-03</span></span>
+<span id="cb31-103"><a href="panel.html#cb31-103" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福岡県:year   -5.911e-04  2.895e-04  -2.04146 4.696e-02 -1.174e-03</span></span>
+<span id="cb31-104"><a href="panel.html#cb31-104" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福島県:year   -5.360e-03  2.700e-04 -19.85146 3.414e-24 -5.903e-03</span></span>
+<span id="cb31-105"><a href="panel.html#cb31-105" aria-hidden="true" tabindex="-1"></a><span class="do">## pref秋田県:year   -6.235e-04  1.460e-03  -0.42714 6.713e-01 -3.562e-03</span></span>
+<span id="cb31-106"><a href="panel.html#cb31-106" aria-hidden="true" tabindex="-1"></a><span class="do">## pref群馬県:year    2.554e-03  6.348e-04   4.02398 2.114e-04  1.277e-03</span></span>
+<span id="cb31-107"><a href="panel.html#cb31-107" aria-hidden="true" tabindex="-1"></a><span class="do">## pref茨城県:year   -6.014e-04  3.372e-04  -1.78371 8.107e-02 -1.280e-03</span></span>
+<span id="cb31-108"><a href="panel.html#cb31-108" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長崎県:year    5.084e-04  6.835e-04   0.74377 4.608e-01 -8.675e-04</span></span>
+<span id="cb31-109"><a href="panel.html#cb31-109" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長野県:year   -9.270e-04  5.525e-04  -1.67763 1.002e-01 -2.039e-03</span></span>
+<span id="cb31-110"><a href="panel.html#cb31-110" aria-hidden="true" tabindex="-1"></a><span class="do">## pref青森県:year    9.522e-04  1.070e-03   0.88980 3.782e-01 -1.202e-03</span></span>
+<span id="cb31-111"><a href="panel.html#cb31-111" aria-hidden="true" tabindex="-1"></a><span class="do">## pref静岡県:year   -5.695e-04  1.941e-04  -2.93476 5.194e-03 -9.601e-04</span></span>
+<span id="cb31-112"><a href="panel.html#cb31-112" aria-hidden="true" tabindex="-1"></a><span class="do">## pref香川県:year    3.020e-04  1.086e-04   2.77994 7.850e-03  8.334e-05</span></span>
+<span id="cb31-113"><a href="panel.html#cb31-113" aria-hidden="true" tabindex="-1"></a><span class="do">## pref高知県:year   -3.589e-03  1.098e-04 -32.70362 1.692e-33 -3.810e-03</span></span>
+<span id="cb31-114"><a href="panel.html#cb31-114" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鳥取県:year   -6.802e-04  3.858e-04  -1.76288 8.456e-02 -1.457e-03</span></span>
+<span id="cb31-115"><a href="panel.html#cb31-115" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鹿児島県:year  1.115e-03  1.334e-04   8.35871 8.801e-11  8.468e-04</span></span>
+<span id="cb31-116"><a href="panel.html#cb31-116" aria-hidden="true" tabindex="-1"></a><span class="do">##                     CI Upper DF</span></span>
+<span id="cb31-117"><a href="panel.html#cb31-117" aria-hidden="true" tabindex="-1"></a><span class="do">## (Intercept)               NA NA</span></span>
+<span id="cb31-118"><a href="panel.html#cb31-118" aria-hidden="true" tabindex="-1"></a><span class="do">## cap.rate           4.361e-01 46</span></span>
+<span id="cb31-119"><a href="panel.html#cb31-119" aria-hidden="true" tabindex="-1"></a><span class="do">## pref京都府        -2.272e+00 46</span></span>
+<span id="cb31-120"><a href="panel.html#cb31-120" aria-hidden="true" tabindex="-1"></a><span class="do">## pref佐賀県         4.309e+00 46</span></span>
+<span id="cb31-121"><a href="panel.html#cb31-121" aria-hidden="true" tabindex="-1"></a><span class="do">## pref兵庫県        -1.051e+00 46</span></span>
+<span id="cb31-122"><a href="panel.html#cb31-122" aria-hidden="true" tabindex="-1"></a><span class="do">## pref北海道        -1.278e+00 46</span></span>
+<span id="cb31-123"><a href="panel.html#cb31-123" aria-hidden="true" tabindex="-1"></a><span class="do">## pref千葉県         2.666e+00 46</span></span>
+<span id="cb31-124"><a href="panel.html#cb31-124" aria-hidden="true" tabindex="-1"></a><span class="do">## pref和歌山県       1.592e+00 46</span></span>
+<span id="cb31-125"><a href="panel.html#cb31-125" aria-hidden="true" tabindex="-1"></a><span class="do">## pref埼玉県        -2.733e+00 46</span></span>
+<span id="cb31-126"><a href="panel.html#cb31-126" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大分県         2.205e-01 46</span></span>
+<span id="cb31-127"><a href="panel.html#cb31-127" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大阪府        -2.379e+00 46</span></span>
+<span id="cb31-128"><a href="panel.html#cb31-128" aria-hidden="true" tabindex="-1"></a><span class="do">## pref奈良県        -2.266e+00 46</span></span>
+<span id="cb31-129"><a href="panel.html#cb31-129" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮城県         7.240e+00 46</span></span>
+<span id="cb31-130"><a href="panel.html#cb31-130" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮崎県         1.023e+00 46</span></span>
+<span id="cb31-131"><a href="panel.html#cb31-131" aria-hidden="true" tabindex="-1"></a><span class="do">## pref富山県         4.674e+00 46</span></span>
+<span id="cb31-132"><a href="panel.html#cb31-132" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山口県         2.099e+00 46</span></span>
+<span id="cb31-133"><a href="panel.html#cb31-133" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山形県         1.508e+01 46</span></span>
+<span id="cb31-134"><a href="panel.html#cb31-134" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山梨県         5.112e+00 46</span></span>
+<span id="cb31-135"><a href="panel.html#cb31-135" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岐阜県         2.869e+00 46</span></span>
+<span id="cb31-136"><a href="panel.html#cb31-136" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岡山県         2.620e+00 46</span></span>
+<span id="cb31-137"><a href="panel.html#cb31-137" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岩手県         8.176e+00 46</span></span>
+<span id="cb31-138"><a href="panel.html#cb31-138" aria-hidden="true" tabindex="-1"></a><span class="do">## pref島根県         5.301e+00 46</span></span>
+<span id="cb31-139"><a href="panel.html#cb31-139" aria-hidden="true" tabindex="-1"></a><span class="do">## pref広島県         1.857e+00 46</span></span>
+<span id="cb31-140"><a href="panel.html#cb31-140" aria-hidden="true" tabindex="-1"></a><span class="do">## pref徳島県         2.899e+00 46</span></span>
+<span id="cb31-141"><a href="panel.html#cb31-141" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛媛県         1.164e+00 46</span></span>
+<span id="cb31-142"><a href="panel.html#cb31-142" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛知県         1.795e+00 46</span></span>
+<span id="cb31-143"><a href="panel.html#cb31-143" aria-hidden="true" tabindex="-1"></a><span class="do">## pref新潟県         6.344e+00 46</span></span>
+<span id="cb31-144"><a href="panel.html#cb31-144" aria-hidden="true" tabindex="-1"></a><span class="do">## pref東京都         3.938e+00 46</span></span>
+<span id="cb31-145"><a href="panel.html#cb31-145" aria-hidden="true" tabindex="-1"></a><span class="do">## pref栃木県         3.803e+00 46</span></span>
+<span id="cb31-146"><a href="panel.html#cb31-146" aria-hidden="true" tabindex="-1"></a><span class="do">## pref沖縄県         1.790e+00 46</span></span>
+<span id="cb31-147"><a href="panel.html#cb31-147" aria-hidden="true" tabindex="-1"></a><span class="do">## pref滋賀県         2.367e+00 46</span></span>
+<span id="cb31-148"><a href="panel.html#cb31-148" aria-hidden="true" tabindex="-1"></a><span class="do">## pref熊本県         4.343e+00 46</span></span>
+<span id="cb31-149"><a href="panel.html#cb31-149" aria-hidden="true" tabindex="-1"></a><span class="do">## pref石川県         2.876e+00 46</span></span>
+<span id="cb31-150"><a href="panel.html#cb31-150" aria-hidden="true" tabindex="-1"></a><span class="do">## pref神奈川県      -2.869e-01 46</span></span>
+<span id="cb31-151"><a href="panel.html#cb31-151" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福井県         7.206e+00 46</span></span>
+<span id="cb31-152"><a href="panel.html#cb31-152" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福岡県         2.769e+00 46</span></span>
+<span id="cb31-153"><a href="panel.html#cb31-153" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福島県         1.220e+01 46</span></span>
+<span id="cb31-154"><a href="panel.html#cb31-154" aria-hidden="true" tabindex="-1"></a><span class="do">## pref秋田県         7.491e+00 46</span></span>
+<span id="cb31-155"><a href="panel.html#cb31-155" aria-hidden="true" tabindex="-1"></a><span class="do">## pref群馬県        -2.325e+00 46</span></span>
+<span id="cb31-156"><a href="panel.html#cb31-156" aria-hidden="true" tabindex="-1"></a><span class="do">## pref茨城県         2.814e+00 46</span></span>
+<span id="cb31-157"><a href="panel.html#cb31-157" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長崎県         2.016e+00 46</span></span>
+<span id="cb31-158"><a href="panel.html#cb31-158" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長野県         4.263e+00 46</span></span>
+<span id="cb31-159"><a href="panel.html#cb31-159" aria-hidden="true" tabindex="-1"></a><span class="do">## pref青森県         2.689e+00 46</span></span>
+<span id="cb31-160"><a href="panel.html#cb31-160" aria-hidden="true" tabindex="-1"></a><span class="do">## pref静岡県         2.321e+00 46</span></span>
+<span id="cb31-161"><a href="panel.html#cb31-161" aria-hidden="true" tabindex="-1"></a><span class="do">## pref香川県         8.715e-02 46</span></span>
+<span id="cb31-162"><a href="panel.html#cb31-162" aria-hidden="true" tabindex="-1"></a><span class="do">## pref高知県         8.294e+00 46</span></span>
+<span id="cb31-163"><a href="panel.html#cb31-163" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鳥取県         3.230e+00 46</span></span>
+<span id="cb31-164"><a href="panel.html#cb31-164" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鹿児島県      -1.240e+00 46</span></span>
+<span id="cb31-165"><a href="panel.html#cb31-165" aria-hidden="true" tabindex="-1"></a><span class="do">## factor(year)2005   4.718e-02 46</span></span>
+<span id="cb31-166"><a href="panel.html#cb31-166" aria-hidden="true" tabindex="-1"></a><span class="do">## factor(year)2010   9.869e-02 46</span></span>
+<span id="cb31-167"><a href="panel.html#cb31-167" aria-hidden="true" tabindex="-1"></a><span class="do">## pref三重県:year    2.254e-04 46</span></span>
+<span id="cb31-168"><a href="panel.html#cb31-168" aria-hidden="true" tabindex="-1"></a><span class="do">## pref京都府:year    1.822e-03 46</span></span>
+<span id="cb31-169"><a href="panel.html#cb31-169" aria-hidden="true" tabindex="-1"></a><span class="do">## pref佐賀県:year    2.137e-04 46</span></span>
+<span id="cb31-170"><a href="panel.html#cb31-170" aria-hidden="true" tabindex="-1"></a><span class="do">## pref兵庫県:year    1.230e-03 46</span></span>
+<span id="cb31-171"><a href="panel.html#cb31-171" aria-hidden="true" tabindex="-1"></a><span class="do">## pref北海道:year    1.484e-03 46</span></span>
+<span id="cb31-172"><a href="panel.html#cb31-172" aria-hidden="true" tabindex="-1"></a><span class="do">## pref千葉県:year    4.142e-04 46</span></span>
+<span id="cb31-173"><a href="panel.html#cb31-173" aria-hidden="true" tabindex="-1"></a><span class="do">## pref和歌山県:year  3.421e-03 46</span></span>
+<span id="cb31-174"><a href="panel.html#cb31-174" aria-hidden="true" tabindex="-1"></a><span class="do">## pref埼玉県:year    1.933e-03 46</span></span>
+<span id="cb31-175"><a href="panel.html#cb31-175" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大分県:year    2.350e-04 46</span></span>
+<span id="cb31-176"><a href="panel.html#cb31-176" aria-hidden="true" tabindex="-1"></a><span class="do">## pref大阪府:year    2.501e-03 46</span></span>
+<span id="cb31-177"><a href="panel.html#cb31-177" aria-hidden="true" tabindex="-1"></a><span class="do">## pref奈良県:year    1.747e-03 46</span></span>
+<span id="cb31-178"><a href="panel.html#cb31-178" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮城県:year   -2.817e-03 46</span></span>
+<span id="cb31-179"><a href="panel.html#cb31-179" aria-hidden="true" tabindex="-1"></a><span class="do">## pref宮崎県:year   -8.161e-05 46</span></span>
+<span id="cb31-180"><a href="panel.html#cb31-180" aria-hidden="true" tabindex="-1"></a><span class="do">## pref富山県:year    2.037e-03 46</span></span>
+<span id="cb31-181"><a href="panel.html#cb31-181" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山口県:year   -3.965e-04 46</span></span>
+<span id="cb31-182"><a href="panel.html#cb31-182" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山形県:year   -4.746e-03 46</span></span>
+<span id="cb31-183"><a href="panel.html#cb31-183" aria-hidden="true" tabindex="-1"></a><span class="do">## pref山梨県:year    1.773e-03 46</span></span>
+<span id="cb31-184"><a href="panel.html#cb31-184" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岐阜県:year   -1.653e-04 46</span></span>
+<span id="cb31-185"><a href="panel.html#cb31-185" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岡山県:year    5.103e-04 46</span></span>
+<span id="cb31-186"><a href="panel.html#cb31-186" aria-hidden="true" tabindex="-1"></a><span class="do">## pref岩手県:year    5.278e-04 46</span></span>
+<span id="cb31-187"><a href="panel.html#cb31-187" aria-hidden="true" tabindex="-1"></a><span class="do">## pref島根県:year    5.422e-03 46</span></span>
+<span id="cb31-188"><a href="panel.html#cb31-188" aria-hidden="true" tabindex="-1"></a><span class="do">## pref広島県:year   -1.049e-04 46</span></span>
+<span id="cb31-189"><a href="panel.html#cb31-189" aria-hidden="true" tabindex="-1"></a><span class="do">## pref徳島県:year   -4.614e-05 46</span></span>
+<span id="cb31-190"><a href="panel.html#cb31-190" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛媛県:year    1.121e-03 46</span></span>
+<span id="cb31-191"><a href="panel.html#cb31-191" aria-hidden="true" tabindex="-1"></a><span class="do">## pref愛知県:year    6.534e-04 46</span></span>
+<span id="cb31-192"><a href="panel.html#cb31-192" aria-hidden="true" tabindex="-1"></a><span class="do">## pref新潟県:year    6.915e-06 46</span></span>
+<span id="cb31-193"><a href="panel.html#cb31-193" aria-hidden="true" tabindex="-1"></a><span class="do">## pref東京都:year    1.322e-03 46</span></span>
+<span id="cb31-194"><a href="panel.html#cb31-194" aria-hidden="true" tabindex="-1"></a><span class="do">## pref栃木県:year   -1.507e-03 46</span></span>
+<span id="cb31-195"><a href="panel.html#cb31-195" aria-hidden="true" tabindex="-1"></a><span class="do">## pref沖縄県:year    6.456e-04 46</span></span>
+<span id="cb31-196"><a href="panel.html#cb31-196" aria-hidden="true" tabindex="-1"></a><span class="do">## pref滋賀県:year   -6.102e-04 46</span></span>
+<span id="cb31-197"><a href="panel.html#cb31-197" aria-hidden="true" tabindex="-1"></a><span class="do">## pref熊本県:year   -1.609e-03 46</span></span>
+<span id="cb31-198"><a href="panel.html#cb31-198" aria-hidden="true" tabindex="-1"></a><span class="do">## pref石川県:year    1.370e-03 46</span></span>
+<span id="cb31-199"><a href="panel.html#cb31-199" aria-hidden="true" tabindex="-1"></a><span class="do">## pref神奈川県:year  6.045e-04 46</span></span>
+<span id="cb31-200"><a href="panel.html#cb31-200" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福井県:year    3.986e-04 46</span></span>
+<span id="cb31-201"><a href="panel.html#cb31-201" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福岡県:year   -8.272e-06 46</span></span>
+<span id="cb31-202"><a href="panel.html#cb31-202" aria-hidden="true" tabindex="-1"></a><span class="do">## pref福島県:year   -4.816e-03 46</span></span>
+<span id="cb31-203"><a href="panel.html#cb31-203" aria-hidden="true" tabindex="-1"></a><span class="do">## pref秋田県:year    2.315e-03 46</span></span>
+<span id="cb31-204"><a href="panel.html#cb31-204" aria-hidden="true" tabindex="-1"></a><span class="do">## pref群馬県:year    3.832e-03 46</span></span>
+<span id="cb31-205"><a href="panel.html#cb31-205" aria-hidden="true" tabindex="-1"></a><span class="do">## pref茨城県:year    7.728e-05 46</span></span>
+<span id="cb31-206"><a href="panel.html#cb31-206" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長崎県:year    1.884e-03 46</span></span>
+<span id="cb31-207"><a href="panel.html#cb31-207" aria-hidden="true" tabindex="-1"></a><span class="do">## pref長野県:year    1.852e-04 46</span></span>
+<span id="cb31-208"><a href="panel.html#cb31-208" aria-hidden="true" tabindex="-1"></a><span class="do">## pref青森県:year    3.106e-03 46</span></span>
+<span id="cb31-209"><a href="panel.html#cb31-209" aria-hidden="true" tabindex="-1"></a><span class="do">## pref静岡県:year   -1.789e-04 46</span></span>
+<span id="cb31-210"><a href="panel.html#cb31-210" aria-hidden="true" tabindex="-1"></a><span class="do">## pref香川県:year    5.207e-04 46</span></span>
+<span id="cb31-211"><a href="panel.html#cb31-211" aria-hidden="true" tabindex="-1"></a><span class="do">## pref高知県:year   -3.368e-03 46</span></span>
+<span id="cb31-212"><a href="panel.html#cb31-212" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鳥取県:year    9.646e-05 46</span></span>
+<span id="cb31-213"><a href="panel.html#cb31-213" aria-hidden="true" tabindex="-1"></a><span class="do">## pref鹿児島県:year  1.384e-03 46</span></span>
+<span id="cb31-214"><a href="panel.html#cb31-214" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb31-215"><a href="panel.html#cb31-215" aria-hidden="true" tabindex="-1"></a><span class="do">## Multiple R-squared:  0.9994 ,    Adjusted R-squared:  0.9982 </span></span>
+<span id="cb31-216"><a href="panel.html#cb31-216" aria-hidden="true" tabindex="-1"></a><span class="do">## F-statistic:    NA on 95 and 46 DF,  p-value: NA</span></span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="iv.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

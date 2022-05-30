@@ -1,0 +1,6 @@
+book_filename: "rfornishiyamaetal"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: ""
+output_dir: "docs"

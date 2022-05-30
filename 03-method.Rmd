@@ -1,0 +1,29 @@
+# 第3章 統計理論の基礎 {-#ch3}
+
+## 練習問題 3-2 {-}
+
+```{r collapse=T}
+mydata <- read.csv("02_practice_01.csv", header = F)
+
+mu <- 8 # 帰無仮説のもとでの母平均
+xbar <- mean(mydata$V1) # 標本平均
+sig2 <- var(mydata$V1) # 不偏分散
+sig <- sqrt(sig2) # 標準偏差
+n <- length(mydata$V1) # サンプルサイズ
+se <- sig / sqrt(n) # 標準誤差
+  
+tscore <- (xbar - mu) / se # t統計量
+dof <- n - 1 # 自由度
+
+pval <- 2 * pt(abs(tscore), df = dof, lower.tail = F) # p値
+pval
+```
+
+## 補足 {-}
+
+`t.test()`関数を用いれば簡単にt検定を実施できます．
+
+```{r collapse=T}
+t.test(mydata$V1, mu = 8)
+```
+

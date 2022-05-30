@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第9章 政策評価モデル | 西山 他『計量経済学』のためのR</title>
+  <meta name="description" content="第9章 政策評価モデル | 西山 他『計量経済学』のためのR" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第9章 政策評価モデル | 西山 他『計量経済学』のためのR" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第9章 政策評価モデル | 西山 他『計量経済学』のためのR" />
+  
+  
+  
+
+<meta name="author" content="北川梨津" />
+
+
+<meta name="date" content="2020-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="restricted.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">西山 他『計量経済学』のためのR</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>はじめに</a></li>
+<li class="chapter" data-level="" data-path="caution.html"><a href="caution.html"><i class="fa fa-check"></i>おことわり</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i>第2章 データの整理と確率変数の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-1"><i class="fa fa-check"></i>練習問題 2-1</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#練習問題-2-3"><i class="fa fa-check"></i>練習問題 2-3</a></li>
+<li class="chapter" data-level="" data-path="ch2.html"><a href="ch2.html#補足"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i>第3章 統計理論の基礎</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#練習問題-3-2"><i class="fa fa-check"></i>練習問題 3-2</a></li>
+<li class="chapter" data-level="" data-path="ch3.html"><a href="ch3.html#補足-1"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i>第4章 線形単回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#実証例-4.1-線形単回帰"><i class="fa fa-check"></i>実証例 4.1 （線形単回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#練習問題-4-2"><i class="fa fa-check"></i>練習問題 4-2</a></li>
+<li class="chapter" data-level="" data-path="ch4.html"><a href="ch4.html#補足-2"><i class="fa fa-check"></i>補足</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i>第5章 線形重回帰モデルの推定と検定</a>
+<ul>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.1-線形重回帰"><i class="fa fa-check"></i>実証例 5.1 （線形重回帰）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.2-fwl定理１"><i class="fa fa-check"></i>実証例 5.2 （FWL定理１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.3-fwl定理２"><i class="fa fa-check"></i>実証例 5.3 （FWL定理２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.4-標準誤差"><i class="fa fa-check"></i>実証例 5.4 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.5-多項式モデル"><i class="fa fa-check"></i>実証例 5.5 （多項式モデル）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.6-交差項１"><i class="fa fa-check"></i>実証例 5.6 （交差項１）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.7-交差項２"><i class="fa fa-check"></i>実証例 5.7 （交差項２）</a></li>
+<li class="chapter" data-level="" data-path="ch5.html"><a href="ch5.html#実証例-5.8-結合仮説"><i class="fa fa-check"></i>実証例 5.8 （結合仮説）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html"><i class="fa fa-check"></i>第6章 パネルデータ分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.1-固定効果推定"><i class="fa fa-check"></i>実証例 6.1 （固定効果推定）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.2-標準誤差"><i class="fa fa-check"></i>実証例 6.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.3-プールされたols"><i class="fa fa-check"></i>実証例 6.3 （プールされたOLS）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.4-時間効果"><i class="fa fa-check"></i>実証例 6.4 （時間効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.5-都道府県効果と年効果"><i class="fa fa-check"></i>実証例 6.5 （都道府県効果と年効果）</a></li>
+<li class="chapter" data-level="" data-path="panel.html"><a href="panel.html#実証例-6.6-個別トレンドと年効果"><i class="fa fa-check"></i>実証例 6.6 （個別トレンドと年効果）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html"><i class="fa fa-check"></i>第7章 操作変数法</a>
+<ul>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.1-単回帰"><i class="fa fa-check"></i>実証例 7.1 （単回帰）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.2-標準誤差"><i class="fa fa-check"></i>実証例 7.2 （標準誤差）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.3-2sls推定"><i class="fa fa-check"></i>実証例 7.3 （2SLS推定）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.4-操作変数の強さ"><i class="fa fa-check"></i>実証例 7.4 （操作変数の強さ）</a></li>
+<li class="chapter" data-level="" data-path="iv.html"><a href="iv.html#実証例-7.5-外生性の検定"><i class="fa fa-check"></i>実証例 7.5 （外生性の検定）</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html"><i class="fa fa-check"></i>第8章 制限従属変数モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.1-ロジットとプロビット"><i class="fa fa-check"></i>実証例 8.1 （ロジットとプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#線形確率モデル"><i class="fa fa-check"></i>線形確率モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#プロビットモデル"><i class="fa fa-check"></i>プロビット・モデル</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ロジットモデル"><i class="fa fa-check"></i>ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.2-順序付きプロビット"><i class="fa fa-check"></i>実証例 8.2 （順序付きプロビット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-1"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#順序付きプロビットモデル"><i class="fa fa-check"></i>順序付きプロビット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例-8.3-多項ロジット"><i class="fa fa-check"></i>実証例 8.3 （多項ロジット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-2"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#多項ロジットモデル"><i class="fa fa-check"></i>多項ロジット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.4-トービット"><i class="fa fa-check"></i>実証例8.4 （トービット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-3"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#トービットモデル"><i class="fa fa-check"></i>トービット・モデル</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#実証例8.5-ヘキット"><i class="fa fa-check"></i>実証例8.5 （ヘキット）</a>
+<ul>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#データの読み込み加工-4"><i class="fa fa-check"></i>データの読み込み・加工</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ols-1"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="restricted.html"><a href="restricted.html#ヘキットモデル"><i class="fa fa-check"></i>ヘキット・モデル</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html"><i class="fa fa-check"></i>第9章 政策評価モデル</a>
+<ul>
+<li class="chapter" data-level="" data-path="ci.html"><a href="ci.html#図-9-5"><i class="fa fa-check"></i>図 9-5</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">西山 他『計量経済学』のためのR</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ci" class="section level1 unnumbered hasAnchor">
+<h1>第9章 政策評価モデル<a href="ci.html#ci" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>実証例が少なくて寂しいですね．第2版で増えることを祈りましょう．</p>
+<div id="図-9-5" class="section level2 unnumbered hasAnchor">
+<h2>図 9-5<a href="ci.html#図-9-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>もっと良い描き方がありそうです．あったら，教えてください．</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="ci.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb69-2"><a href="ci.html#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="ci.html#cb69-3" aria-hidden="true" tabindex="-1"></a>munic1 <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">&quot;munic.dta&quot;</span>)</span>
+<span id="cb69-4"><a href="ci.html#cb69-4" aria-hidden="true" tabindex="-1"></a>munic1<span class="sc">$</span>bin_voters96 <span class="ot">&lt;-</span> <span class="fu">cut</span>(munic1<span class="sc">$</span>voters96, </span>
+<span id="cb69-5"><a href="ci.html#cb69-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">500</span>, <span class="dv">200000</span>, <span class="dv">4000</span>)), </span>
+<span id="cb69-6"><a href="ci.html#cb69-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labels =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">2500</span>, <span class="dv">198000</span>, <span class="dv">4000</span>)))</span>
+<span id="cb69-7"><a href="ci.html#cb69-7" aria-hidden="true" tabindex="-1"></a>munic2 <span class="ot">&lt;-</span> munic1 <span class="sc">%&gt;%</span> </span>
+<span id="cb69-8"><a href="ci.html#cb69-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(voters96, bin_voters96, r_util94, r_util98, r_util02) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-9"><a href="ci.html#cb69-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(bin_voters96) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-10"><a href="ci.html#cb69-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bin_util94 =</span> <span class="fu">mean</span>(r_util94, <span class="at">na.rm =</span> T), </span>
+<span id="cb69-11"><a href="ci.html#cb69-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">bin_util98 =</span> <span class="fu">mean</span>(r_util98, <span class="at">na.rm =</span> T),</span>
+<span id="cb69-12"><a href="ci.html#cb69-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">bin_util02 =</span> <span class="fu">mean</span>(r_util02, <span class="at">na.rm =</span> T),</span>
+<span id="cb69-13"><a href="ci.html#cb69-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb69-14"><a href="ci.html#cb69-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-15"><a href="ci.html#cb69-15" aria-hidden="true" tabindex="-1"></a>munic4plot <span class="ot">&lt;-</span> munic2 <span class="sc">%&gt;%</span> </span>
+<span id="cb69-16"><a href="ci.html#cb69-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(r_util94, r_util98, r_util02, voters96,</span>
+<span id="cb69-17"><a href="ci.html#cb69-17" aria-hidden="true" tabindex="-1"></a>         bin_voters96, bin_util94, bin_util98, bin_util02) <span class="sc">%&gt;%</span> </span>
+<span id="cb69-18"><a href="ci.html#cb69-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(r_util94, r_util98, r_util02, voters96, bin_voters96),</span>
+<span id="cb69-19"><a href="ci.html#cb69-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, </span>
+<span id="cb69-20"><a href="ci.html#cb69-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;turnout&quot;</span>)</span>
+<span id="cb69-21"><a href="ci.html#cb69-21" aria-hidden="true" tabindex="-1"></a>munic4plot<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">factor</span>(munic4plot<span class="sc">$</span>year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;bin_util94&quot;</span>, <span class="st">&quot;bin_util98&quot;</span>, <span class="st">&quot;bin_util02&quot;</span>))</span>
+<span id="cb69-22"><a href="ci.html#cb69-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-23"><a href="ci.html#cb69-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-24"><a href="ci.html#cb69-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-25"><a href="ci.html#cb69-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(munic4plot, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(<span class="fu">as.character</span>(bin_voters96)), </span>
+<span id="cb69-26"><a href="ci.html#cb69-26" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> turnout, </span>
+<span id="cb69-27"><a href="ci.html#cb69-27" aria-hidden="true" tabindex="-1"></a>                       <span class="at">colour =</span> year)) <span class="sc">+</span></span>
+<span id="cb69-28"><a href="ci.html#cb69-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb69-29"><a href="ci.html#cb69-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util94, <span class="at">colour =</span> <span class="st">&quot;bin_util94&quot;</span>), </span>
+<span id="cb69-30"><a href="ci.html#cb69-30" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">5000</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">40500</span>),</span>
+<span id="cb69-31"><a href="ci.html#cb69-31" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-32"><a href="ci.html#cb69-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util94, <span class="at">colour =</span> <span class="st">&quot;bin_util94&quot;</span>), </span>
+<span id="cb69-33"><a href="ci.html#cb69-33" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">40500</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">100000</span>),</span>
+<span id="cb69-34"><a href="ci.html#cb69-34" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-35"><a href="ci.html#cb69-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util98, <span class="at">colour =</span> <span class="st">&quot;bin_util98&quot;</span>), </span>
+<span id="cb69-36"><a href="ci.html#cb69-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">5000</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">40500</span>),</span>
+<span id="cb69-37"><a href="ci.html#cb69-37" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-38"><a href="ci.html#cb69-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util98, <span class="at">colour =</span> <span class="st">&quot;bin_util98&quot;</span>), </span>
+<span id="cb69-39"><a href="ci.html#cb69-39" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">40500</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">100000</span>),</span>
+<span id="cb69-40"><a href="ci.html#cb69-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-41"><a href="ci.html#cb69-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util02, <span class="at">colour =</span> <span class="st">&quot;bin_util02&quot;</span>), </span>
+<span id="cb69-42"><a href="ci.html#cb69-42" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">5000</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">40500</span>),</span>
+<span id="cb69-43"><a href="ci.html#cb69-43" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-44"><a href="ci.html#cb69-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> voters96, <span class="at">y =</span> r_util02, <span class="at">colour =</span> <span class="st">&quot;bin_util02&quot;</span>), </span>
+<span id="cb69-45"><a href="ci.html#cb69-45" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> <span class="fu">subset</span>(munic4plot, <span class="dv">40500</span> <span class="sc">&lt;</span> voters96 <span class="sc">&amp;</span> voters96 <span class="sc">&lt;</span> <span class="dv">100000</span>),</span>
+<span id="cb69-46"><a href="ci.html#cb69-46" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">se =</span> F) <span class="sc">+</span></span>
+<span id="cb69-47"><a href="ci.html#cb69-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-48"><a href="ci.html#cb69-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span>  <span class="dv">40500</span>, <span class="at">linetype =</span> <span class="st">&quot;dotted&quot;</span>) <span class="sc">+</span></span>
+<span id="cb69-49"><a href="ci.html#cb69-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(</span>
+<span id="cb69-50"><a href="ci.html#cb69-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">8000</span>, <span class="dv">97000</span>),</span>
+<span id="cb69-51"><a href="ci.html#cb69-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb69-52"><a href="ci.html#cb69-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;有権者登録数 - 1996&quot;</span>) <span class="sc">+</span></span>
+<span id="cb69-53"><a href="ci.html#cb69-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;有効票率&quot;</span>) <span class="sc">+</span></span>
+<span id="cb69-54"><a href="ci.html#cb69-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_family =</span> <span class="st">&quot;HiraKakuPro-W3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb69-55"><a href="ci.html#cb69-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#00BA38&quot;</span>, <span class="st">&quot;#619cff&quot;</span>, <span class="st">&quot;#f8766d&quot;</span>),</span>
+<span id="cb69-56"><a href="ci.html#cb69-56" aria-hidden="true" tabindex="-1"></a>                      <span class="at">name =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb69-57"><a href="ci.html#cb69-57" aria-hidden="true" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;有効票/投票数 - 1994選挙（紙のみ）&quot;</span>,</span>
+<span id="cb69-58"><a href="ci.html#cb69-58" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;有効票/投票数 - 1998（4万5000人以上のみ電子投票）&quot;</span>,</span>
+<span id="cb69-59"><a href="ci.html#cb69-59" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;有効票/投票数 - 2002（電子投票のみ）&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb69-60"><a href="ci.html#cb69-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">0.5</span>, <span class="dv">3</span>, <span class="fl">0.5</span>, <span class="dv">2</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb69-61"><a href="ci.html#cb69-61" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb69-62"><a href="ci.html#cb69-62" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.direction =</span> <span class="st">&quot;vertical&quot;</span>) <span class="sc">+</span></span>
+<span id="cb69-63"><a href="ci.html#cb69-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;電子投票制度の導入が有効票率に与えた影響&quot;</span>, </span>
+<span id="cb69-64"><a href="ci.html#cb69-64" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;（出所）Fujiwara (2015), Figure 2, p.435.&quot;</span>)</span></code></pre></div>
+<p><img src="graph9_5.png" width="672" /></p>
+<p>ちなみに，有斐閣のウェブサイトで公開されているStataのdoファイルを実行すると，次のグラフが出力されます．</p>
+<p><img src="fujiwara.jpg" width="1106" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="restricted.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

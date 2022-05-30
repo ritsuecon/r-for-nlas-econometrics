@@ -1,0 +1,72 @@
+# 第4章 線形単回帰モデルの推定と検定 {-#ch4}
+
+## 実証例 4.1 （線形単回帰） {-}
+
+(pp.128-129)
+
+`lm()`関数を用いれば簡単に線形回帰モデルのパラメータを推定することができます．回帰モデルの推定に用いる関数は多くの場合，はじめの引数`formula`で回帰式を指定します．たとえば，$y = \beta_0 + \beta_1 x + \varepsilon$というモデルなら，`formula = y ~ x`のように式を表現します．その次に`data`という引数で，どのデータフレームを用いているかを指定します．
+
+```{r collapse=T}
+mydata <- read.csv("ch04_wage.csv")
+
+result <- lm(formula = wage ~ productivity, data = mydata)
+result
+```
+
+さらに，`summary()`関数を用いることで簡単に$t$検定を行うことができます．
+
+```{r collapse=T}
+summary(result)
+```
+
+教科書では不均一分散に頑健な標準誤差を用いています．**estimatr**パッケージを用いれば簡単に不均一分散に頑健な標準誤差を用いた検定が行えます．`formula =`という箇所は毎回書くのが面倒ならば，省略することができます．
+
+```{r message=FALSE, warning=FALSE, collapse=T}
+library(estimatr)
+
+result_robust <- lm_robust(wage ~ productivity, data = mydata, se_type = "stata")
+summary(result_robust)
+```
+
+$\beta_1 = 1$という帰無仮説の下での$t$統計量は次のように求められます．
+
+```{r collapse = T}
+beta1 <- result_robust$coefficients["productivity"]
+se <- result_robust$std.error["productivity"]
+tstat <- (beta1 - 1) / se
+tstat
+```
+
+区間推定は次の通り行えます．`1.96`を`qnorm(0.975)`としても構いません．`qnorm(p)`関数は標準正規分布の$100p\%$分位点となる値を求める関数です．
+
+```{r collapse=T}
+upper <- beta1 + 1.96 * se
+lower <- beta1 - 1.96 * se
+lower
+upper
+```
+
+## 練習問題 4-2 {-}
+
+この練習問題のデータセットの`ln(2013人口）`という変数は最後の丸括弧が全角になっています．また，いくつかの変数名は数字から始まっていますが，Rでは変数の名前を数字から始めることは推奨されません．さらに，変数名に日本語を含めることもコーディングの効率性の観点から推奨されません．したがって，はじめにデータセットの変数名を変更します．後は実証例4.1と同じような手続きです．
+
+```{r collapse=T}
+library(readxl)
+mydata2 <- read_excel("data for chap 4 exercise 2.xlsx")
+
+colnames(mydata2) <- c("prefecture", "pop2013", "gdp2013", "log_pop2013", "log_gdp2013")
+```
+
+## 補足 {-}
+
+残差は次の通り求められます．
+
+```{r collapse=T, eval = F}
+mydata <- read.csv("ch04_wage.csv")
+
+result <- lm(wage ~ productivity, data = mydata)
+result$residuals
+```
+
+
+

@@ -1,0 +1,458 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/kitagawa/Desktop/『計量経済学』のためのR/untitled folder/07_第7章/chap7_main.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}20 Apr 2020, 20:36:39
+{txt}
+{com}. 
+. ** コントロール変数のグループを作る
+. 
+. global controls "f_young f_jew f_fem f_ortsgeb f_pruss hhsize lnpop gpop f_blind f_deaf f_dumb"
+{txt}
+{com}. 
+. ** 表 7.2 LaTex形式で出力
+. 
+. sutex2 f_rw f_prot kmwittenberg $controls f_miss, minmax
+%------- Begin LaTeX code -------%
+\begin{table}[htbp]\centering \caption{Summary statistics\label{sumstat}}
+\begin{tabular}{l c c c c c }\hline\hline
+\multicolumn{1}{c}{Variable} & Obs & Mean & Std. Dev.
+ & Min & Max  \\ \hline
+f\_rw & 452 & 87.507 & 12.673 & 37.397 & 99.332  \\
+f\_prot & 452 & 64.181 & 37.831 & .258 & 99.889  \\
+kmwittenberg & 452 & 326.185 & 148.769 & 0 & 731.46  \\
+f\_young & 452 & 24.707 & 2.478 & 15.334 & 29.868  \\
+f\_jew & 452 & 1.139 & 1.327 & 0 & 12.869  \\
+f\_fem & 452 & 51.003 & 1.507 & 43.969 & 54.627  \\
+f\_ortsgeb & 452 & 58.97 & 12.386 & 32.009 & 87.23  \\
+f\_pruss & 452 & 99.072 & 1.966 & 74.215 & 99.995  \\
+hhsize & 452 & 4.791 & .344 & 3.826 & 5.861  \\
+lnpop & 452 & 10.804 & .415 & 9.36 & 13.625  \\
+gpop & 452 & 1.595 & 4.932 & -7.762 & 33.833  \\
+f\_blind & 452 & .095 & .031 & .034 & .238  \\
+f\_deaf & 452 & .101 & .054 & .022 & .421  \\
+f\_dumb & 452 & .229 & .174 & .022 & 1.558  \\
+f\_miss & 452 & 1.689 & 1.105 & 0 & 6.72  \\
+\hline
+\end{tabular}
+\end{table}
+%------- End LaTeX code -------%
+{txt}
+{com}. 
+. ** 実証例7.1 (7.5)
+. 
+. eststo: reg f_rw f_prot, robust
+
+{txt}Linear regression                               Number of obs     = {res}       452
+                                                {txt}F(1, 450)         =  {res}    24.64
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0570
+                                                {txt}Root MSE          =    {res} 12.321
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        f_rw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}f_prot {c |}{col 14}{res}{space 2} .0799803{col 26}{space 2}  .016113{col 37}{space 1}    4.96{col 46}{space 3}0.000{col 54}{space 4} .0483142{col 67}{space 3} .1116464
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 82.37419{col 26}{space 2} 1.413044{col 37}{space 1}   58.30{col 46}{space 3}0.000{col 54}{space 4} 79.59721{col 67}{space 3} 85.15118
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est14{txt} stored)
+
+{com}. 
+. ** 実証例 7.1 (7.6) 実証例 7.2
+. 
+. eststo: ivreg2 f_rw (f_prot = kmwittenberg), robust
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity
+
+{col 55}Number of obs = {res}     452
+{txt}{col 55}F(  1,   450) = {res}   35.16
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res} 72436.62901{txt}{col 55}Centered R2   = {res} -0.9827
+{txt}Total (uncentered) SS   = {res} 3533646.767{txt}{col 55}Uncentered R2 = {res}  0.9594
+{txt}Residual SS             = {res} 143621.4013{txt}{col 55}Root MSE      = {res}   17.83
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        f_rw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}f_prot {c |}{col 14}{res}{space 2} .4215664{col 26}{space 2} .0709357{col 37}{space 1}    5.94{col 46}{space 3}0.000{col 54}{space 4} .2825349{col 67}{space 3} .5605979
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  60.4509{col 26}{space 2} 5.101774{col 37}{space 1}   11.85{col 46}{space 3}0.000{col 54}{space 4} 50.45161{col 67}{space 3}  70.4502
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71}  63.960
+{txt}{col 52}Chi-sq({res}1{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71}  70.460
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71}  46.807
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42}10% maximal IV size{res}{col 73} 16.38
+{txt}{col 42}15% maximal IV size{res}{col 73}  8.96
+{txt}{col 42}20% maximal IV size{res}{col 73}  6.66
+{txt}{col 42}25% maximal IV size{res}{col 73}  5.53
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.000
+{txt}{col 50}(equation exactly identified)
+{hline 78}
+Instrumented:{col 23}f_prot
+Excluded instruments:{col 23}kmwittenberg
+{hline 78}
+({res}est15{txt} stored)
+
+{com}. 
+. ** 表 7.3 (3)
+. 
+. eststo: reg f_rw f_prot $controls f_miss, robust
+
+{txt}Linear regression                               Number of obs     = {res}       452
+                                                {txt}F(13, 438)        =  {res}    61.39
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.7368
+                                                {txt}Root MSE          =    {res} 6.5972
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        f_rw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}f_prot {c |}{col 14}{res}{space 2} .0992294{col 26}{space 2} .0101839{col 37}{space 1}    9.74{col 46}{space 3}0.000{col 54}{space 4} .0792141{col 67}{space 3} .1192447
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2}-1.935868{col 26}{space 2} .1579947{col 37}{space 1}  -12.25{col 46}{space 3}0.000{col 54}{space 4} -2.24639{col 67}{space 3}-1.625346
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-.9654835{col 26}{space 2} .3286756{col 37}{space 1}   -2.94{col 46}{space 3}0.003{col 54}{space 4}-1.611461{col 67}{space 3}-.3195061
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-1.279996{col 26}{space 2} .3011194{col 37}{space 1}   -4.25{col 46}{space 3}0.000{col 54}{space 4}-1.871814{col 67}{space 3}-.6881771
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2} .4843906{col 26}{space 2}  .033211{col 37}{space 1}   14.59{col 46}{space 3}0.000{col 54}{space 4} .4191178{col 67}{space 3} .5496634
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-.3240462{col 26}{space 2}   .13465{col 37}{space 1}   -2.41{col 46}{space 3}0.017{col 54}{space 4}-.5886866{col 67}{space 3}-.0594058
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2}-1.811748{col 26}{space 2} 1.217788{col 37}{space 1}   -1.49{col 46}{space 3}0.138{col 54}{space 4}-4.205183{col 67}{space 3} .5816869
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2}-1.182508{col 26}{space 2} .8724451{col 37}{space 1}   -1.36{col 46}{space 3}0.176{col 54}{space 4}-2.897207{col 67}{space 3}  .532191
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2} .1863623{col 26}{space 2} .0887446{col 37}{space 1}    2.10{col 46}{space 3}0.036{col 54}{space 4} .0119441{col 67}{space 3} .3607804
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2}-45.20013{col 26}{space 2} 13.11334{col 37}{space 1}   -3.45{col 46}{space 3}0.001{col 54}{space 4}-70.97303{col 67}{space 3}-19.42724
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2}-47.18786{col 26}{space 2} 9.758529{col 37}{space 1}   -4.84{col 46}{space 3}0.000{col 54}{space 4}-66.36722{col 67}{space 3}-28.00849
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2}  7.47475{col 26}{space 2} 1.411446{col 37}{space 1}    5.30{col 46}{space 3}0.000{col 54}{space 4}   4.7007{col 67}{space 3}  10.2488
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2}-.3068561{col 26}{space 2} .3830165{col 37}{space 1}   -0.80{col 46}{space 3}0.423{col 54}{space 4}-1.059635{col 67}{space 3} .4459226
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 227.8837{col 26}{space 2}  24.3907{col 37}{space 1}    9.34{col 46}{space 3}0.000{col 54}{space 4} 179.9464{col 67}{space 3} 275.8211
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est16{txt} stored)
+
+{com}. 
+. ** 実証例 7.3 
+. 
+. eststo: ivreg2 f_rw (f_prot = kmwittenberg) $controls f_miss , robust
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity
+
+{col 55}Number of obs = {res}     452
+{txt}{col 55}F( 13,   438) = {res}   66.57
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res} 72436.62901{txt}{col 55}Centered R2   = {res}  0.6886
+{txt}Total (uncentered) SS   = {res} 3533646.767{txt}{col 55}Uncentered R2 = {res}  0.9936
+{txt}Residual SS             = {res} 22555.94623{txt}{col 55}Root MSE      = {res}   7.064
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        f_rw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}f_prot {c |}{col 14}{res}{space 2}  .188501{col 26}{space 2} .0266453{col 37}{space 1}    7.07{col 46}{space 3}0.000{col 54}{space 4} .1362772{col 67}{space 3} .2407248
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2} -1.95236{col 26}{space 2} .1651104{col 37}{space 1}  -11.82{col 46}{space 3}0.000{col 54}{space 4} -2.27597{col 67}{space 3} -1.62875
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-.4366705{col 26}{space 2}  .344349{col 37}{space 1}   -1.27{col 46}{space 3}0.205{col 54}{space 4}-1.111582{col 67}{space 3} .2382411
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-1.072629{col 26}{space 2} .3257034{col 37}{space 1}   -3.29{col 46}{space 3}0.001{col 54}{space 4}-1.710996{col 67}{space 3}-.4342621
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2} .6065961{col 26}{space 2} .0509625{col 37}{space 1}   11.90{col 46}{space 3}0.000{col 54}{space 4} .5067114{col 67}{space 3} .7064808
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-.1807049{col 26}{space 2} .1395608{col 37}{space 1}   -1.29{col 46}{space 3}0.195{col 54}{space 4}-.4542391{col 67}{space 3} .0928292
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2} .8849415{col 26}{space 2} 1.617689{col 37}{space 1}    0.55{col 46}{space 3}0.584{col 54}{space 4}-2.285672{col 67}{space 3} 4.055555
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2} -1.31814{col 26}{space 2} .9424474{col 37}{space 1}   -1.40{col 46}{space 3}0.162{col 54}{space 4}-3.165303{col 67}{space 3}  .529023
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2} .4099065{col 26}{space 2} .1074364{col 37}{space 1}    3.82{col 46}{space 3}0.000{col 54}{space 4}  .199335{col 67}{space 3} .6204779
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2}-27.86468{col 26}{space 2} 14.75062{col 37}{space 1}   -1.89{col 46}{space 3}0.059{col 54}{space 4}-56.77537{col 67}{space 3} 1.046011
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2}-52.38308{col 26}{space 2} 10.24932{col 37}{space 1}   -5.11{col 46}{space 3}0.000{col 54}{space 4}-72.47138{col 67}{space 3}-32.29479
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2} 7.528982{col 26}{space 2} 1.679638{col 37}{space 1}    4.48{col 46}{space 3}0.000{col 54}{space 4} 4.236951{col 67}{space 3} 10.82101
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2}-.5049361{col 26}{space 2} .3718825{col 37}{space 1}   -1.36{col 46}{space 3}0.175{col 54}{space 4}-1.233812{col 67}{space 3} .2239401
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 177.3665{col 26}{space 2} 29.03581{col 37}{space 1}    6.11{col 46}{space 3}0.000{col 54}{space 4} 120.4574{col 67}{space 3} 234.2757
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71}  58.993
+{txt}{col 52}Chi-sq({res}1{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71}  74.189
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71}  68.949
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42}10% maximal IV size{res}{col 73} 16.38
+{txt}{col 42}15% maximal IV size{res}{col 73}  8.96
+{txt}{col 42}20% maximal IV size{res}{col 73}  6.66
+{txt}{col 42}25% maximal IV size{res}{col 73}  5.53
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.000
+{txt}{col 50}(equation exactly identified)
+{hline 78}
+Instrumented:{col 23}f_prot
+Included instruments:{col 23}f_young f_jew f_fem f_ortsgeb f_pruss hhsize lnpop gpop
+{col 23}f_blind f_deaf f_dumb f_miss
+Excluded instruments:{col 23}kmwittenberg
+{hline 78}
+({res}est17{txt} stored)
+
+{com}. 
+. ** 実証例 7.5
+. 
+. predict uhat, residual
+{txt}
+{com}. reg uhat kmwittenberg $controls f_miss
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       452
+{txt}{hline 13}{c +}{hline 34}   F(13, 438)      = {res}     0.00
+{txt}       Model {c |} {res} 1.0914e-11        13  8.3953e-13   {txt}Prob > F        ={res}    1.0000
+{txt}    Residual {c |} {res} 22555.9463       438  51.4975943   {txt}R-squared       ={res}    0.0000
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0297
+{txt}       Total {c |} {res} 22555.9463       451  50.0131847   {txt}Root MSE        =   {res} 7.1762
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        uhat{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+kmwittenberg {c |}{col 14}{res}{space 2}-5.03e-10{col 26}{space 2}  .002697{col 37}{space 1}   -0.00{col 46}{space 3}1.000{col 54}{space 4}-.0053006{col 67}{space 3} .0053006
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2}-8.38e-09{col 26}{space 2} .1722822{col 37}{space 1}   -0.00{col 46}{space 3}1.000{col 54}{space 4}-.3386025{col 67}{space 3} .3386025
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-8.38e-08{col 26}{space 2} .3046631{col 37}{space 1}   -0.00{col 46}{space 3}1.000{col 54}{space 4}-.5987833{col 67}{space 3} .5987832
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-1.88e-09{col 26}{space 2} .3294055{col 37}{space 1}   -0.00{col 46}{space 3}1.000{col 54}{space 4}-.6474118{col 67}{space 3} .6474118
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2} 1.15e-09{col 26}{space 2} .0329395{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-.0647392{col 67}{space 3} .0647392
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2} 2.54e-09{col 26}{space 2} .1966869{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-.3865674{col 67}{space 3} .3865674
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2} 2.01e-07{col 26}{space 2} 1.417367{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-2.785685{col 67}{space 3} 2.785685
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2} 1.32e-08{col 26}{space 2} .9525185{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-1.872075{col 67}{space 3} 1.872075
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2} 3.22e-08{col 26}{space 2} .0991786{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-.1949251{col 67}{space 3} .1949251
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2} 3.19e-06{col 26}{space 2} 12.51647{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-24.59979{col 67}{space 3}  24.5998
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2} 2.62e-07{col 26}{space 2} 8.271965{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-16.25768{col 67}{space 3} 16.25768
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2} 4.32e-07{col 26}{space 2}  2.06865{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-4.065714{col 67}{space 3} 4.065715
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2} 1.03e-07{col 26}{space 2} .3479356{col 37}{space 1}    0.00{col 46}{space 3}1.000{col 54}{space 4}-.6838308{col 67}{space 3}  .683831
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-1.58e-06{col 26}{space 2} 29.34627{col 37}{space 1}   -0.00{col 46}{space 3}1.000{col 54}{space 4}-57.67702{col 67}{space 3} 57.67701
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. test (kmwittenberg)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}kmwittenberg = 0{p_end}
+
+{txt}       F(  1,   438) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    1.0000
+{txt}
+{com}. drop uhat
+{txt}
+{com}. 
+. ** 実証例 7.4
+. 
+. eststo: reg f_prot kmwittenberg $controls f_miss, robust
+
+{txt}Linear regression                               Number of obs     = {res}       452
+                                                {txt}F(13, 438)        =  {res}    40.82
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.4194
+                                                {txt}Root MSE          =    {res} 29.252
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      f_prot{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+kmwittenberg {c |}{col 14}{res}{space 2}-.0946919{col 26}{space 2} .0114038{col 37}{space 1}   -8.30{col 46}{space 3}0.000{col 54}{space 4}-.1171048{col 67}{space 3}-.0722789
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2} .2050902{col 26}{space 2} .7649843{col 37}{space 1}    0.27{col 46}{space 3}0.789{col 54}{space 4}-1.298406{col 67}{space 3} 1.708586
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-7.263546{col 26}{space 2} 1.231159{col 37}{space 1}   -5.90{col 46}{space 3}0.000{col 54}{space 4} -9.68326{col 67}{space 3}-4.843832
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-.5573424{col 26}{space 2}  1.30162{col 37}{space 1}   -0.43{col 46}{space 3}0.669{col 54}{space 4} -3.11554{col 67}{space 3} 2.000855
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2}-1.390066{col 26}{space 2} .1330696{col 37}{space 1}  -10.45{col 46}{space 3}0.000{col 54}{space 4}  -1.6516{col 67}{space 3}-1.128532
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-1.934548{col 26}{space 2}  .789718{col 37}{space 1}   -2.45{col 46}{space 3}0.015{col 54}{space 4}-3.486656{col 67}{space 3}-.3824404
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2}-14.61046{col 26}{space 2} 5.930981{col 37}{space 1}   -2.46{col 46}{space 3}0.014{col 54}{space 4}-26.26718{col 67}{space 3}-2.953739
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2}-.9770853{col 26}{space 2}  3.96642{col 37}{space 1}   -0.25{col 46}{space 3}0.806{col 54}{space 4}-8.772667{col 67}{space 3} 6.818496
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2}-1.961564{col 26}{space 2}  .326129{col 37}{space 1}   -6.01{col 46}{space 3}0.000{col 54}{space 4}-2.602536{col 67}{space 3}-1.320592
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2}-82.26611{col 26}{space 2} 57.01718{col 37}{space 1}   -1.44{col 46}{space 3}0.150{col 54}{space 4}-194.3274{col 67}{space 3} 29.79517
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2} 104.6156{col 26}{space 2} 31.53264{col 37}{space 1}    3.32{col 46}{space 3}0.001{col 54}{space 4} 42.64146{col 67}{space 3} 166.5896
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2} -2.31377{col 26}{space 2}  8.73241{col 37}{space 1}   -0.26{col 46}{space 3}0.791{col 54}{space 4}-19.47641{col 67}{space 3} 14.84886
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2} 1.729021{col 26}{space 2} 1.484214{col 37}{space 1}    1.16{col 46}{space 3}0.245{col 54}{space 4}-1.188047{col 67}{space 3} 4.646088
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 478.8958{col 26}{space 2} 119.4917{col 37}{space 1}    4.01{col 46}{space 3}0.000{col 54}{space 4} 244.0475{col 67}{space 3} 713.7442
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est18{txt} stored)
+
+{com}.  display(e(r2_a))
+{res}.40211777
+{txt}
+{com}. 
+. ** 追加の操作変数を定義
+.  
+. gen klnpop = kmwittenberg*lnpop
+{txt}
+{com}. gen kgpop = kmwittenberg*gpop
+{txt}
+{com}. global crossiv "klnpop kgpop"
+{txt}
+{com}. 
+. ** 実証例 7.3
+. 
+. eststo: ivreg2 f_rw (f_prot = kmwittenberg $crossiv) $controls f_miss , robust
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity
+
+{col 55}Number of obs = {res}     452
+{txt}{col 55}F( 13,   438) = {res}   66.54
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res} 72436.62901{txt}{col 55}Centered R2   = {res}  0.6920
+{txt}Total (uncentered) SS   = {res} 3533646.767{txt}{col 55}Uncentered R2 = {res}  0.9937
+{txt}Residual SS             = {res}  22313.5846{txt}{col 55}Root MSE      = {res}   7.026
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        f_rw{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}f_prot {c |}{col 14}{res}{space 2} .1853481{col 26}{space 2}  .025323{col 37}{space 1}    7.32{col 46}{space 3}0.000{col 54}{space 4}  .135716{col 67}{space 3} .2349802
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2}-1.951777{col 26}{space 2} .1643433{col 37}{space 1}  -11.88{col 46}{space 3}0.000{col 54}{space 4}-2.273884{col 67}{space 3}-1.629671
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-.4553474{col 26}{space 2} .3402901{col 37}{space 1}   -1.34{col 46}{space 3}0.181{col 54}{space 4}-1.122304{col 67}{space 3}  .211609
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-1.079953{col 26}{space 2} .3249728{col 37}{space 1}   -3.32{col 46}{space 3}0.001{col 54}{space 4}-1.716888{col 67}{space 3}-.4430179
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2}   .60228{col 26}{space 2} .0490251{col 37}{space 1}   12.29{col 46}{space 3}0.000{col 54}{space 4} .5061926{col 67}{space 3} .6983674
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-.1857675{col 26}{space 2} .1385474{col 37}{space 1}   -1.34{col 46}{space 3}0.180{col 54}{space 4}-.4573154{col 67}{space 3} .0857804
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2} .7896986{col 26}{space 2} 1.583387{col 37}{space 1}    0.50{col 46}{space 3}0.618{col 54}{space 4}-2.313682{col 67}{space 3}  3.89308
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2} -1.31335{col 26}{space 2} .9366997{col 37}{space 1}   -1.40{col 46}{space 3}0.161{col 54}{space 4}-3.149247{col 67}{space 3}  .522548
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2} .4020112{col 26}{space 2} .1048384{col 37}{space 1}    3.83{col 46}{space 3}0.000{col 54}{space 4} .1965317{col 67}{space 3} .6074907
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2}-28.47694{col 26}{space 2} 14.46102{col 37}{space 1}   -1.97{col 46}{space 3}0.049{col 54}{space 4}-56.82002{col 67}{space 3}-.1338673
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2} -52.1996{col 26}{space 2} 10.21123{col 37}{space 1}   -5.11{col 46}{space 3}0.000{col 54}{space 4}-72.21324{col 67}{space 3}-32.18595
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2} 7.527066{col 26}{space 2} 1.660198{col 37}{space 1}    4.53{col 46}{space 3}0.000{col 54}{space 4} 4.273139{col 67}{space 3} 10.78099
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2}-.4979402{col 26}{space 2}  .371049{col 37}{space 1}   -1.34{col 46}{space 3}0.180{col 54}{space 4}-1.225183{col 67}{space 3} .2293024
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 179.1507{col 26}{space 2} 28.67794{col 37}{space 1}    6.25{col 46}{space 3}0.000{col 54}{space 4}  122.943{col 67}{space 3} 235.3584
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71}  60.989
+{txt}{col 52}Chi-sq({res}3{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71}  28.009
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71}  29.794
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42} 5% maximal IV relative bias{res}{col 73} 13.91
+{txt}{col 42}10% maximal IV relative bias{res}{col 73}  9.08
+{txt}{col 42}20% maximal IV relative bias{res}{col 73}  6.46
+{txt}{col 42}30% maximal IV relative bias{res}{col 73}  5.39
+{txt}{col 42}10% maximal IV size{res}{col 73} 22.30
+{txt}{col 42}15% maximal IV size{res}{col 73} 12.83
+{txt}{col 42}20% maximal IV size{res}{col 73}  9.54
+{txt}{col 42}25% maximal IV size{res}{col 73}  7.80
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.382
+{txt}{col 52}Chi-sq({res}2{txt}) P-val =  {res}{col 73}0.8260
+{txt}{hline 78}
+Instrumented:{col 23}f_prot
+Included instruments:{col 23}f_young f_jew f_fem f_ortsgeb f_pruss hhsize lnpop gpop
+{col 23}f_blind f_deaf f_dumb f_miss
+Excluded instruments:{col 23}kmwittenberg klnpop kgpop
+{hline 78}
+({res}est19{txt} stored)
+
+{com}. 
+. **実証例 7.5
+. 
+. predict uhat, residual
+{txt}
+{com}. reg uhat kmwittenberg $crossiv $controls f_miss
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       452
+{txt}{hline 13}{c +}{hline 34}   F(15, 436)      = {res}     0.02
+{txt}       Model {c |} {res} 13.4950518        15   .89967012   {txt}Prob > F        ={res}    1.0000
+{txt}    Residual {c |} {res} 22300.0888       436  51.1469926   {txt}R-squared       ={res}    0.0006
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0338
+{txt}       Total {c |} {res} 22313.5838       451  49.4757956   {txt}Root MSE        =   {res} 7.1517
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        uhat{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+kmwittenberg {c |}{col 14}{res}{space 2} .0350616{col 26}{space 2} .0709111{col 37}{space 1}    0.49{col 46}{space 3}0.621{col 54}{space 4}-.1043085{col 67}{space 3} .1744317
+{txt}{space 6}klnpop {c |}{col 14}{res}{space 2}-.0032901{col 26}{space 2}  .006587{col 37}{space 1}   -0.50{col 46}{space 3}0.618{col 54}{space 4}-.0162363{col 67}{space 3} .0096561
+{txt}{space 7}kgpop {c |}{col 14}{res}{space 2} .0001663{col 26}{space 2} .0006549{col 37}{space 1}    0.25{col 46}{space 3}0.800{col 54}{space 4}-.0011209{col 67}{space 3} .0014534
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2} .0006741{col 26}{space 2} .1777577{col 37}{space 1}    0.00{col 46}{space 3}0.997{col 54}{space 4}-.3486943{col 67}{space 3} .3500425
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-.0053883{col 26}{space 2} .3043645{col 37}{space 1}   -0.02{col 46}{space 3}0.986{col 54}{space 4}-.6035923{col 67}{space 3} .5928157
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2} .0119511{col 26}{space 2} .3286578{col 37}{space 1}    0.04{col 46}{space 3}0.971{col 54}{space 4}-.6339995{col 67}{space 3} .6579016
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2}-.0005907{col 26}{space 2} .0328481{col 37}{space 1}   -0.02{col 46}{space 3}0.986{col 54}{space 4} -.065151{col 67}{space 3} .0639696
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-.0019842{col 26}{space 2} .1960271{col 37}{space 1}   -0.01{col 46}{space 3}0.992{col 54}{space 4}-.3872597{col 67}{space 3} .3832914
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2} .0881206{col 26}{space 2}  1.41946{col 37}{space 1}    0.06{col 46}{space 3}0.951{col 54}{space 4}-2.701715{col 67}{space 3} 2.877956
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2} 1.033878{col 26}{space 2} 2.285433{col 37}{space 1}    0.45{col 46}{space 3}0.651{col 54}{space 4}-3.457957{col 67}{space 3} 5.525713
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2}-.0555403{col 26}{space 2} .2489029{col 37}{space 1}   -0.22{col 46}{space 3}0.824{col 54}{space 4}-.5447391{col 67}{space 3} .4336585
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2} .8972302{col 26}{space 2} 12.52551{col 37}{space 1}    0.07{col 46}{space 3}0.943{col 54}{space 4}-23.72065{col 67}{space 3} 25.51512
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2} .4100098{col 26}{space 2} 8.318032{col 37}{space 1}    0.05{col 46}{space 3}0.961{col 54}{space 4}-15.93842{col 67}{space 3} 16.75843
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2}-.0207976{col 26}{space 2} 2.061836{col 37}{space 1}   -0.01{col 46}{space 3}0.992{col 54}{space 4} -4.07317{col 67}{space 3} 4.031575
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2}-.0143234{col 26}{space 2} .3480284{col 37}{space 1}   -0.04{col 46}{space 3}0.967{col 54}{space 4}-.6983452{col 67}{space 3} .6696985
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-11.93492{col 26}{space 2} 37.38106{col 37}{space 1}   -0.32{col 46}{space 3}0.750{col 54}{space 4}-85.40439{col 67}{space 3} 61.53455
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. test (kmwittenberg) ($crossiv)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}kmwittenberg = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} klnpop = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} kgpop = 0{p_end}
+
+{txt}       F(  3,   436) ={res}    0.09
+{txt}{col 13}Prob > F ={res}    0.9666
+{txt}
+{com}.  display(e(r2_a))
+{res}-.03377807
+{txt}
+{com}.  
+. **実証例 7.4
+. 
+. reg f_prot kmwittenberg $crossiv $controls f_miss, robust
+
+{txt}Linear regression                               Number of obs     = {res}       452
+                                                {txt}F(15, 436)        =  {res}    34.26
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.4307
+                                                {txt}Root MSE          =    {res} 29.031
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      f_prot{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+kmwittenberg {c |}{col 14}{res}{space 2}-.5807615{col 26}{space 2} .2997554{col 37}{space 1}   -1.94{col 46}{space 3}0.053{col 54}{space 4}-1.169907{col 67}{space 3} .0083837
+{txt}{space 6}klnpop {c |}{col 14}{res}{space 2} .0458247{col 26}{space 2} .0277959{col 37}{space 1}    1.65{col 46}{space 3}0.100{col 54}{space 4}-.0088059{col 67}{space 3} .1004554
+{txt}{space 7}kgpop {c |}{col 14}{res}{space 2}-.0077175{col 26}{space 2}  .002129{col 37}{space 1}   -3.62{col 46}{space 3}0.000{col 54}{space 4}-.0119019{col 67}{space 3} -.003533
+{txt}{space 5}f_young {c |}{col 14}{res}{space 2} .6135953{col 26}{space 2} .8027238{col 37}{space 1}    0.76{col 46}{space 3}0.445{col 54}{space 4}-.9640941{col 67}{space 3} 2.191285
+{txt}{space 7}f_jew {c |}{col 14}{res}{space 2}-7.053875{col 26}{space 2}  1.23462{col 37}{space 1}   -5.71{col 46}{space 3}0.000{col 54}{space 4}-9.480421{col 67}{space 3}-4.627328
+{txt}{space 7}f_fem {c |}{col 14}{res}{space 2}-.7402596{col 26}{space 2} 1.300587{col 37}{space 1}   -0.57{col 46}{space 3}0.570{col 54}{space 4}-3.296458{col 67}{space 3} 1.815939
+{txt}{space 3}f_ortsgeb {c |}{col 14}{res}{space 2}-1.377103{col 26}{space 2}  .131519{col 37}{space 1}  -10.47{col 46}{space 3}0.000{col 54}{space 4}-1.635593{col 67}{space 3}-1.118613
+{txt}{space 5}f_pruss {c |}{col 14}{res}{space 2}-1.927401{col 26}{space 2} .7300388{col 37}{space 1}   -2.64{col 46}{space 3}0.009{col 54}{space 4}-3.362234{col 67}{space 3}-.4925681
+{txt}{space 6}hhsize {c |}{col 14}{res}{space 2}-16.27526{col 26}{space 2} 5.843526{col 37}{space 1}   -2.79{col 46}{space 3}0.006{col 54}{space 4}-27.76024{col 67}{space 3}-4.790275
+{txt}{space 7}lnpop {c |}{col 14}{res}{space 2}-16.41594{col 26}{space 2} 8.621223{col 37}{space 1}   -1.90{col 46}{space 3}0.058{col 54}{space 4}-33.36027{col 67}{space 3} .5283789
+{txt}{space 8}gpop {c |}{col 14}{res}{space 2} .7266963{col 26}{space 2} .7633299{col 37}{space 1}    0.95{col 46}{space 3}0.342{col 54}{space 4}-.7735675{col 67}{space 3}  2.22696
+{txt}{space 5}f_blind {c |}{col 14}{res}{space 2}-87.65657{col 26}{space 2} 56.70818{col 37}{space 1}   -1.55{col 46}{space 3}0.123{col 54}{space 4} -199.112{col 67}{space 3} 23.79882
+{txt}{space 6}f_deaf {c |}{col 14}{res}{space 2} 91.64176{col 26}{space 2} 32.20384{col 37}{space 1}    2.85{col 46}{space 3}0.005{col 54}{space 4} 28.34769{col 67}{space 3} 154.9358
+{txt}{space 6}f_dumb {c |}{col 14}{res}{space 2}-2.015458{col 26}{space 2} 8.752684{col 37}{space 1}   -0.23{col 46}{space 3}0.818{col 54}{space 4}-19.21816{col 67}{space 3} 15.18724
+{txt}{space 6}f_miss {c |}{col 14}{res}{space 2} 2.068423{col 26}{space 2} 1.492559{col 37}{space 1}    1.39{col 46}{space 3}0.167{col 54}{space 4}-.8650825{col 67}{space 3} 5.001929
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 649.6399{col 26}{space 2}  141.183{col 37}{space 1}    4.60{col 46}{space 3}0.000{col 54}{space 4} 372.1559{col 67}{space 3} 927.1238
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. test (kmwittenberg) ($crossiv)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}kmwittenberg = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} klnpop = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} kgpop = 0{p_end}
+
+{txt}       F(  3,   436) ={res}   29.79
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}.  display(e(r2_a))
+{res}.41113024
+{txt}
+{com}. 
+. **回帰分析表を，LaTex形式のファイルに出力
+.   esttab using tabchap7.tex, replace cells(b(star fmt(3)) se(par fmt(3))) stats(r2_a N, fmt(3 0) label("$\bar R^2$")) label                               ///
+>      title(Specification 1)       ///
+>      nonumbers mtitles("(1)" "(2)" "(3)" "(4)" "(5)" "(6)")  ///
+>     addnote("適切な注釈に変更すること")
+{txt}(tabulating estimates stored by eststo; specify "." to tabulate the active results)
+{res}{txt}(output written to {browse  `"tabchap7.tex"'})
+
+{com}.  
+. 
+. ** ログファイルを閉じる
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/kitagawa/Desktop/『計量経済学』のためのR/untitled folder/07_第7章/chap7_main.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}20 Apr 2020, 20:36:40
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

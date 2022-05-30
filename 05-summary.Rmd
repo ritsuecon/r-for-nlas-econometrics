@@ -1,0 +1,139 @@
+# 第5章 線形重回帰モデルの推定と検定 {-#ch5}
+
+はじめに，不足している変数をつくります．
+
+```{r collapse=T}
+mydata <- read.csv("youdou.csv")
+
+mydata$lny80 <- log(mydata$y80)
+mydata$lny99 <- log(mydata$y99)
+mydata$lny90 <- log(mydata$y90)
+mydata$growthrate8099 <- (mydata$lny99-mydata$lny80) / 19
+mydata$growthrate8090 <- (mydata$lny90-mydata$lny80) / 10
+
+mydata$growthrate8099 <-  mydata$growthrate8099 * 100
+```
+
+## 実証例 5.1 （線形重回帰）{-}
+
+(pp.151-152)
+
+線形重回帰モデルの推定も`lm()`関数で行えます．`lm(y ~ x1 + x2 + x3, data)`のようにして，複数の説明変数を含めることができます．
+
+```{r collapse=T}
+model1 <- lm(growthrate8099 ~ trust80 + education80 + lny80, data = mydata)
+
+model1
+
+model2 <- lm(growthrate8099 ~ norm80 + education80 + lny80, data = mydata)
+
+model2
+```
+
+## 実証例 5.2 （FWL定理１）{-}
+
+(p.154)
+
+```{r collapse=T}
+model1
+
+reg1 <- lm(trust80 ~ education80 + lny80, data = mydata)
+reg1 # 回帰
+res1 <- reg1$residuals # 残差
+
+reg2 <- lm(growthrate8099 ~ education80 + lny80, data = mydata)
+reg2
+res2 <- reg2$residuals
+
+model3 <- lm(res2 ~ 0 + res1) # 定数項を0として推定
+model3
+```
+
+## 実証例 5.3 （FWL定理２）{-}
+
+(pp.155-156)
+
+```{r collapse=T}
+reg1 <- lm(trust80 ~ education80 + lny80, data = mydata)
+reg1 # 回帰
+res1 <- reg1$residuals # 残差
+
+model4 <- lm(mydata$growthrate8099 ~ 0 + res1) # 定数項を0として推定
+model4
+```
+
+## 実証例 5.4 （標準誤差）{-}
+
+(p.163)
+
+```{r collapse=T}
+library(estimatr)
+
+result_robust1 <- lm_robust(growthrate8099 ~ trust80 + education80 + lny80, 
+                    data = mydata, se_type = "stata")
+summary(result_robust1)
+
+
+result_robust2 <- lm_robust(growthrate8099 ~ norm80 + education80 + lny80, 
+                            data = mydata, se_type = "stata")
+summary(result_robust2)
+```
+
+## 実証例 5.5 （多項式モデル） {-}
+
+(pp.170-171)
+
+2乗項は，`mydata$y80sq <- mydata$y80sq^2`などとして新しい変数として定義して回帰式に含めるか，または，`lm()`関数の中の回帰式に`I(y80^2)`として含めることで，その係数を推定するように指示することができます．
+
+```{r collapse=T}
+library(estimatr)
+
+result_robust3 <- lm_robust(growthrate8099 ~ y80 + I(y80^2), 
+                    data = mydata, se_type = "stata") # 2乗項
+summary(result_robust3)
+```
+
+## 実証例 5.6 （交差項１）{-}
+
+(pp.173-174)
+
+`D * lny80`として`lm()`関数の回帰式に含めることで，`D`，`lny80`，そしてそれらの交差項の係数を推定するように指示できます．
+
+```{r collapse=T}
+mydata$D <- 1 * (mydata$did > 0.4)
+
+model6 <- lm(growthrate8099 ~ D * lny80, data = mydata)
+model6
+
+
+lm(growthrate8099 ~ lny80, data = subset(mydata, D == 0)) # 標本を分けて推定
+lm(growthrate8099 ~ lny80, data = subset(mydata, D == 1)) # 標本を分けて推定
+```
+
+
+
+## 実証例 5.7 （交差項２）{-}
+
+(p.175)
+
+```{r collapse=T}
+mydata$D1 <- mydata$D
+mydata$D2 <- 1 * (mydata$lny80 > 1.4)
+
+model7 <- lm(growthrate8099 ~ D1 * D2, data = mydata)
+model7
+```
+
+## 実証例 5.8 （結合仮説）{-}
+
+(p.178)
+
+出力結果の一番下に$F$統計量があります．
+
+```{r collapse=T}
+library(estimatr)
+
+model5 <- lm_robust(growthrate8099 ~ y80 + I(y80^2), se_type = "stata", data = mydata)
+summary(model5)
+```
+

@@ -1,0 +1,36 @@
+--- 
+title: "西山 他『計量経済学』のためのR"
+author: "北川梨津"
+date: "2020-02-20"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: ""
+---
+
+# はじめに {-#preface}
+
+本稿では，[西谷慶彦・新谷元嗣・川口大司・奥井亮（2019）『計量経済学』有斐閣](https://www.amazon.co.jp/%E8%A8%88%E9%87%8F%E7%B5%8C%E6%B8%88%E5%AD%A6-New-Liberal-Arts-Selection/dp/4641053855/ref=sr_1_2?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&keywords=%E8%A8%88%E9%87%8F%E7%B5%8C%E6%B8%88%E5%AD%A6&qid=1582432116&sr=8-2)の実証例を再現するための**R**のサンプルコードを紹介します．Rの基本的な使い方を前提知識として仮定しています．
+
+
+[有斐閣のウェブサポートページ](http://www.yuhikaku.co.jp/books/detail/9784641053854)では，実証例の再現や実証の練習問題に必要なデータセットが公開されています．データセットはそこからダウンロードしてください．また，有斐閣のウェブサポートページでは，**Stata**と**EViews**のサンプルコードも用意されています．それらのソフトウェアが得意な人は，そちらも参照してみるとよいでしょう．
+
+# おことわり {-#caution}
+
+```{r echo=FALSE, out.width= "20%", fig.cap = "My pretty portrait. ;-)"}
+knitr::include_graphics("myphoto.jpg")
+```
+
+本稿は『計量経済学』の一読者である北川梨津により作成されています^[早稲田大学政治経済学部経済学科．[Twitter:`@ritsu1997`](https://twitter.com/ritsu1997).]．
+
+お気づきの点がありましたら，どうかTwitterのDMから優しく教えてください．
+
+[2020-02-18]
+
+早稲田大学政治経済学部の「応用計量経済学ー経済学における因果推論ー」という科目のTAをすることになり，その指定教科書の一つが『計量経済学』だったので，せっかくだからと思って，滞っていた作業を再開しました^[ちなみに今の所属は早稲田大学大学院経済学研究科です．]．8章と9章を追加しました．説明をもう少し丁寧にしていきたいと思います．マクロ編は気が向いたら追加します．
+
+質問があればTwitterのメンションかDMで聞いてください．わかる範囲＆時間が許す範囲で答えます．
+
+[追記　2021-02-20]
